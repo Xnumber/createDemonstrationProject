@@ -1,0 +1,18 @@
+{
+	"weather-forecast": "Weather Forecast",
+	"by-location": "By Location",
+	"by-element": "By Element",
+	"location": "Location",
+	"element": "Element",
+	"label": "Label",
+	"derivatives": "Derivatives",
+	"average": "Average",
+	"difference": "Difference",
+	"moving-average": "Moving Average",
+	"max": "Max",
+	"min": "Min",
+	"up-trend": "Up Trend",
+	"down-trend": "Down Trend",
+	"up-trend-overlap": "Up Trend Overlap",
+	"down-trend-overlap": "Down Trend Overlap"
+}
