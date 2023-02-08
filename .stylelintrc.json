@@ -1,0 +1,31 @@
+{
+	"extends": ["stylelint-config-standard-scss", "stylelint-config-prettier-scss"],
+	"plugins": [
+		"./lib/stylelint-selector-bem-pattern"
+	],
+	"rules": {
+		"color-named": "never",
+		"indentation": [
+			"tab",
+			{
+			  "except": ["value"],
+			  "disableFix": false
+			}
+		],
+		"max-nesting-depth": 3,
+		"property-no-unknown": true,
+		"string-quotes": "double",
+		"max-empty-lines": 1,
+		"selector-class-pattern": null,
+		"plugin/selector-bem-pattern": {
+			"preset": "bem",
+			"presetOptions": { "namespace": "([afmopt]|js|is)" }
+		},
+		"selector-max-id": 1
+	},
+	"ignoreFiles": [
+		"src/style/layout/**/*.scss",
+		"src/style/bootstrap5.2.3/**/*.scss",
+		"node_modules/**/*.*"
+	]
+}

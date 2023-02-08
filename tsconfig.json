@@ -1,0 +1,73 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "module": "esnext",
+        "strictNullChecks": true,
+        "target": "es5", 
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "baseUrl": ".",
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "paths": {
+            "lib/*": [
+                "lib/*"
+            ],
+            "store": [
+                "src/app/store.ts"
+            ],
+            "features/*": [
+                "src/features/*"
+            ],
+            // "@constants": [
+            //     "src/constants/index.ts"
+            // ],
+            "@constants/*": [
+                "src/constants/*"
+            ],
+            "atoms/*": [
+                "src/components/atoms/*"
+            ],
+            "atoms": [
+                "src/components/atoms/index"
+            ],
+            "molecules/*": [
+                "src/components/molecules/*",
+            ],
+            "molecules": [
+                "src/components/molecules/index",
+            ],
+            "organisms/*": [
+                "src/components/organisms/*"
+            ],
+            "organisms": [
+                "src/components/organisms/index"
+            ],
+            "pages/*": [
+                "src/components/pages/*",
+            ],
+            "pages": [
+                "src/components/pages/index",
+            ],
+            "templates/*": [
+                "src/components/templates/*"
+            ],
+            "templates": [
+                "src/components/templates/index"
+            ],
+            "services/*": [
+                "src/services/*"
+            ],
+            "services": [
+                "src/services/index"
+            ],
+            "store/*": [
+                "src/store/*"
+            ]
+        },
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+    }
+}

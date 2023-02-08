@@ -1,0 +1,1 @@
+export const preventDefault: React.ReactEventHandler = e => e.preventDefault();
