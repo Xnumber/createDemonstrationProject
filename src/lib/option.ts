@@ -1,2 +1,3 @@
-const getOptions = <T>(values: T[]) => values.map(o => ({label: o, value: o}));
+import { TFunction } from "react-i18next";
+const getOptions = (values: string[], t: TFunction) => values.map((o) => ({ label: t(o), value: o }));
 export { getOptions };
