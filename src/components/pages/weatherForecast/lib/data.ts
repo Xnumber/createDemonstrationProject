@@ -25,7 +25,7 @@ function getChartDataGroupByLocation (location: WeatherRawDataLocation): ChartDa
 			data: o.time.map(t => {
 				return {
 					x: t.startTime,
-					y: t.elementValue[0]?.value,
+					y: Number(t.elementValue[0]?.value),
 				};
 			}),
 		};
@@ -41,7 +41,7 @@ function getChartDataGroupByElement(location: WeatherRawDataLocation): ChartData
 			data: o.weatherElement[0].time.map(t => {
 				return {
 					x: t.startTime,
-					y: t.elementValue[0]?.value
+					y: Number(t.elementValue[0]?.value)
 				};
 			}),
 		};
