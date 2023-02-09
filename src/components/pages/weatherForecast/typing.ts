@@ -30,4 +30,6 @@ type WeatherRawData = {
 		}[]
 	}
 }
-export type { WeatherRawData };
+type WeatherRawDataElement = WeatherRawData["records"]["locations"][number]["location"];
+
+export type { WeatherRawData, WeatherRawDataElement };
