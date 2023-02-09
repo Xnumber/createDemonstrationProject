@@ -1,3 +1,4 @@
+import type { ChartDataset, LineOptions } from "chart.js";
 type WeatherRawData = {
 	success: boolean,
 	result: {
@@ -32,5 +33,20 @@ type WeatherRawData = {
 }
 
 type WeatherRawDataLocation = WeatherRawData["records"]["locations"][number]["location"];
-type WeatherTData = { x: string, y: string }[];
-export type { WeatherTData, WeatherRawData, WeatherRawDataLocation };
+
+type WeatherChartTData = { x: string, y: string }[];
+
+type WeatherDataset = ChartDataset<"line", WeatherChartTData>[];
+
+type WeatherPointStyleTag = "max" | "min"
+
+type WeatherSegmentStyleTag = "up" | "down" | "overlap of uptrends" | "overlap of downTrends" | "overlap of downTrends and upTrends";
+
+type WeatherTag = WeatherPointStyleTag | WeatherSegmentStyleTag
+
+type WeatherDerivative = "ma" | "bias" | "average";
+
+type WeatherLineOptionSegmentStyle = {
+	[K in WeatherTag]?: Partial<LineOptions["segment"]> | {[K: string]: boolean | boolean[][]};
+}
+export type { WeatherPointStyleTag, WeatherDataset, WeatherSegmentStyleTag, WeatherTag, WeatherDerivative, WeatherChartTData, WeatherRawData, WeatherRawDataLocation, WeatherLineOptionSegmentStyle };
