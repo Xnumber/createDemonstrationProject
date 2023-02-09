@@ -2,10 +2,9 @@ import { ChartDataset } from "chart.js";
 import { 
 	WeatherRawDataLocation,
 	WeatherRawData,
-	WeatherTData
-} from "./typing";
-
-export function getChartDataFromWeatherRawData(rawData: WeatherRawData, by: "location" | "element"): ChartDataset<"line", WeatherTData>[] {
+	WeatherChartTData
+} from "../typing";
+export function getChartDataFromWeatherRawData(rawData: WeatherRawData, by: "location" | "element"): ChartDataset<"line", WeatherChartTData>[] {
 	const location = rawData.records.locations.find(l => l.locationsName === "台灣")?.location;
 
 	if(location && by === "location") {
@@ -18,7 +17,7 @@ export function getChartDataFromWeatherRawData(rawData: WeatherRawData, by: "loc
 	}
 }
 
-function getChartDataGroupByLocation (location: WeatherRawDataLocation): ChartDataset<"line", WeatherTData>[] {
+function getChartDataGroupByLocation (location: WeatherRawDataLocation): ChartDataset<"line", WeatherChartTData>[] {
 	const datasets = location[0] ? location[0].weatherElement.map(o => {
 		return {
 			label: o.elementName,
@@ -35,7 +34,7 @@ function getChartDataGroupByLocation (location: WeatherRawDataLocation): ChartDa
 	return datasets;
 }
 
-function getChartDataGroupByElement(location: WeatherRawDataLocation): ChartDataset<"line", WeatherTData>[] {
+function getChartDataGroupByElement(location: WeatherRawDataLocation): ChartDataset<"line", WeatherChartTData>[] {
 	const datasets =  location.map(o => {
 		return {
 			label: o.locationName,
