@@ -69,8 +69,7 @@
 		"serve-production": "start webpack -w --env mode=production && start nodemon ./server.js --config ./nodemon.json"
 	},
 	"lint-staged": {
-		"*.ts": "eslint --config .eslintrc.json --fix",
-		"*.tsx": "eslint --config .eslintrc.json --fix",
-		"*.scss": "stylelint --fix"
+		"*.{ts,tsx}": "eslint --fix --max-warnings=0",
+		"*.{,scss}": "stylelint --fix --max-warnings=0"
 	}
 }
