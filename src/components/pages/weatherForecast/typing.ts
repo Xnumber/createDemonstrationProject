@@ -34,7 +34,7 @@ type WeatherRawData = {
 
 type WeatherRawDataLocation = WeatherRawData["records"]["locations"][number]["location"];
 
-type WeatherChartTData = { x: string, y: string }[];
+type WeatherChartTData = { x: string, y:  number | null }[];
 
 type WeatherDataset = ChartDataset<"line", WeatherChartTData>[];
 
