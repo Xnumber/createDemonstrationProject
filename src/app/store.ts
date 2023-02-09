@@ -1,15 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { ThemeControllerSlice, LoadingSlice } from "features/index";
+import { weatherApi } from "service/weather/api";
 
 export const store = configureStore({
 	reducer: {
 		[ThemeControllerSlice.name]: ThemeControllerSlice.reducer,
-		[LoadingSlice.name]: LoadingSlice.reducer
+		[LoadingSlice.name]: LoadingSlice.reducer,
+		[weatherApi.reducerPath]: weatherApi.reducer
 	},
 	// Adding the api middleware enables caching, invalidation, polling,
 	// and other useful features of `rtk-query`.
-	middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(weatherApi.middleware)
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
