@@ -1,0 +1,12 @@
+/** @define legend **/
+.m-legend {
+	&__list {
+		display: flex;
+	}
+
+	&__colorBox {
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+	}
+}
