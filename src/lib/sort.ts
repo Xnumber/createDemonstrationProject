@@ -26,4 +26,4 @@ const sortArrayByColumn = <T>(data: T[], column: keyof T, order: "asc" | "desc")
 	return result;
 };
 
-export { sortArrayByColumn }; 
+export { sortArrayByColumn };

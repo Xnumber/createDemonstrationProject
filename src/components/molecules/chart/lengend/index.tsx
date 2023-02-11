@@ -1,17 +1,15 @@
-import { Chart } from "chart.js";
+import type { Chart, ChartType } from "chart.js";
 import React from "react";
-import { FeatureType } from "src/typing";
+// import { FeatureType } from "src/typing";
 import "./style.scss";
+import { WeatherChartTData } from "pages/weatherForecast/typing";
 
 // https://www.chartjs.org/docs/latest/samples/legend/html.html
-export const ChartHtmlLegend = (props: { feature: FeatureType , chart: Chart | undefined}) => {
+export const ChartHtmlLegend = (props: { chart: Chart<ChartType, WeatherChartTData> | null}) => {
 	const { chart } = props;
 
-	const legendItems = chart?.options.plugins?.legend?.labels?.generateLabels?.(chart).map(o => {
-		delete o.pointStyle;
-		return o;
-	});
-	
+	const legendItems = chart?.options.plugins?.legend?.labels?.generateLabels?.(chart as unknown as Chart);
+
 	return legendItems && chart ? <ul>
 		{
 			legendItems.map((item, i) => {
