@@ -14,6 +14,8 @@ import FormLabel from "@mui/material/FormLabel";
 import { Compare } from "./typing";
 import { elements, locations, labels, deratives } from "./const";
 import { getOptions } from "src/lib/option";
+import { useGetWeatherForcastQuery } from "service/weather/get";
+import { getChartDatasetFromWeatherRawData } from "./lib";
 
 ChartJS.register(
 	CategoryScale,
@@ -25,50 +27,20 @@ ChartJS.register(
 	Legend
 );
 
-const options = {
-	responsive: true,
-	plugins: {
-		legend: {
-			position: "top" as const,
-		},
-		title: {
-			display: true,
-			text: "Chart.js Line Chart",
-		},
-	},
-};
-
-const data = {
-	labels: [1, 2, 3],
-	datasets: [
-		{
-			label: "1",
-			data: [1, 2, 3],
-			borderColor: "aqua",
-			backgroundColor: "blue",
-		},
-		{
-			label: "2",
-			data: [12, 22, 32],
-			borderColor: "red",
-			backgroundColor: "pink",
-		},
-	],
-};
-
 function WeatherForecast() {
 	const { t } = useTranslation("weather-forecast");
-	const [compare, setCompare] = useState<Compare>();
+	const [compare, setCompare] = useState<Compare>("location");
 	const [locationChosen, setLocationChosen] = useState<string[]>([]);
 	const [elementChosen, setElementChosen] = useState<string[]>([]);
 	const [labelChosen, setLabelChosen] = useState<string[]>([]);
 	const [derativeChosen, setDerativesChosen] = useState<string[]>([]);
-	const chartRef = useRef<ChartJS>(null);
+	const chartRef = useRef<ChartJS<"line", { x: string; y: number }[]>>(null);
 	const chartTitle = "Title";
 	const locationOPtions = useMemo(() => getOptions(locations, t), []);
 	const elementOPtions = useMemo(() => getOptions(elements, t), []);
 	const labelOptions = useMemo(() => getOptions(labels, t), []);
 	const derativeOptions = useMemo(() => getOptions(deratives, t), []);
+	const { data: rawData } = useGetWeatherForcastQuery({ locations: locationChosen, elements: elementChosen});
 
 	const handleSetCompare: React.ReactEventHandler<HTMLInputElement> = useCallback((e) => {
 		setCompare(e.currentTarget.value as Compare);
@@ -89,6 +61,8 @@ function WeatherForecast() {
 	const handleSetDerativesChosen = useCallback((e: string[]) => {
 		setDerativesChosen(e);
 	}, []);
+
+	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
 
 	return <>
 		<Typography variant="h1">
@@ -154,9 +128,14 @@ function WeatherForecast() {
 					{chartTitle}
 				</Typography>
 				<ChartHtmlLegend chart={chartRef.current}/>
-				<Chart type="line" ref={chartRef} options={options} data={data} />;
+				<Chart
+					type="line"
+					ref={chartRef}
+					data={{ datasets: chartDataset }}
+				/>;
 			</Grid2>
 		</Grid2>
 	</>;
 }
+
 export default WeatherForecast;

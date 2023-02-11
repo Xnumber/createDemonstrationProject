@@ -23,7 +23,6 @@ function getChartDataGroupByLocation (location: WeatherRawDataLocation): ChartDa
 	const datasets = location[0] ? location[0].weatherElement.map(o => {
 		return {
 			label: o.elementName,
-			xAxisID: "time",
 			data: o.time.map(t => {
 				return {
 					x: t.startTime,
