@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -29,28 +30,29 @@ export function MultipleSelect(props: MultiSelectProps) {
 		callback?.(value);
 	};
 
-	return (
-		<div>
-			<FormControl sx={{ m: 1, width: 300 }}>
-				<InputLabel sx={{ background: "white", padding: "0 0.5rem" }} id="demo-multiple-name-label">{ label }</InputLabel>
-				<Select
-					{...rest}
-					multiple
-					value={selected}
-					onChange={handleChange}
-					input={<OutlinedInput label="Name" />}
-					MenuProps={MenuProps}
+	useEffect(() => {
+		setSelected(defaultSelected ? defaultSelected: []);
+	}, [defaultSelected]);
+
+	return <FormControl sx={{ m: 1, width: 300 }}>
+		<InputLabel sx={{ background: "white", padding: "0 0.5rem" }} id="demo-multiple-name-label">{ label }</InputLabel>
+		<Select
+			{...rest}
+			multiple
+			value={selected}
+			onChange={handleChange}
+			input={<OutlinedInput label="Name" />}
+			MenuProps={MenuProps}
+		>
+			{options.map((o, i) => (
+				<MenuItem
+					key={i}
+					value={o.value}
 				>
-					{options.map((o, i) => (
-						<MenuItem
-							key={i}
-							value={o.value}
-						>
-							{o.label}
-						</MenuItem>
-					))}
-				</Select>
-			</FormControl>
-		</div>
-	);
+					{o.label}
+				</MenuItem>
+			))}
+		</Select>
+	</FormControl>;
+
 }
