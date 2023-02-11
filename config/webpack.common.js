@@ -33,7 +33,7 @@ module.exports = (mode) => {
 				organisms: path.resolve(__dirname, "../src/components/organisms"),
 				templates: path.resolve(__dirname, "../src/components/templates"),
 				pages: path.resolve(__dirname, "../src/components/pages"),
-				services: path.resolve(__dirname, "../src/services"),
+				service: path.resolve(__dirname, "../src/app/service"),
 				constants: path.resolve(__dirname, "../src/constants"),
 			},
 		},
