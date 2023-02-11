@@ -19,7 +19,7 @@ export function getChartDatasetFromWeatherRawData(rawData: WeatherRawData | unde
 	}
 }
 
-function getChartDataGroupByLocation (location: WeatherRawDataLocation): ChartDataset<"line", WeatherChartTData>[] {
+function getChartDataGroupByElement (location: WeatherRawDataLocation): ChartDataset<"line", WeatherChartTData>[] {
 	const datasets = location[0] ? location[0].weatherElement.map(o => {
 		return {
 			label: o.elementName,
@@ -35,7 +35,7 @@ function getChartDataGroupByLocation (location: WeatherRawDataLocation): ChartDa
 	return datasets;
 }
 
-function getChartDataGroupByElement(location: WeatherRawDataLocation): ChartDataset<"line", WeatherChartTData>[] {
+function getChartDataGroupByLocation(location: WeatherRawDataLocation): ChartDataset<"line", WeatherChartTData>[] {
 	const datasets =  location.map(o => {
 		return {
 			label: o.locationName,
