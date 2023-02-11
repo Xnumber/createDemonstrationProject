@@ -26,10 +26,11 @@ export const locations = [
 ];
 
 export const elements = [
-	"--",
-	"Wx",
-	"PoP",
-	"CI",
+	// "--",
+	// "Wx",
+	// "PoP",
+	// "CI",
+	"T",
 	"MinT",
 	"MaxT",
 ];

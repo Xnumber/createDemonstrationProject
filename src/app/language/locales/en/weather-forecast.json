@@ -3,6 +3,8 @@
 	"compare": "Compare",
 	"by-location": "By Location",
 	"by-element": "By Element",
+	"location-multiple": "Location(multiple)",
+	"element-multiple": "Element(multiple)",
 	"location": "Location",
 	"element": "Element",
 	"label": "Label",

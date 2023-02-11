@@ -16,6 +16,7 @@ import { elements, locations, labels, deratives } from "./const";
 import { getOptions } from "src/lib/option";
 import { useGetWeatherForcastQuery } from "service/weather/get";
 import { getChartDatasetFromWeatherRawData } from "./lib";
+import { SingleSelect } from "molecules/singleSelect";
 
 ChartJS.register(
 	CategoryScale,
@@ -30,12 +31,12 @@ ChartJS.register(
 function WeatherForecast() {
 	const { t } = useTranslation("weather-forecast");
 	const [compare, setCompare] = useState<Compare>("location");
-	const [locationChosen, setLocationChosen] = useState<string[]>([]);
-	const [elementChosen, setElementChosen] = useState<string[]>([]);
+	const [locationChosen, setLocationChosen] = useState<string[]>(["臺北市"]);
+	const [elementChosen, setElementChosen] = useState<string[]>(["MaxT"]);
 	const [labelChosen, setLabelChosen] = useState<string[]>([]);
 	const [derativeChosen, setDerativesChosen] = useState<string[]>([]);
 	const chartRef = useRef<ChartJS<"line", { x: string; y: number }[]>>(null);
-	const chartTitle = "Title";
+	const chartTitle = compare === "element" ? locationChosen[0]: elementChosen[0];
 	const locationOPtions = useMemo(() => getOptions(locations, t), []);
 	const elementOPtions = useMemo(() => getOptions(elements, t), []);
 	const labelOptions = useMemo(() => getOptions(labels, t), []);
@@ -44,14 +45,24 @@ function WeatherForecast() {
 
 	const handleSetCompare: React.ReactEventHandler<HTMLInputElement> = useCallback((e) => {
 		setCompare(e.currentTarget.value as Compare);
+		setLocationChosen(["臺北市"]);
+		setElementChosen(["MaxT"]);
 	}, []);
 
-	const handleSetlocationChosen = useCallback((e: string[]) => {
-		setLocationChosen(e);
+	const handleSetLocationChosen = useCallback((e: string[]|string) => {
+		if(typeof e === "string") {
+			setLocationChosen([e]);
+		} else {
+			setLocationChosen(e);
+		}
 	}, []);
-
-	const handleSetElementChosen = useCallback((e: string[]) => {
-		setElementChosen(e);
+	
+	const handleSetElementChosen = useCallback((e: string[] | string) => {
+		if(typeof e === "string") {
+			setElementChosen([e]);
+		} else {
+			setElementChosen(e);
+		}
 	}, []);
 	
 	const handleSetLabelChosen = useCallback((e: string[]) => {
@@ -61,9 +72,8 @@ function WeatherForecast() {
 	const handleSetDerativesChosen = useCallback((e: string[]) => {
 		setDerativesChosen(e);
 	}, []);
-
+	
 	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
-
 	return <>
 		<Typography variant="h1">
 			{t("weather-forecast")}
@@ -89,20 +99,36 @@ function WeatherForecast() {
 		</Grid2>
 		<Grid2 container columns={12}>
 			<Grid2 xs={12} md={3}>
-				<MultipleSelect
-					label={t("location")}
-					value={locationChosen}
-					options={locationOPtions}
-					callback={handleSetlocationChosen}
-				/>
+				{
+					compare === "location" ?
+						<MultipleSelect
+							label={t("location-multiple")}
+							defaultSelected={locationChosen}
+							options={locationOPtions}
+							callback={handleSetLocationChosen}
+						/>: <SingleSelect
+							label={t("location")}
+							defaultSelected={locationChosen[0]}
+							options={locationOPtions}
+							callback={handleSetLocationChosen}
+						/>
+				}
 			</Grid2>
 			<Grid2 xs={12} md={3}>
-				<MultipleSelect 
-					label={t("element")}
-					options={elementOPtions}
-					value={elementChosen}
-					callback={handleSetElementChosen}
-				/>
+				{
+					compare === "element" ?
+						<MultipleSelect 
+							label={t("element-multiple")}
+							options={elementOPtions}
+							defaultSelected={elementChosen}
+							callback={handleSetElementChosen}
+						/>: <SingleSelect 
+							label={t("element")}
+							options={elementOPtions}
+							defaultSelected={elementChosen[0]}
+							callback={handleSetElementChosen}
+						/>
+				}
 			</Grid2>
 			<Grid2 xs={12} md={3}>
 				<MultipleSelect 

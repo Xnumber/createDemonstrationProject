@@ -5,8 +5,8 @@ type Options = {
 	value: string;
 }[]
 
-export type MultiSelectProps = SelectProps & {
+export type SingleSelectProps = SelectProps & {
 	options: Options
-	callback?: (e: string | string[]) => void;
+	callback?: (e: string) => void;
 	defaultSelected?: string
 };
