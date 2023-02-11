@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback, useMemo } from "react";
 import { MultipleSelect } from "molecules/multipleSelect";
 import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
@@ -12,6 +12,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Compare } from "./typing";
+import { locations } from "./const";
+import { getOptions } from "src/lib/option";
 
 ChartJS.register(
 	CategoryScale,
@@ -57,10 +59,17 @@ const data = {
 function WeatherForecast() {
 	const { t } = useTranslation("weather-forecast");
 	const [compare, setCompare] = useState<Compare>();
+	const [locationChosen, setLocationChosen] = useState<string[]>([]);
 	const chartRef = useRef<ChartJS>(null);
 	const chartTitle = "Title";
+	const locationOPtions = useMemo(() => getOptions(locations, t), []);
+
 	const handleSetCompare: React.ReactEventHandler<HTMLInputElement> = useCallback((e) => {
 		setCompare(e.currentTarget.value as Compare);
+	}, []);
+
+	const handleSetlocationChosen = useCallback((e: string[]) => {
+		setLocationChosen(e);
 	}, []);
 
 	return <>
@@ -90,8 +99,9 @@ function WeatherForecast() {
 			<Grid2 xs={12} md={3}>
 				<MultipleSelect 
 					label={t("location")}
-					options={[]}
-					callback={(e) => {console.log(e);}}
+					value={locationChosen}
+					options={locationOPtions}
+					callback={handleSetlocationChosen}
 				/>
 			</Grid2>
 			<Grid2 xs={12} md={3}>
