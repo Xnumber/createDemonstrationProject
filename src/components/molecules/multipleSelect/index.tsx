@@ -17,8 +17,8 @@ const MenuProps = {
 };
 
 export function MultipleSelect(props: MultiSelectProps) {
-	const { options, callback, label, ...rest } = props;
-	const [selected, setSelected] = React.useState<string[]>([]);
+	const { options, callback, label, defaultSelected, ...rest } = props;
+	const [selected, setSelected] = React.useState<string[]>(defaultSelected ? defaultSelected: []);
 	const handleChange = (event: SelectChangeEvent<typeof selected>) => {
 		const {
 			target: { value },
