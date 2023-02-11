@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect } from "react";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -17,24 +16,19 @@ const MenuProps = {
 	},
 };
 
-export function MultipleSelect(props: MultiSelectProps) {
+export function SingleSelect(props: MultiSelectProps) {
 	const { options, callback, label, defaultSelected, ...rest } = props;
-	const [selected, setSelected] = React.useState<string[]>(defaultSelected ? defaultSelected: []);
+	const [selected, setSelected] = React.useState<string>(defaultSelected ? defaultSelected: "");
+	
 	const handleChange = (event: SelectChangeEvent<typeof selected>) => {
 		const {
 			target: { value },
 		} = event;
-		setSelected(
-			typeof value === "string" ? value.split(",") : value,
-		);
+		setSelected(value);
 		callback?.(value);
 	};
 
-	useEffect(() => {
-		setSelected(defaultSelected ? defaultSelected: []);
-	}, [defaultSelected]);
-
-	return <FormControl sx={{ m: 1, width: 300 }}>
+	return <FormControl sx={{ m: 1 }}>
 		<InputLabel sx={{ background: "white", padding: "0 0.5rem" }}>{ label }</InputLabel>
 		<Select
 			{...rest}
@@ -54,5 +48,4 @@ export function MultipleSelect(props: MultiSelectProps) {
 			))}
 		</Select>
 	</FormControl>;
-
 }
