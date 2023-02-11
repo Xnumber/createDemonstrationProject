@@ -89,7 +89,7 @@ function WeatherForecast() {
 		</Grid2>
 		<Grid2 container columns={12}>
 			<Grid2 xs={12} md={3}>
-				<MultipleSelect 
+				<MultipleSelect
 					label={t("location")}
 					value={locationChosen}
 					options={locationOPtions}
@@ -103,7 +103,6 @@ function WeatherForecast() {
 					value={elementChosen}
 					callback={handleSetElementChosen}
 				/>
-
 			</Grid2>
 			<Grid2 xs={12} md={3}>
 				<MultipleSelect 
