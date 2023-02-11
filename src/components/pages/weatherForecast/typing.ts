@@ -1,4 +1,5 @@
 import type { ChartDataset, LineOptions } from "chart.js";
+type Compare = "location" | "element";
 type WeatherRawData = {
 	success: boolean,
 	result: {
@@ -49,4 +50,4 @@ type WeatherDerivative = "ma" | "bias" | "average";
 type WeatherLineOptionSegmentStyle = {
 	[K in WeatherTag]?: Partial<LineOptions["segment"]> | {[K: string]: boolean | boolean[][]};
 }
-export type { WeatherPointStyleTag, WeatherDataset, WeatherSegmentStyleTag, WeatherTag, WeatherDerivative, WeatherChartTData, WeatherRawData, WeatherRawDataLocation, WeatherLineOptionSegmentStyle };
+export type { WeatherPointStyleTag, Compare, WeatherDataset, WeatherSegmentStyleTag, WeatherTag, WeatherDerivative, WeatherChartTData, WeatherRawData, WeatherRawDataLocation, WeatherLineOptionSegmentStyle };
