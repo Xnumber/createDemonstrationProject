@@ -12,7 +12,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Compare } from "./typing";
-import { locations } from "./const";
+import { elements, locations } from "./const";
 import { getOptions } from "src/lib/option";
 
 ChartJS.register(
@@ -60,16 +60,22 @@ function WeatherForecast() {
 	const { t } = useTranslation("weather-forecast");
 	const [compare, setCompare] = useState<Compare>();
 	const [locationChosen, setLocationChosen] = useState<string[]>([]);
+	const [elementChosen, setElementChosen] = useState<string[]>([]);
 	const chartRef = useRef<ChartJS>(null);
 	const chartTitle = "Title";
 	const locationOPtions = useMemo(() => getOptions(locations, t), []);
-
+	const elementOPtions = useMemo(() => getOptions(elements, t), []);
+	
 	const handleSetCompare: React.ReactEventHandler<HTMLInputElement> = useCallback((e) => {
 		setCompare(e.currentTarget.value as Compare);
 	}, []);
 
 	const handleSetlocationChosen = useCallback((e: string[]) => {
 		setLocationChosen(e);
+	}, []);
+
+	const handleSetElementChosen = useCallback((e: string[]) => {
+		setElementChosen(e);
 	}, []);
 
 	return <>
@@ -107,8 +113,9 @@ function WeatherForecast() {
 			<Grid2 xs={12} md={3}>
 				<MultipleSelect 
 					label={t("element")}
-					options={[]}
-					callback={(e) => {console.log(e);}}
+					options={elementOPtions}
+					value={elementChosen}
+					callback={handleSetElementChosen}
 				/>
 
 			</Grid2>
