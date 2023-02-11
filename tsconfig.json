@@ -57,11 +57,11 @@
             "templates": [
                 "src/components/templates/index"
             ],
-            "services/*": [
-                "src/services/*"
+            "service/*": [
+                "src/app/service/*"
             ],
             "services": [
-                "src/services/index"
+                "src/app/service/index"
             ],
             "store/*": [
                 "src/store/*"
