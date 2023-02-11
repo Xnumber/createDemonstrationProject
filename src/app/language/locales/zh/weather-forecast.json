@@ -1,9 +1,10 @@
 {
 	"weather-forecast": "天氣預報",
+	"compare": "比較",
 	"by-location": "以地點為主",
 	"by-element": "以天氣因子為主",
 	"location": "地點",
-	"element": "天氣因此",
+	"element": "天氣因子",
 	"label": "標記",
 	"derivatives": "衍生計算",
 	"average": "平均",
