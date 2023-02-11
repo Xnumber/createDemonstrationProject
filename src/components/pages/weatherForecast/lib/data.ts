@@ -4,12 +4,14 @@ import {
 	WeatherRawData,
 	WeatherChartTData
 } from "../typing";
-export function getChartDataFromWeatherRawData(rawData: WeatherRawData, by: "location" | "element"): ChartDataset<"line", WeatherChartTData>[] {
+export function getChartDatasetFromWeatherRawData(rawData: WeatherRawData | undefined, compare: "location" | "element"): ChartDataset<"line", WeatherChartTData>[] {
+	if(!rawData) { return [];}
+	
 	const location = rawData.records.locations.find(l => l.locationsName === "台灣")?.location;
 
-	if(location && by === "location") {
+	if(location && compare === "location") {
 		return getChartDataGroupByLocation(location);
-	} else if(location && by === "element"){
+	} else if(location && compare === "element"){
 		
 		return getChartDataGroupByElement(location);
 	} else {
