@@ -17,7 +17,7 @@ import { getOptions } from "src/lib/option";
 import { useGetWeatherForcastQuery } from "service/weather/get";
 import { getChartDatasetFromWeatherRawData } from "./lib";
 import { SingleSelect } from "molecules/singleSelect";
-import { getSegmentStyledDatasets } from "./lib/segment";
+import { getStyledDatasets } from "./lib/style";
 
 ChartJS.register(
 	CategoryScale,
@@ -76,7 +76,7 @@ function WeatherForecast() {
 	}, []);
 	
 	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
-	const segmentStyledChartDatasets = getSegmentStyledDatasets(chartDataset, labelChosen, compare);
+	const segmentStyledChartDatasets = getStyledDatasets(chartDataset, labelChosen, compare);
 	console.log(segmentStyledChartDatasets);
 	return <>
 		<Typography variant="h1">

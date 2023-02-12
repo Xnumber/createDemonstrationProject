@@ -1,64 +1,6 @@
-import { getRandomColor } from "src/lib/color";
-import { WeatherDataset, WeatherTag, WeatherLineOptionSegmentStyle, Compare } from "../typing";
+import { WeatherDataset, WeatherLineOptionSegmentStyle } from "../typing";
 import type { ScriptableLineSegmentContext } from "chart.js";
-import { elementChartDatasetColors, locationChartDatasetColors } from "../const";
-
-export function getSegmentStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], compare: Compare) {	
-	
-	const styledDatasets = datasets.reduce((a, currentDataset)=> {
-		let backgroundColor = "";
-		// console.log(compare);
-		// console.log(currentDataset.label);
-		// console.log(elementChartDatasetColors);
-		// console.log(locationChartDatasetColors);
-		if (compare === "element") {
-			const label = currentDataset.label;
-			const bkgColor = elementChartDatasetColors[label as string].backgroundColor;
-			backgroundColor = bkgColor ? bkgColor: "black";
-		} else {
-			const label = currentDataset.label;
-			const bkgColor = locationChartDatasetColors[label as string].backgroundColor;
-			backgroundColor = bkgColor ? bkgColor: "black";
-		}
-
-		const dataset: WeatherDataset[number] = {
-			...currentDataset,
-			fill: true,
-			tension: 0.2,
-			// backgroundColor: (label in locationColors) ? locationColors[label as WeatherLocation].backgroundColor: elementColors[label as WeatherElement].backgroundColor,
-			backgroundColor: backgroundColor ? backgroundColor: getRandomColor(),
-			
-		};
-		
-		const weatherLineOptionSegmentStyle = getWeatherLineOptionSegmentStyle(tags, datasets);
-
-		tags.forEach(o => {
-			if (o in weatherLineOptionSegmentStyle) {
-				dataset.segment = {
-					...dataset.segment,
-					...weatherLineOptionSegmentStyle[o]
-				};
-			}
-		});
-
-		return [
-			...a,
-			dataset,
-
-		];
-	}, []
-	);
-	// pointRadius: [10, 3, 3],
-	// https://github.com/chartjs/Chart.js/issues/5546
-	// https://www.chartjs.org/docs/latest/configuration/elements.html#point-styles
-	// pointStyle: ["circle", "rectRot"]
-	// https://www.chartjs.org/docs/latest/charts/line.html#segment
-	// console.log("styledData");
-	// console.log(styledData);
-	return styledDatasets;
-}
-
-function getWeatherLineOptionSegmentStyle(labels: string[], datasets: WeatherDataset): WeatherLineOptionSegmentStyle {
+export function getWeatherLineOptionSegmentStyle(labels: string[], datasets: WeatherDataset): WeatherLineOptionSegmentStyle {
 	
 	const upTrands = datasets.map(dataset => {
 		return dataset.data.map((o, i, a) => {
