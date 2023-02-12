@@ -28,17 +28,13 @@ export const locations = [
 ];
 
 export const elements = [
-	// "--",
-	// "Wx",
-	// "PoP",
-	// "CI",
 	"T",
 	"MinT",
 	"MaxT",
 ];
 
 export const deratives: LanguageResourceContentKey<"weather-forecast">[] = [
-	"average", "difference", "moving-average"
+	"none", "average", "moving-average", "difference"
 ];
 
 export const labels: LanguageResourceContentKey<"weather-forecast">[] = [

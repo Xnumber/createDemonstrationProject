@@ -10,11 +10,11 @@ export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], 
 
 		if (compare === "element") {
 			const label = currentDataset.label;
-			const bkgColor = elementChartDatasetColors[label as string].backgroundColor;
+			const bkgColor = elementChartDatasetColors[label as string]?.backgroundColor;
 			backgroundColor = bkgColor ? bkgColor: "black";
 		} else {
 			const label = currentDataset.label;
-			const bkgColor = locationChartDatasetColors[label as string].backgroundColor;
+			const bkgColor = locationChartDatasetColors[label as string]?.backgroundColor;
 			backgroundColor = bkgColor ? bkgColor: "black";
 		}
 

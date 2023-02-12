@@ -17,5 +17,6 @@
 	"up-trend": "Up Trend",
 	"down-trend": "Down Trend",
 	"up-trend-overlap": "Up Trend Overlap",
-	"down-trend-overlap": "Down Trend Overlap"
+	"down-trend-overlap": "Down Trend Overlap",
+	"none": "None"
 }

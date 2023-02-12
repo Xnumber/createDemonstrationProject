@@ -45,7 +45,7 @@ type WeatherSegmentStyleTag = "up-trend" | "down-trend" | "up-trend-overlap" | "
 
 type WeatherTag = WeatherPointStyleTag | WeatherSegmentStyleTag
 
-type WeatherDerivative = "ma" | "bias" | "average";
+type WeatherDerivative = "average" | "moving-average" | "difference";
 
 type SegmentStyleHandlers = {
 	[K in WeatherTag]?: Partial<LineOptions["segment"]> | {[K: string]: boolean | boolean[][]};
