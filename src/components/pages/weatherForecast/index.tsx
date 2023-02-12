@@ -3,7 +3,7 @@ import { MultipleSelect } from "molecules/multipleSelect";
 import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
 import  Grid2  from "@mui/material/Unstable_Grid2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js";
 import { ChartHtmlLegend } from "molecules/chart/lengend";
 import { Chart } from "react-chartjs-2";
 import Radio from "@mui/material/Radio";
@@ -11,12 +11,13 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { Compare } from "./typing";
+import { Compare, WeatherTag } from "./typing";
 import { elements, locations, labels, deratives } from "./const";
 import { getOptions } from "src/lib/option";
 import { useGetWeatherForcastQuery } from "service/weather/get";
 import { getChartDatasetFromWeatherRawData } from "./lib";
 import { SingleSelect } from "molecules/singleSelect";
+import { getSegmentStyledDatasets } from "./lib/segment";
 
 ChartJS.register(
 	CategoryScale,
@@ -25,22 +26,23 @@ ChartJS.register(
 	LineElement,
 	Title,
 	Tooltip,
-	Legend
+	Legend,
+	Filler
 );
 
 function WeatherForecast() {
-	const { t } = useTranslation("weather-forecast");
+	const { t, ready } = useTranslation("weather-forecast");
 	const [compare, setCompare] = useState<Compare>("location");
 	const [locationChosen, setLocationChosen] = useState<string[]>(["臺北市"]);
 	const [elementChosen, setElementChosen] = useState<string[]>(["MaxT"]);
-	const [labelChosen, setLabelChosen] = useState<string[]>([]);
+	const [labelChosen, setLabelChosen] = useState<WeatherTag[]>([]);
 	const [derativeChosen, setDerativesChosen] = useState<string[]>([]);
 	const chartRef = useRef<ChartJS<"line", { x: string; y: number }[]>>(null);
 	const chartTitle = compare === "element" ? locationChosen[0]: elementChosen[0];
-	const locationOPtions = useMemo(() => getOptions(locations, t), []);
-	const elementOPtions = useMemo(() => getOptions(elements, t), []);
-	const labelOptions = useMemo(() => getOptions(labels, t), []);
-	const derativeOptions = useMemo(() => getOptions(deratives, t), []);
+	const locationOPtions = useMemo(() => getOptions(locations, t), [ready]);
+	const elementOPtions = useMemo(() => getOptions(elements, t), [ready]);
+	const labelOptions = useMemo(() => getOptions(labels, t), [ready]);
+	const derativeOptions = useMemo(() => getOptions(deratives, t), [ready]);
 	const { data: rawData } = useGetWeatherForcastQuery({ locations: locationChosen, elements: elementChosen});
 
 	const handleSetCompare: React.ReactEventHandler<HTMLInputElement> = useCallback((e) => {
@@ -65,7 +67,7 @@ function WeatherForecast() {
 		}
 	}, []);
 	
-	const handleSetLabelChosen = useCallback((e: string[]) => {
+	const handleSetLabelChosen = useCallback((e: WeatherTag[]) => {
 		setLabelChosen(e);
 	}, []);
 	
@@ -74,6 +76,8 @@ function WeatherForecast() {
 	}, []);
 	
 	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
+	const segmentStyledChartDatasets = getSegmentStyledDatasets(chartDataset, labelChosen, compare);
+	console.log(segmentStyledChartDatasets);
 	return <>
 		<Typography variant="h1">
 			{t("weather-forecast")}
@@ -156,7 +160,7 @@ function WeatherForecast() {
 				<Chart
 					type="line"
 					ref={chartRef}
-					data={{ datasets: chartDataset }}
+					data={{ datasets: segmentStyledChartDatasets }}
 				/>;
 			</Grid2>
 		</Grid2>

@@ -41,7 +41,7 @@ type WeatherDataset = ChartDataset<"line", WeatherChartTData>[];
 
 type WeatherPointStyleTag = "max" | "min"
 
-type WeatherSegmentStyleTag = "up" | "down" | "overlap of uptrends" | "overlap of downTrends" | "overlap of downTrends and upTrends";
+type WeatherSegmentStyleTag = "up-trend" | "down-trend" | "up-trend-overlap" | "down-trend-overlap" | "overlap-of-downtrends-and-uptrends";
 
 type WeatherTag = WeatherPointStyleTag | WeatherSegmentStyleTag
 
@@ -51,3 +51,11 @@ type WeatherLineOptionSegmentStyle = {
 	[K in WeatherTag]?: Partial<LineOptions["segment"]> | {[K: string]: boolean | boolean[][]};
 }
 export type { WeatherPointStyleTag, Compare, WeatherDataset, WeatherSegmentStyleTag, WeatherTag, WeatherDerivative, WeatherChartTData, WeatherRawData, WeatherRawDataLocation, WeatherLineOptionSegmentStyle };
+
+export type ElementChartDatasetColors = Record<string, {
+	backgroundColor?: string, borderColor?: string; color?: string 
+}>
+
+export type LocationChartDatasetColors = Record<string, {
+	backgroundColor?: string, borderColor?: string; color?: string 
+}>

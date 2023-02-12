@@ -1,6 +1,65 @@
-import { WeatherDataset, WeatherTag, WeatherLineOptionSegmentStyle } from "../typing";
+import { getRandomColor } from "src/lib/color";
+import { WeatherDataset, WeatherTag, WeatherLineOptionSegmentStyle, Compare } from "../typing";
 import type { ScriptableLineSegmentContext } from "chart.js";
-export function getWeatherLineOptionSegmentStyle(tags: WeatherTag, datasets: WeatherDataset): WeatherLineOptionSegmentStyle {
+import { elementChartDatasetColors, locationChartDatasetColors } from "../const";
+
+export function getSegmentStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], compare: Compare) {	
+	
+	const styledDatasets = datasets.reduce((a, currentDataset)=> {
+		let backgroundColor = "";
+		// console.log(compare);
+		// console.log(currentDataset.label);
+		// console.log(elementChartDatasetColors);
+		// console.log(locationChartDatasetColors);
+		if (compare === "element") {
+			const label = currentDataset.label;
+			const bkgColor = elementChartDatasetColors[label as string].backgroundColor;
+			backgroundColor = bkgColor ? bkgColor: "black";
+		} else {
+			const label = currentDataset.label;
+			const bkgColor = locationChartDatasetColors[label as string].backgroundColor;
+			backgroundColor = bkgColor ? bkgColor: "black";
+		}
+
+		const dataset: WeatherDataset[number] = {
+			...currentDataset,
+			fill: true,
+			tension: 0.2,
+			// backgroundColor: (label in locationColors) ? locationColors[label as WeatherLocation].backgroundColor: elementColors[label as WeatherElement].backgroundColor,
+			backgroundColor: backgroundColor ? backgroundColor: getRandomColor(),
+			
+		};
+		
+		const weatherLineOptionSegmentStyle = getWeatherLineOptionSegmentStyle(tags, datasets);
+
+		tags.forEach(o => {
+			if (o in weatherLineOptionSegmentStyle) {
+				dataset.segment = {
+					...dataset.segment,
+					...weatherLineOptionSegmentStyle[o]
+				};
+			}
+		});
+
+		return [
+			...a,
+			dataset,
+
+		];
+	}, []
+	);
+	// pointRadius: [10, 3, 3],
+	// https://github.com/chartjs/Chart.js/issues/5546
+	// https://www.chartjs.org/docs/latest/configuration/elements.html#point-styles
+	// pointStyle: ["circle", "rectRot"]
+	// https://www.chartjs.org/docs/latest/charts/line.html#segment
+	// console.log("styledData");
+	// console.log(styledData);
+	return styledDatasets;
+}
+
+function getWeatherLineOptionSegmentStyle(labels: string[], datasets: WeatherDataset): WeatherLineOptionSegmentStyle {
+	
 	const upTrands = datasets.map(dataset => {
 		return dataset.data.map((o, i, a) => {
 			return Number(o.y) < Number(a[i + 1]?.y);
@@ -12,19 +71,20 @@ export function getWeatherLineOptionSegmentStyle(tags: WeatherTag, datasets: Wea
 			return Number(o.y) > Number(a[i + 1]?.y);
 		});
 	});
+	console.log("labels", labels);
 
 	return {
-		up: {
-			borderColor: (ctx: ScriptableLineSegmentContext) => tags.includes("down") ? upAndDownSegmentBorderColor(ctx, "rgb(192,75,75)", "blue"): upSegmentBorderColor(ctx, "rgb(192,75,75)")
+		"up-trend": {
+			borderColor: (ctx: ScriptableLineSegmentContext) => labels.includes("down-trend") ? upAndDownSegmentBorderColor(ctx, "rgb(192,75,75)", "blue"): upSegmentBorderColor(ctx, "rgb(192,75,75)"),
 		},
-		down: {
-			borderColor: (ctx: ScriptableLineSegmentContext) =>  tags.includes("up") ? upAndDownSegmentBorderColor(ctx, "rgb(192,75,75)", "blue"): downSegmentBorderColor(ctx, "blue")
+		"down-trend": {
+			borderColor: (ctx: ScriptableLineSegmentContext) =>  labels.includes("up-trend") ? upAndDownSegmentBorderColor(ctx, "rgb(192,75,75)", "blue"): downSegmentBorderColor(ctx, "blue")
 		},
-		"overlap of uptrends": {
+		"up-trend-overlap": {
 			isOverlap: false,
 			upTrands: upTrands,
 			downTrands: downTrands,
-			backgroundColor: tags.includes("overlap of downTrends") ? upAndDownTrandOverlapBackgroundColor :(ctx , option: { upTrands: boolean[][] }) => {
+			backgroundColor: labels.includes("overlap-of-downtrends") ? upAndDownTrandOverlapBackgroundColor :(ctx , option: { upTrands: boolean[][] }) => {
 				const { upTrands } = option;
 				const { datasetIndex, p0DataIndex } = ctx;
 				let isOverlap = true;
@@ -46,11 +106,11 @@ export function getWeatherLineOptionSegmentStyle(tags: WeatherTag, datasets: Wea
 				}
 			},
 		},
-		"overlap of downTrends": {
+		"down-trend-overlap": {
 			isOverlap: false,
 			upTrands: upTrands,
 			downTrands: downTrands,
-			backgroundColor: tags.includes("overlap of uptrends") ? upAndDownTrandOverlapBackgroundColor :(ctx, option: { downTrands: boolean[][] }) => {
+			backgroundColor: labels.includes("overlap-of-uptrends") ? upAndDownTrandOverlapBackgroundColor :(ctx, option: { downTrands: boolean[][] }) => {
 				const { downTrands } = option;
 				const { datasetIndex, p0DataIndex } = ctx;
 				let isOverlap = true;
@@ -72,7 +132,7 @@ export function getWeatherLineOptionSegmentStyle(tags: WeatherTag, datasets: Wea
 				}
 			},
 		},
-		"overlap of downTrends and upTrends": {
+		"overlap-of-downtrends-and-uptrends": {
 			isOverlap: false,
 			downTrands: downTrands,
 			upTrands: upTrands,
@@ -108,7 +168,6 @@ export function getWeatherLineOptionSegmentStyle(tags: WeatherTag, datasets: Wea
 				if (isDownTrendOverlap) {
 					return "rgba(100, 0, 0, 0.3)";
 				}
-
 				return undefined;
 			},
 		}

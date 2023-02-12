@@ -1,3 +1,3 @@
 export { getChartDatasetFromWeatherRawData } from "./data";
-export { getWeatherLineOptionSegmentStyle } from "./segment";
+export { getSegmentStyledDatasets } from "./segment";
 export { getDerivedData } from "./deratives";
