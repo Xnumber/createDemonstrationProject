@@ -1,6 +1,6 @@
 import { WeatherDataset, WeatherLineOptionSegmentStyle } from "../typing";
 import type { ScriptableLineSegmentContext } from "chart.js";
-export function getWeatherLineOptionSegmentStyle(labels: string[], datasets: WeatherDataset): WeatherLineOptionSegmentStyle {
+export function getSegmentStyleHandler(labels: string[], datasets: WeatherDataset): WeatherLineOptionSegmentStyle {
 	
 	const upTrands = datasets.map(dataset => {
 		return dataset.data.map((o, i, a) => {
@@ -13,7 +13,6 @@ export function getWeatherLineOptionSegmentStyle(labels: string[], datasets: Wea
 			return Number(o.y) > Number(a[i + 1]?.y);
 		});
 	});
-	console.log("labels", labels);
 
 	return {
 		"up-trend": {

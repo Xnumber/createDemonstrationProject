@@ -47,10 +47,10 @@ type WeatherTag = WeatherPointStyleTag | WeatherSegmentStyleTag
 
 type WeatherDerivative = "ma" | "bias" | "average";
 
-type WeatherLineOptionSegmentStyle = {
+type SegmentStyleHandlers = {
 	[K in WeatherTag]?: Partial<LineOptions["segment"]> | {[K: string]: boolean | boolean[][]};
 }
-export type { WeatherPointStyleTag, Compare, WeatherDataset, WeatherSegmentStyleTag, WeatherTag, WeatherDerivative, WeatherChartTData, WeatherRawData, WeatherRawDataLocation, WeatherLineOptionSegmentStyle };
+export type { WeatherPointStyleTag, Compare, WeatherDataset, WeatherSegmentStyleTag, WeatherTag, WeatherDerivative, WeatherChartTData, WeatherRawData, WeatherRawDataLocation, SegmentStyleHandlers as WeatherLineOptionSegmentStyle };
 
 export type ElementChartDatasetColors = Record<string, {
 	backgroundColor?: string, borderColor?: string; color?: string 

@@ -77,7 +77,6 @@ function WeatherForecast() {
 	
 	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
 	const segmentStyledChartDatasets = getStyledDatasets(chartDataset, labelChosen, compare);
-	console.log(segmentStyledChartDatasets);
 	return <>
 		<Typography variant="h1">
 			{t("weather-forecast")}
@@ -161,6 +160,16 @@ function WeatherForecast() {
 					type="line"
 					ref={chartRef}
 					data={{ datasets: segmentStyledChartDatasets }}
+					options={{
+						scales: {
+							y: {
+								offset: true
+							},
+							x: {
+								offset: true
+							}
+						}
+					}}
 				/>;
 			</Grid2>
 		</Grid2>

@@ -1,7 +1,8 @@
 import { getRandomColor } from "src/lib/color";
 import { WeatherDataset, WeatherTag, Compare } from "../typing";
 import { elementChartDatasetColors, locationChartDatasetColors } from "../const";
-import { getWeatherLineOptionSegmentStyle } from "./segment";
+import { getSegmentStyleHandler } from "./segment";
+import { findMaxIndexes, findMinIndexes, getMaxPointCanvas, getMinPointCanvas } from "./point";
 
 export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], compare: Compare) {	
 	const styledDatasets = datasets.reduce((a, currentDataset)=> {
@@ -22,16 +23,63 @@ export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], 
 			fill: true,
 			tension: 0.2,
 			backgroundColor: backgroundColor ? backgroundColor: getRandomColor(),
-			
 		};
 		
-		const weatherLineOptionSegmentStyle = getWeatherLineOptionSegmentStyle(tags, datasets);
-
+		const segmentStyleHandlers = getSegmentStyleHandler(tags, datasets);
+		
 		tags.forEach(o => {
-			if (o in weatherLineOptionSegmentStyle) {
+			if (o in segmentStyleHandlers) {
 				dataset.segment = {
-					...dataset.segment,
-					...weatherLineOptionSegmentStyle[o]
+					...segmentStyleHandlers[o]
+				};
+			}
+
+			if (o === "min" && tags.includes("max")) {
+				const minPointStyle = getMinPointCanvas(dataset.label);
+				const minDataIndexes = findMinIndexes(dataset.data.map(d=>d.y ? d.y: 0));
+				const maxDataIndexes = findMaxIndexes(dataset.data.map(d=>d.y ? d.y: 0));
+				const maxPointStyle = getMaxPointCanvas(dataset.label);
+				dataset.pointStyle = function(ctx) {
+					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return minPointStyle;
+					}
+					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return maxPointStyle;
+					}
+				};
+				dataset.pointRadius = function(ctx) {
+					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return 30;
+					}
+					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return 30;
+					}
+				};
+			} else if(o === "min") {
+				const minPointStyle = getMinPointCanvas(dataset.label);
+				const minDataIndexes = findMinIndexes(dataset.data.map(d=>d.y ? d.y: 0));
+				dataset.pointStyle = function(ctx) {
+					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return minPointStyle;
+					}
+				};
+				dataset.pointRadius = function(ctx) {
+					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return 30;
+					}
+				};
+			} else if (o === "max") {
+				const maxDataIndexes = findMaxIndexes(dataset.data.map(d=>d.y ? d.y: 0));
+				const maxPointStyle = getMaxPointCanvas(dataset.label);
+				dataset.pointStyle = function(ctx) {
+					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return maxPointStyle;
+					}
+				};
+				dataset.pointRadius = function(ctx) {
+					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return 30;
+					}
 				};
 			}
 		});
@@ -39,7 +87,6 @@ export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], 
 		return [
 			...a,
 			dataset,
-
 		];
 	}, []
 	);
