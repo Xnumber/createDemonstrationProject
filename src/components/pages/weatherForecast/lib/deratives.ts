@@ -38,7 +38,7 @@ function addMovingAverageDatasets(datasets: WeatherDataset): WeatherDataset {
 	return [...datasets, ...averageDatasets];
 }
 
-const addBiasDatasets =  (datasets: WeatherDataset, biasPairs: string[][]): WeatherDataset => {
+const addDifferenceDatasets =  (datasets: WeatherDataset, biasPairs: string[][]): WeatherDataset => {
 	const biasDatasets: WeatherDataset = [];
 	biasPairs.forEach(p => {
 		const firstDataset = datasets.find(o => o.label === p[0]);
@@ -62,17 +62,19 @@ const addBiasDatasets =  (datasets: WeatherDataset, biasPairs: string[][]): Weat
 
 const derivedDatasetHandlers = {
 	"average": addAverageDatasets,
-	"bias": addBiasDatasets,
-	"ma": addMovingAverageDatasets,
+	"difference": addDifferenceDatasets,
+	"moving-average": addMovingAverageDatasets,
 };
 
-export function getDerivedData(data: WeatherDataset, derivatives: WeatherDerivative[], pairs: string[][]) {
+export function getDerivedDatasets(datasets: WeatherDataset, derivatives: WeatherDerivative[], pairs: string[][]) {
 	let resultData:  WeatherDataset = [
-		...data
+		...datasets
 	];
-
+	
 	derivatives.forEach(o => {
-		resultData = derivedDatasetHandlers[o](data, pairs);
+		if (derivedDatasetHandlers[o]) {
+			resultData = derivedDatasetHandlers[o](datasets, pairs);
+		}
 	});
 	
 	return resultData;

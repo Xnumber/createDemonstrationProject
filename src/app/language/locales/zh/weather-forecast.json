@@ -3,6 +3,8 @@
 	"compare": "比較",
 	"by-location": "以地點為主",
 	"by-element": "以天氣因子為主",
+	"location-multiple": "地點(多選)",
+	"element-multiple": "天氣因子(多選)",
 	"location": "地點",
 	"element": "天氣因子",
 	"label": "標記",
@@ -15,5 +17,6 @@
 	"up-trend": "上行區",
 	"down-trend": "下行區",
 	"up-trend-overlap": "上行重疊區",
-	"down-trend-overlap": "下行重疊區"
+	"down-trend-overlap": "下行重疊區",
+	"none": "無"
 }

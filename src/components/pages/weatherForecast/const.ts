@@ -1,4 +1,6 @@
 import { LanguageResourceContentKey } from "src/app/language/typing";
+import { ElementChartDatasetColors, LocationChartDatasetColors } from "./typing";
+import { getRandomColor } from "src/lib/color";
 
 export const locations = [
 	"宜蘭縣",
@@ -26,18 +28,33 @@ export const locations = [
 ];
 
 export const elements = [
-	"--",
-	"Wx",
-	"PoP",
-	"CI",
+	"T",
 	"MinT",
 	"MaxT",
 ];
 
 export const deratives: LanguageResourceContentKey<"weather-forecast">[] = [
-	"average", "difference", "moving-average"
+	"none", "average", "moving-average", "difference"
 ];
 
 export const labels: LanguageResourceContentKey<"weather-forecast">[] = [
 	"max", "min", "up-trend", "up-trend-overlap", "down-trend", "down-trend-overlap"
 ];
+
+export const elementChartDatasetColors: ElementChartDatasetColors = elements.reduce((a, c) => {
+	return {
+		...a,
+		[c]: {
+			backgroundColor: getRandomColor()
+		}
+	}; 
+}, {});
+
+export const locationChartDatasetColors: LocationChartDatasetColors = locations.reduce((a,c) => {
+	return {
+		...a,
+		[c]: {
+			backgroundColor: getRandomColor()
+		}
+	};
+}, {});

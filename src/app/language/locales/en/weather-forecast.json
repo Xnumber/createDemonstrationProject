@@ -3,6 +3,8 @@
 	"compare": "Compare",
 	"by-location": "By Location",
 	"by-element": "By Element",
+	"location-multiple": "Location(multiple)",
+	"element-multiple": "Element(multiple)",
 	"location": "Location",
 	"element": "Element",
 	"label": "Label",
@@ -15,5 +17,6 @@
 	"up-trend": "Up Trend",
 	"down-trend": "Down Trend",
 	"up-trend-overlap": "Up Trend Overlap",
-	"down-trend-overlap": "Down Trend Overlap"
+	"down-trend-overlap": "Down Trend Overlap",
+	"none": "None"
 }

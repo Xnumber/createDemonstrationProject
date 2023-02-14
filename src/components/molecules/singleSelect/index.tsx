@@ -4,7 +4,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { MultiSelectProps } from "./typing";
+import { SingleSelectProps } from "./typing";
 const ITEM_HEIGHT = 60;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -16,7 +16,7 @@ const MenuProps = {
 	},
 };
 
-export function SingleSelect(props: MultiSelectProps) {
+export function SingleSelect(props: SingleSelectProps) {
 	const { options, callback, label, defaultSelected, ...rest } = props;
 	const [selected, setSelected] = React.useState<string>(defaultSelected ? defaultSelected: "");
 	
@@ -32,7 +32,6 @@ export function SingleSelect(props: MultiSelectProps) {
 		<InputLabel sx={{ background: "white", padding: "0 0.5rem" }}>{ label }</InputLabel>
 		<Select
 			{...rest}
-			multiple
 			value={selected}
 			onChange={handleChange}
 			input={<OutlinedInput label="Name" />}
