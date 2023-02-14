@@ -3,15 +3,15 @@ import { MultipleSelect } from "molecules/multipleSelect";
 import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
 import  Grid2  from "@mui/material/Unstable_Grid2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js";
-import { ChartHtmlLegend } from "molecules/chart/lengend";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ChartType } from "chart.js";
+// import { ChartHtmlLegend } from "molecules/chart/lengend";
 import { Chart } from "react-chartjs-2";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { Compare, WeatherDerivative, WeatherTag } from "./typing";
+import { Compare, WeatherChartTData, WeatherDerivative, WeatherTag } from "./typing";
 import { elements, locations, labels, deratives } from "./const";
 import { getOptions } from "src/lib/option";
 import { useGetWeatherForcastQuery } from "service/weather/get";
@@ -19,6 +19,11 @@ import { getChartDatasetFromWeatherRawData, getDerivedDatasets } from "./lib";
 import { SingleSelect } from "molecules/singleSelect";
 import { getStyledDatasets } from "./lib/style";
 import { LanguageToggler } from "atoms";
+// import { isEqual } from "lodash";
+import { WeatherChartLegend } from "features/chart/weatherLegend";
+import { chartLegendPlugin } from "./plugin/legend";
+import { getTopLayerSpecifiedDataset } from "./lib/layerOrder";
+import { useAppSelector } from "src/app/hooks";
 
 ChartJS.register(
 	CategoryScale,
@@ -33,15 +38,14 @@ ChartJS.register(
 
 function WeatherForecast() {
 	const { i18n, t, ready } = useTranslation("weather-forecast");
-
+	
 	const [compare, setCompare] = useState<Compare>("location");
 	const [locationChosen, setLocationChosen] = useState<string[]>(["臺北市"]);
 	const [elementChosen, setElementChosen] = useState<string[]>(["MaxT"]);
 	const [labelChosen, setLabelChosen] = useState<WeatherTag[]>([]);
 	const [derativeChosen, setDerativesChosen] = useState<WeatherDerivative[]>([]);
 	const [differencePairs, setDifferencePairs] = useState<string[][]>([]);
-	
-	const chartRef = useRef<ChartJS<"line", { x: string; y: number }[]>>(null);
+	const chartRef = useRef<ChartJS<ChartType, WeatherChartTData> | undefined>();
 
 	const { data: rawData } = useGetWeatherForcastQuery({ locations: locationChosen, elements: elementChosen});
 
@@ -56,7 +60,7 @@ function WeatherForecast() {
 			return getOptions(elementChosen, t);
 		}
 	}, [compare, elementChosen.length, locationChosen.length]);
-	
+	const topLayerDatasetIndex = useAppSelector(state => state.weatherLegend.topLayerDatasetIndex);
 	const chartTitle = compare === "element" ? locationChosen[0]: elementChosen[0];
 
 	const handleSetCompare: React.ReactEventHandler<HTMLInputElement> = useCallback((e) => {
@@ -111,8 +115,10 @@ function WeatherForecast() {
 	
 	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
 	const withDerivedDatasets = getDerivedDatasets(chartDataset, derativeChosen, differencePairs);
-	const StyledChartDatasets = getStyledDatasets(withDerivedDatasets, labelChosen, compare);
-
+	const styledChartDatasets = getStyledDatasets(withDerivedDatasets, labelChosen, compare);
+	
+	const topLayerSpecifiedDatasets = getTopLayerSpecifiedDataset(styledChartDatasets, topLayerDatasetIndex);
+	
 	return <>
 		<Typography variant="h1">
 			{t("weather-forecast")}
@@ -156,7 +162,7 @@ function WeatherForecast() {
 			<Grid2 xs={12} md={3}>
 				{
 					compare === "element" ?
-						<MultipleSelect 
+						<MultipleSelect
 							label={t("element-multiple")}
 							options={elementOPtions}
 							defaultSelected={elementChosen}
@@ -188,7 +194,7 @@ function WeatherForecast() {
 					derativeChosen.includes("difference") ? 
 						<div>
 							<div>
-									相差
+								相差
 							</div>
 							<div>
 								{
@@ -214,11 +220,12 @@ function WeatherForecast() {
 				<Typography variant="h2">
 					{chartTitle}
 				</Typography>
-				<ChartHtmlLegend chart={chartRef.current}/>
+				{/* <ChartHtmlLegend chart={chartRef.current} legendItems={legendItems}/> */}
+				<WeatherChartLegend chart={chartRef.current} />
 				<Chart
 					type="line"
 					ref={chartRef}
-					data={{ datasets: StyledChartDatasets }}
+					data={{ datasets: topLayerSpecifiedDatasets }}
 					options={{
 						scales: {
 							y: {
@@ -229,6 +236,9 @@ function WeatherForecast() {
 							}
 						}
 					}}
+					plugins={[
+						chartLegendPlugin
+					]}
 				/>;
 			</Grid2>
 		</Grid2>
