@@ -1,18 +1,21 @@
-import type { Chart, ChartType } from "chart.js";
 import React from "react";
-// import { FeatureType } from "src/typing";
 import "./style.scss";
-import { WeatherChartTData } from "pages/weatherForecast/typing";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import CenterFocusStrongIcon from "@mui/icons-material/CenterFocusStrong";
+import { useAppDispatch } from "src/app/hooks";
+import { WeatherChartLegendSlice } from "features/chart/weatherLegend";
+import { ChartLegendProps } from "./typing";
+// import { isEqual } from "lodash";
 // https://www.chartjs.org/docs/latest/samples/legend/html.html
-export const ChartHtmlLegend = (props: { chart: Chart<ChartType, WeatherChartTData> | null}) => {
-	const { chart } = props;
 
-	const legendItems = chart?.options.plugins?.legend?.labels?.generateLabels?.(chart as unknown as Chart);
+export function ChartLegend(props: ChartLegendProps) {
+	const dispatch = useAppDispatch();
+	const { chart, items } = props;
 
-	return legendItems && chart ? <ul>
+	return items && chart ? <ul>
 		{
-			legendItems.map((item, i) => {
+			items.map((item, i) => {
 				const { text, hidden, fontColor, fillStyle } = item;
 				const onclick = () => {
 					const { datasetIndex } = item;
@@ -22,16 +25,30 @@ export const ChartHtmlLegend = (props: { chart: Chart<ChartType, WeatherChartTDa
 					}
 				};
 				
-				return <li key={i} onClick={onclick}>
+				return <li key={i} >
+					<CenterFocusStrongIcon color={item.order === 1 ? "primary": "disabled"}  onClick={() => {
+						dispatch(WeatherChartLegendSlice.actions.setTopLayerDatasetIndex({ index: i }));
+					}}/>
+					{
+						hidden ? <VisibilityOffIcon onClick={onclick}/>: <VisibilityIcon onClick={onclick}/>
+					}
 					<span className="m-legend__colorBox" style={{
 						backgroundColor: fillStyle as string,
 					}}>
 					</span>
-					<span style={{ color: fontColor as string , textDecoration: hidden ? "line-through": ""}}>
+					<span style={{ color: fontColor as string }}>
 						{ text }
 					</span>
 				</li>;
 			})
 		}
 	</ul>: null;
-};
+}
+
+// export const ChartLegend = memo(_ChartLegend, function(prevProps, nextProps) {
+// 	if (!isEqual(prevProps, nextProps)) {
+// 		return false;
+// 	} else {
+// 		return true;
+// 	}
+// });

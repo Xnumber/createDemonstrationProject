@@ -2,12 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { ThemeControllerSlice, LoadingSlice } from "features/index";
 import { weatherApi } from "service/weather/api";
-
+import { WeatherChartLegendSlice} from "features/chart/weatherLegend";
 export const store = configureStore({
 	reducer: {
 		[ThemeControllerSlice.name]: ThemeControllerSlice.reducer,
 		[LoadingSlice.name]: LoadingSlice.reducer,
-		[weatherApi.reducerPath]: weatherApi.reducer
+		[weatherApi.reducerPath]: weatherApi.reducer,
+		[WeatherChartLegendSlice.name]: WeatherChartLegendSlice.reducer
 	},
 	// Adding the api middleware enables caching, invalidation, polling,
 	// and other useful features of `rtk-query`.
