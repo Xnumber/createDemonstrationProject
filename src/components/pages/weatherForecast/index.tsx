@@ -18,6 +18,7 @@ import { useGetWeatherForcastQuery } from "service/weather/get";
 import { getChartDatasetFromWeatherRawData, getDerivedDatasets } from "./lib";
 import { SingleSelect } from "molecules/singleSelect";
 import { getStyledDatasets } from "./lib/style";
+import { LanguageToggler } from "atoms";
 
 ChartJS.register(
 	CategoryScale,
@@ -31,7 +32,7 @@ ChartJS.register(
 );
 
 function WeatherForecast() {
-	const { t, ready } = useTranslation("weather-forecast");
+	const { i18n, t, ready } = useTranslation("weather-forecast");
 
 	const [compare, setCompare] = useState<Compare>("location");
 	const [locationChosen, setLocationChosen] = useState<string[]>(["臺北市"]);
@@ -43,11 +44,11 @@ function WeatherForecast() {
 	const chartRef = useRef<ChartJS<"line", { x: string; y: number }[]>>(null);
 
 	const { data: rawData } = useGetWeatherForcastQuery({ locations: locationChosen, elements: elementChosen});
-	
+
 	const locationOPtions = useMemo(() => getOptions(locations, t), [ready]);
 	const elementOPtions = useMemo(() => getOptions(elements, t), [ready]);
-	const labelOptions = useMemo(() => getOptions(labels, t), [ready]);
-	const derativeOptions = useMemo(() => getOptions(deratives, t), [ready]);
+	const labelOptions = useMemo(() => getOptions(labels, t), [ready, i18n.language]);
+	const derativeOptions = useMemo(() => getOptions(deratives, t), [ready, i18n.language]);
 	const differencePairOptions = useMemo(() => {
 		if (compare === "location") {
 			return getOptions(locationChosen, t);
@@ -231,6 +232,8 @@ function WeatherForecast() {
 				/>;
 			</Grid2>
 		</Grid2>
+
+		<LanguageToggler />
 	</>;
 }
 
