@@ -28,7 +28,7 @@ module.exports = (mode) => {
 				store: path.resolve(__dirname, "../src/app/store.ts"),
 				features: path.resolve(__dirname, "../src/features"),
 				lib: path.resolve(__dirname, "../lib"),
-				atom: path.resolve(__dirname, "../src/components/atoms"),
+				atoms: path.resolve(__dirname, "../src/components/atoms"),
 				molecules: path.resolve(__dirname, "../src/components/molecules"),
 				organisms: path.resolve(__dirname, "../src/components/organisms"),
 				templates: path.resolve(__dirname, "../src/components/templates"),
