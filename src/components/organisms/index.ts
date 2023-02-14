@@ -1,1 +1,1 @@
-export { LoadingOrganism } from "./loading";
+export { LoadingBackdrop } from "./loading";
