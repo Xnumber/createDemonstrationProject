@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
 import  Grid2  from "@mui/material/Unstable_Grid2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ChartType } from "chart.js";
-// import { ChartHtmlLegend } from "molecules/chart/lengend";
 import { Chart } from "react-chartjs-2";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -19,11 +18,13 @@ import { getChartDatasetFromWeatherRawData, getDerivedDatasets } from "./lib";
 import { SingleSelect } from "molecules/singleSelect";
 import { getStyledDatasets } from "./lib/style";
 import { LanguageToggler } from "atoms";
-// import { isEqual } from "lodash";
 import { WeatherChartLegend } from "features/chart/weatherLegend";
 import { chartLegendPlugin } from "./plugin/legend";
 import { getTopLayerSpecifiedDataset } from "./lib/layerOrder";
 import { useAppSelector } from "src/app/hooks";
+import ThemeController from "features/theme/themeController";
+import { XCenter } from "templates/xCenter";
+import { XBetween } from "templates/xBetween";
 
 ChartJS.register(
 	CategoryScale,
@@ -46,7 +47,7 @@ function WeatherForecast() {
 	const [derativeChosen, setDerativesChosen] = useState<WeatherDerivative[]>([]);
 	const [differencePairs, setDifferencePairs] = useState<string[][]>([]);
 	const chartRef = useRef<ChartJS<ChartType, WeatherChartTData> | undefined>();
-
+	const mode = useAppSelector(store => store.theme.mode);
 	const { data: rawData } = useGetWeatherForcastQuery({ locations: locationChosen, elements: elementChosen});
 
 	const locationOPtions = useMemo(() => getOptions(locations, t), [ready]);
@@ -116,7 +117,6 @@ function WeatherForecast() {
 	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
 	const withDerivedDatasets = getDerivedDatasets(chartDataset, derativeChosen, differencePairs);
 	const styledChartDatasets = getStyledDatasets(withDerivedDatasets, labelChosen, compare);
-	
 	const topLayerSpecifiedDatasets = getTopLayerSpecifiedDataset(styledChartDatasets, topLayerDatasetIndex);
 	
 	return <>
@@ -125,10 +125,10 @@ function WeatherForecast() {
 		</Typography>
 		<Grid2 container columns={12}>
 			<Grid2 xs={12}>
+				<Typography variant="h3">
+					{t("compare")}
+				</Typography>
 				<FormControl>
-					<FormLabel id="compare">
-						{t("compare")}
-					</FormLabel>
 					<RadioGroup
 						row
 						aria-labelledby="compare"
@@ -140,6 +140,15 @@ function WeatherForecast() {
 						<FormControlLabel value="element" control={<Radio />} label={t("element")} />
 					</RadioGroup>
 				</FormControl>
+			</Grid2>
+		</Grid2>
+		<Grid2 container columns={12}>
+			<Grid2 xs={12}>
+				<FormLabel id="compare">
+					<Typography variant="h3">
+						{t("condition")}
+					</Typography>
+				</FormLabel>
 			</Grid2>
 		</Grid2>
 		<Grid2 container columns={12}>
@@ -193,9 +202,9 @@ function WeatherForecast() {
 				{
 					derativeChosen.includes("difference") ? 
 						<div>
-							<div>
-								相差
-							</div>
+							<Typography component={"span"}>
+								{t("difference")}
+							</Typography>
 							<div>
 								{
 									differencePairs.map((o, i) => {
@@ -217,10 +226,11 @@ function WeatherForecast() {
 		</Grid2>
 		<Grid2 container>
 			<Grid2 xs={12}>
-				<Typography variant="h2">
-					{chartTitle}
-				</Typography>
-				{/* <ChartHtmlLegend chart={chartRef.current} legendItems={legendItems}/> */}
+				<XCenter>
+					<Typography variant="h2">
+						{chartTitle}
+					</Typography>
+				</XCenter>
 				<WeatherChartLegend chart={chartRef.current} />
 				<Chart
 					type="line"
@@ -229,21 +239,63 @@ function WeatherForecast() {
 					options={{
 						scales: {
 							y: {
-								offset: true
+								labels: ["1"],
+								offset: true,
+								title: {
+									display: true,
+									text: "°C",
+									color: mode === "light" ? "#1b1b1f": "#e3e2e6",
+									font: {
+										size: 32
+									},
+								},
+								ticks: {
+									color: mode === "light" ? "#1b1b1f": "#e3e2e6",
+								},
+								grid: {
+									display: false,
+								}
 							},
 							x: {
-								offset: true
-							}
+								offset: true,
+								ticks: {
+									color: mode === "light" ? "#1b1b1f": "#e3e2e6",
+									callback(this, _tickValue, index) {
+										const textArray = this.getLabelForValue(index).split("-");
+										textArray.shift();
+										return textArray.join("/");
+									},
+								},
+								title: {
+									display: true,
+									text: t("time"),
+									color: mode === "light" ? "#1b1b1f": "#e3e2e6",
+									font: {
+										size: 32,
+										family: "sans-serif, 'Noto Sans TC'",
+									},
+								},
+								grid: {
+									display: false,
+								}
+							},
+						},
+						plugins: {
+							legend: {
+								display: false
+							},
 						}
 					}}
 					plugins={[
 						chartLegendPlugin
 					]}
-				/>;
+				/>
 			</Grid2>
 		</Grid2>
-
-		<LanguageToggler />
+		<XBetween>
+			<ThemeController />
+			<LanguageToggler />
+		</XBetween>
 	</>;
 }
 

@@ -22,7 +22,7 @@ export function WeatherChartLegend(props: { chart: Chart<ChartType, WeatherChart
 			return l;
 		}
 	});
-	console.log(legendItemsWithOrder);
+
 	return <ChartLegend
 		items={legendItemsWithOrder}
 		chart={props.chart}

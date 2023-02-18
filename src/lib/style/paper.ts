@@ -1,27 +1,26 @@
-const cards = [
+import type { PaperProps } from "@mui/material";
+import type { Interpolation, Theme } from "@mui/material/styles";
+
+export const paparStyles: {
+    props: Partial<PaperProps>;
+    style: Interpolation<{
+        theme: Theme;
+    }>;
+}[] = [
 	{
-		variant: "elevation",
-		color: "primary",
+		props: { variant: "elevation" },
 		style: {
-			backgroundColor: "var(--md-sys-color-primary)",
-			// color: "var(--md-sys-color-on-primary)",
+			backgroundColor: "var(--md-sys-color-surface-variant)",
+			padding: "1rem"
 		}
 	},
-	{
-		variant: "elevation",
-		color: "secondary",
-		style: {
-			backgroundColor: "var(--md-sys-color-secondary)",
-			color: "var(--md-sys-color-on-secondary)",
-		}
-	}
 ];
 
-export const getPaperStyle = (
-	variant: "outlined" | "elevation" | undefined,
-	color: string | undefined) => {
-	const cardStyle = cards.find(o => {
-		return o.variant === variant && o.color === color;
-	});
-	return cardStyle ? cardStyle.style: {};
-};
+// export const getPaperStyle = (
+// 	variant: "outlined" | "elevation" | undefined,
+// 	color: string | undefined) => {
+// 	const cardStyle = cards.find(o => {
+// 		return o.variant === variant && o.color === color;
+// 	});
+// 	return cardStyle ? cardStyle.style: {};
+// };

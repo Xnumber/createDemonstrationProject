@@ -2,7 +2,7 @@ import { getRandomColor } from "src/lib/color";
 import { WeatherDataset, WeatherTag, Compare } from "../typing";
 import { elementChartDatasetColors, locationChartDatasetColors } from "../const";
 import { getSegmentStyleHandler } from "./segment";
-import { findMaxIndexes, findMinIndexes, getMaxPointCanvas, getMinPointCanvas } from "./point";
+import { findMaxIndexes, findMinIndexes } from "./point";
 
 export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], compare: Compare) {	
 	const styledDatasets = datasets.reduce((a, currentDataset)=> {
@@ -35,50 +35,65 @@ export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], 
 			}
 
 			if (o === "min" && tags.includes("max")) {
-				const minPointStyle = getMinPointCanvas(dataset.label);
 				const minDataIndexes = findMinIndexes(dataset.data.map(d=>d.y ? d.y: 0));
 				const maxDataIndexes = findMaxIndexes(dataset.data.map(d=>d.y ? d.y: 0));
-				const maxPointStyle = getMaxPointCanvas(dataset.label);
 				dataset.pointStyle = function(ctx) {
 					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
-						return minPointStyle;
+						return "rectRot";
 					}
 					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
-						return maxPointStyle;
+						return "rectRot";
 					}
 				};
 				dataset.pointRadius = function(ctx) {
 					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
-						return 30;
+						return 12;
 					}
 					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
-						return 30;
+						return 12;
+					}
+				};
+				dataset.pointBackgroundColor = function(ctx) {
+					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return "green";
+					}
+					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return "red";
 					}
 				};
 			} else if(o === "min") {
-				const minPointStyle = getMinPointCanvas(dataset.label);
 				const minDataIndexes = findMinIndexes(dataset.data.map(d=>d.y ? d.y: 0));
 				dataset.pointStyle = function(ctx) {
 					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
-						return minPointStyle;
+						return "rectRot";
+					}
+				};
+				dataset.pointBackgroundColor = function(ctx) {
+					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
+						return "green";
 					}
 				};
 				dataset.pointRadius = function(ctx) {
 					if (minDataIndexes.indexOf(ctx.dataIndex) !== -1) {
-						return 30;
+						return 12;
 					}
 				};
 			} else if (o === "max") {
 				const maxDataIndexes = findMaxIndexes(dataset.data.map(d=>d.y ? d.y: 0));
-				const maxPointStyle = getMaxPointCanvas(dataset.label);
 				dataset.pointStyle = function(ctx) {
 					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
-						return maxPointStyle;
+						return "rectRot";
 					}
 				};
 				dataset.pointRadius = function(ctx) {
 					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1) {
-						return 30;
+						return 12;
+					}
+				};
+
+				dataset.pointBackgroundColor = function(ctx) {
+					if (maxDataIndexes.indexOf(ctx.dataIndex) !== -1){
+						return "red";
 					}
 				};
 			}
@@ -90,10 +105,5 @@ export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], 
 		];
 	}, []
 	);
-	// pointRadius: [10, 3, 3],
-	// https://github.com/chartjs/Chart.js/issues/5546
-	// https://www.chartjs.org/docs/latest/configuration/elements.html#point-styles
-	// pointStyle: ["circle", "rectRot"]
-	// https://www.chartjs.org/docs/latest/charts/line.html#segment
 	return styledDatasets;
 }

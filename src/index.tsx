@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
@@ -11,18 +11,25 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { getTheme } from "./lib/style/style";
 import { useAppSelector } from "./app/hooks";
 import Loading from "features/loading";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import "./style/app.scss";
 
 const App = () => {
 	const mode = useAppSelector(state => state.theme.mode);
 	const theme = useMemo(() => getTheme(), [mode]);
-	
+
+	const bodyRef = useRef<HTMLBodyElement>();
+	useEffect(() => {
+		bodyRef.current = document.body as HTMLBodyElement;
+	}, []);
+
 	return <ThemeProvider theme={theme}>
 		<CssBaseline />
-		<Box className={`${mode} background`} height={"100%"}>
-			<RouterProvider router={router}/>
-			<Loading />
+		<Box className={"background"} pt={"2rem"}>
+			<Container >
+				<RouterProvider router={router}/>
+				<Loading />
+			</Container>
 		</Box>
 	</ThemeProvider>;
 };

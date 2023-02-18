@@ -18,5 +18,7 @@
 	"down-trend": "Down Trend",
 	"up-trend-overlap": "Up Trend Overlap",
 	"down-trend-overlap": "Down Trend Overlap",
-	"none": "None"
+	"none": "None",
+	"condition": "Condition",
+	"time": "Time"
 }

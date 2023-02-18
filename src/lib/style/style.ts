@@ -1,89 +1,93 @@
-import { createTheme, PaletteMode, ThemeOptions } from "@mui/material";
+import { createTheme } from "@mui/material";
 import { getButtonStyle } from "./button";
 import { getCardStyle } from "./card";
-// import { getIconButtonChildStyle } from "./iconButton";
 import { getIconButtonStyle } from "./iconButton";
-import { getInputStyle } from "./input";
-import { getTypoGraphyStyle } from "./typography";
+import { typographies } from "./typography";
 import { getSVGIconStyle } from "./svgIcon";
-import { getPaperStyle } from "./paper";
-// export const getDarkModePalette = () => {
-// 	return {
-		
-// 	}
-// }
-export const getPalette = (mode: PaletteMode): ThemeOptions => ({
-	palette: {
-		mode,
-		...(mode === "light"
-			? {
-				// palette values for light mode
-				primary: {
-					main: "#b3e5fc",
-					light: "#e6ffff",
-					dark: "#82b3c9",
-				},
-				secondary: {
-					main: "#b2dfdb",
-					light: "#e5ffff",
-					dark: "#82ada9",
-				},
-				// text: {
-				// 	primary: "#000000",
-				// 	secondary: "#000000"
-				// },
-				// background: {
-				// 	default: "#e6ffff",
-				// 	paper: "#82b3c9"
-				// },
-			}
-			: {
-				primary: {
-					main: "#263238",
-					light: "#4f5b62",
-					dark: "#000a12",
-				},
-				secondary: {
-					main: "#006064",
-					light: "#428e92",
-					dark: "#00363a",	
-				},
-				text: {
-					primary: "#ffffff",
-					secondary: "#ffffff"
-				}
-				// palette values for dark mode
-			}),
-	},
-});
+
 export const getTheme = () => {
 	const theme = createTheme({
-		// palette: {
-		// 	primary: {
-		// 		main: "#fff"
-		// 	}
-		// },
-		
-		// spacing: (factor: number) => `${1 * factor}px`,
-		// spacing: "3px",
 		components: {
-			MuiTypography: {
+			MuiGrid2: {
+				defaultProps: {
+					spacing: 2
+				}
+			},
+			MuiRadio: {
 				styleOverrides: {
-					root: ({ ownerState }) => {
-						const { variant } = ownerState;
-						const style = getTypoGraphyStyle(variant);
-						// style;
-						
-						return style;
+					root: () => {
+						return {
+							color: "var(--md-sys-color-secondary)",
+							"&.Mui-checked": { color: "var(--md-sys-color-secondary)"}
+						};
+					},
+				}
+			},
+			MuiFormControlLabel: {
+				styleOverrides: {
+					
+					root: () => {
+						return {
+							color: "var(--md-sys-color-secondary)",
+						};
+					},
+				}
+			},
+			MuiInputLabel: {
+				styleOverrides: {
+					root: () => {
+						return {
+							background: "var(--md-sys-color-background)",
+							color: "var(--md-sys-color-secondary)",
+							"&.Mui-focused": {
+								color: "var(--md-sys-color-on-background)",
+							},
+							padding: "0 0.5rem"
+						};
+					},
+				}
+			},
+			MuiFormControl: {
+				styleOverrides: {
+					root: () => {
+						return {
+							width: "100%"
+						};
+					}
+				}
+			},
+			MuiSelect: {
+				styleOverrides: {
+					"select": {
+						color: "var(--md-sys-color-secondary)"
+					},
+					"icon": {
+						color: "var(--md-sys-color-secondary)"
 					}
 				},
-				variants: [{
-					props: { variant: "h5" },
-					style: {
+			},
+			MuiList: {
+				styleOverrides: {
+					"root": {
 						color: "var(--md-sys-color-on-secondary)",
-						fontWeight: 700,
+						background: "var(--md-sys-color-secondary)"
 					}
-				}]
+				}
+			},
+			MuiMenuItem: {
+				styleOverrides: {
+					root: {
+						"&.Mui-selected": {
+							color: "var(--md-sys-color-on-background)",
+							background : "var(--md-sys-color-background) !important" 
+						}
+					}
+				}
+			},
+			MuiTypography: {
+				variants: [
+					...typographies,
+				]
 			},
 			MuiButton: {
 				"defaultProps": {
@@ -125,28 +129,6 @@ export const getTheme = () => {
 					}
 				}
 			},
-			// MuiTouchRipple: {
-			// 	styleOverrides: {
-			// 		root: ({ ownerState }) => {
-			// 			const { color } = ownerState;
-			// 			const style = getIconButtonStyle(color);
-			// 			style;
-			// 			return {
-			// 				backgroundColor: "#000"
-			// 			};
-			// 		},
-			// 	}
-			// },
-			MuiInput: {
-				styleOverrides: {
-					root: ({ ownerState }) => {
-						const { color } = ownerState;
-						const style = getInputStyle(color);
-						return style;
-					}
-				}
-			},
-
 			MuiBreadcrumbs: {
 				styleOverrides: {
 					root: () => {
@@ -161,39 +143,17 @@ export const getTheme = () => {
 					}
 				}
 			},
-			MuiPaper: {
-				styleOverrides: {
-					root: ({ ownerState }) => {
-						const { variant, color } = ownerState;
-
-						const style = getPaperStyle(variant, color);
-						return style;
-					}
-				}
-			},
+			// MuiPaper: {
+			// 	variants: paparStyles,
+			// },
 		},
 		typography: {
 			fontFamily: [
 				// "-apple-system",
-				// "Roboto",
 				"sans-serif",
 				"Noto Sans TC",
-				// "BlinkMacSystemFont",
-				// "\"Segoe UI\"",
-				// "\"Helvetica Neue\"",
-				// "Arial",
-				// "sans-serif",
-				// "\"Apple Color Emoji\"",
-				// "\"Segoe UI Emoji\"",
-				// "\"Segoe UI Symbol\"",
-				// "微軟正黑體"
 			].join(","),
 		},
-		
-		// "spacing"
-	// palette: {
-	// 	mode: mode,
-	// },
 	});
 	return theme;
 };

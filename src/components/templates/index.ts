@@ -1,3 +1,4 @@
+export { FlexBox } from "./flexBox";
 export { XEnd } from "./xEnd";
 export { YEnd } from "./yEnd";
 export { YCenter } from "./yCenter";

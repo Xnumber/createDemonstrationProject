@@ -1,10 +1,10 @@
 import * as React from "react";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { SingleSelectProps } from "./typing";
+import { ProjectInput } from "atoms/projectInput";
 const ITEM_HEIGHT = 60;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -28,13 +28,13 @@ export function SingleSelect(props: SingleSelectProps) {
 		callback?.(value);
 	};
 
-	return <FormControl sx={{ m: 1 }}>
-		<InputLabel sx={{ background: "white", padding: "0 0.5rem" }}>{ label }</InputLabel>
+	return <FormControl>
+		<InputLabel>{ label }</InputLabel>
 		<Select
 			{...rest}
 			value={selected}
 			onChange={handleChange}
-			input={<OutlinedInput label="Name" />}
+			input={<ProjectInput />}
 			MenuProps={MenuProps}
 		>
 			{options.map((o, i) => (
