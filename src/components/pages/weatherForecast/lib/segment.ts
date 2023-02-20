@@ -16,16 +16,16 @@ export function getSegmentStyleHandler(labels: string[], datasets: WeatherDatase
 
 	return {
 		"up-trend": {
-			borderColor: (ctx: ScriptableLineSegmentContext) => labels.includes("down-trend") ? upAndDownSegmentBorderColor(ctx, "rgb(192,75,75)", "blue"): upSegmentBorderColor(ctx, "rgb(192,75,75)"),
+			borderColor: (ctx: ScriptableLineSegmentContext) => labels.includes("down-trend") ? upAndDownSegmentBorderColor(ctx, "red", "blue"): upSegmentBorderColor(ctx, "red"),
 		},
 		"down-trend": {
-			borderColor: (ctx: ScriptableLineSegmentContext) =>  labels.includes("up-trend") ? upAndDownSegmentBorderColor(ctx, "rgb(192,75,75)", "blue"): downSegmentBorderColor(ctx, "blue")
+			borderColor: (ctx: ScriptableLineSegmentContext) =>  labels.includes("up-trend") ? upAndDownSegmentBorderColor(ctx, "red", "blue"): downSegmentBorderColor(ctx, "blue")
 		},
 		"up-trend-overlap": {
 			isOverlap: false,
 			upTrands: upTrands,
 			downTrands: downTrands,
-			backgroundColor: labels.includes("overlap-of-downtrends") ? upAndDownTrandOverlapBackgroundColor :(ctx , option: { upTrands: boolean[][] }) => {
+			backgroundColor: labels.includes("down-trend-overlap") ? upAndDownTrandOverlapBackgroundColor :(ctx , option: { upTrands: boolean[][] }) => {
 				const { upTrands } = option;
 				const { datasetIndex, p0DataIndex } = ctx;
 				let isOverlap = true;
@@ -41,7 +41,7 @@ export function getSegmentStyleHandler(labels: string[], datasets: WeatherDatase
 				}
 				
 				if (isOverlap) {
-					return "black";
+					return "red";
 				} else {
 					return undefined;
 				}
@@ -51,7 +51,7 @@ export function getSegmentStyleHandler(labels: string[], datasets: WeatherDatase
 			isOverlap: false,
 			upTrands: upTrands,
 			downTrands: downTrands,
-			backgroundColor: labels.includes("overlap-of-uptrends") ? upAndDownTrandOverlapBackgroundColor :(ctx, option: { downTrands: boolean[][] }) => {
+			backgroundColor: labels.includes("up-trend-overlap") ? upAndDownTrandOverlapBackgroundColor :(ctx, option: { downTrands: boolean[][] }) => {
 				const { downTrands } = option;
 				const { datasetIndex, p0DataIndex } = ctx;
 				let isOverlap = true;
@@ -67,7 +67,7 @@ export function getSegmentStyleHandler(labels: string[], datasets: WeatherDatase
 				}
 
 				if (isOverlap) {
-					return "rgba(100, 0, 0, 0.3)";
+					return "green";
 				} else {
 					return undefined;
 				}
@@ -153,11 +153,11 @@ function upAndDownTrandOverlapBackgroundColor(ctx: ScriptableLineSegmentContext,
 	}
 
 	if (isUpTrendOverlap) {
-		return "rgba(0, 0, 100, 0.3)";
+		return "green";
 	}
 	
 	if (isDownTrendOverlap) {
-		return "rgba(100, 0, 0, 0.3)";
+		return "red";
 	}
 	return undefined;
 }

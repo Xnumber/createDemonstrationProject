@@ -7,7 +7,7 @@
 	"element-multiple": "Element(multiple)",
 	"location": "Location",
 	"element": "Element",
-	"label": "Label",
+	"label": "Label(multiple)",
 	"derivatives": "Derivatives",
 	"average": "Average",
 	"difference": "Difference",

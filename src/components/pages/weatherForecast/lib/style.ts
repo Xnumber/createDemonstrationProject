@@ -23,6 +23,10 @@ export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], 
 			fill: true,
 			tension: 0.2,
 			backgroundColor: backgroundColor ? backgroundColor: getRandomColor(),
+			pointStyle: () => "circle",
+			pointRadius: () => 3,
+			pointBackgroundColor: () => backgroundColor,
+			segment: {}
 		};
 		
 		const segmentStyleHandlers = getSegmentStyleHandler(tags, datasets);
