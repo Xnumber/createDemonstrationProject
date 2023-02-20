@@ -31,7 +31,6 @@ export function getTopLayerSpecifiedDataset(dataset: WeatherDataset, topLayerDat
 			}
 		}, []);
 
-		topLayerSpecifiedDatasets.forEach(o => { console.log(o.label);});
 		return topLayerSpecifiedDatasets;
 	} else {
 		return orderedDatasets;
