@@ -18,10 +18,8 @@ export class Liquify {
 		this.changePerFrame = 1;
 		this.maximunControlPointChange = Math.floor((h/6)*100)/100;
 		this.minimunControlPointChange = -Math.floor((h/6)*100)/100;
-		// this.fillCountdown = 1 - percentage;
 		this.fillHeightEachTime = this.radius*2*percentage/100;
 		this.fillCountdowEachTime = new Decimal(percentage/100);
-		// this.filled = 0;
 		this.filled = new Decimal(0);
 		this.percentage = percentage;
 		this.currentWaterColorRGB = [255, 0, 0];
@@ -40,8 +38,8 @@ export class Liquify {
 		this.colorRGBUnit = Math.floor((255*percentage)/100);
 		this.fillCompleted = false;
 		this.requestAnimationFrameId = null;
-		this.worker = new Worker(new URL("./worker.ts", import.meta.url));
-		this.animate();
+		this.isAnimating = false;
+		// this.animate();
 	}
 
 	initializePoints = () => {
@@ -88,7 +86,7 @@ export class Liquify {
 		return `rgb(${currentWaterColorRGB[0]},${currentWaterColorRGB[1]},${currentWaterColorRGB[2]})`;
 	};
 	antiAliasing = () => {
-		const { canvas, ctx } = this;
+		const { canvas } = this;
 		const width = canvas.offsetWidth;
 		const height = canvas.offsetHeight;
 		// console.log(window.devicePixelRatio, height)
@@ -128,55 +126,7 @@ export class Liquify {
 			p.cp2.y = originCotrolPoints[i].cp2.y - this.difference;
 		});
 	};
-	// updateControlPoints = async () => {
-	// 	const { points, minimunControlPointChange, maximunControlPointChange, changePerFrame, originCotrolPoints } = this;
-
-	// 	// if (this.state === "positive") {
-	// 	// 	this.difference -= changePerFrame;
-	// 	// }
-
-	// 	// if (this.state === "negative") {
-	// 	// 	this.difference += changePerFrame;
-	// 	// }
-
-	// 	// if (this.difference >= this.maximunControlPointChange) {
-	// 	// 	this.state = "positive";
-	// 	// }
-
-	// 	// if (this.difference <= this.minimunControlPointChange) {
-	// 	// 	this.state = "negative";
-	// 	// }
-
-	// 	// points.forEach((p, i) => {
-	// 	// 	p.cp1.y = originCotrolPoints[i].cp1.y + this.difference;
-	// 	// 	p.cp2.y = originCotrolPoints[i].cp2.y - this.difference;
-	// 	// });
-
-	// 	// new 
-	// 	await new Promise(res => {
-	// 		this.worker.postMessage({
-	// 			difference: this.difference,
-	// 			state: this.state,
-	// 			points: points,
-	// 			changePerFrame: changePerFrame,
-	// 			originCotrolPoints: originCotrolPoints,
-	// 			maximunControlPointChange: maximunControlPointChange,
-	// 			minimunControlPointChange: minimunControlPointChange
-	// 		});
-			
-	// 		this.worker.onmessage = (props) => {
-	// 			// console.log(props.data.difference);
-	// 			this.difference = props.data.difference;
-	// 			this.state = props.data.state;
-	// 			// console.log("answer");
-	// 			// console.log(props.data);
-	// 			// console.log(props.data);
-	// 			this.points = props.data.points;
-	// 			res();
-	// 		};
-	// 	});
-	// };
-
+	
 	getClipCirclePath = (w, h) => {
 		const path = new Path2D();
 		path.arc(w/2, h/2, this.radius, 0 , 2*Math.PI);
