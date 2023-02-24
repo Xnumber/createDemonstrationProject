@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -27,6 +28,10 @@ export function SingleSelect(props: SingleSelectProps) {
 		setSelected(value);
 		callback?.(value);
 	};
+
+	useEffect(() => {
+		setSelected(defaultSelected ? defaultSelected: "");
+	}, [defaultSelected]);
 
 	return <FormControl>
 		<InputLabel>{ label }</InputLabel>
