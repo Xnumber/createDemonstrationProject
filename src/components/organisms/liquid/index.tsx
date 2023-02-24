@@ -5,7 +5,7 @@ import { LiquidProps } from "./type";
 import { Box, Typography } from "@mui/material";
 import { XCenter } from "templates/xCenter";
 export function Liquid(props: LiquidProps) {
-	const { width , height, name, time, percent } = props;
+	const { width , height, name, time, percent, mode } = props;
 	const w = width ? width: 200;
 	const h = height ? height: 200;
 	const canvasRef = useRef(null);
@@ -26,6 +26,7 @@ export function Liquid(props: LiquidProps) {
 	useEffect(() => {
 		if (canvasRef.current) {
 			liquidRef.current = new Liquify(
+				mode,
 				canvasRef.current,
 				h, 
 				w,
@@ -48,7 +49,7 @@ export function Liquid(props: LiquidProps) {
 	});
 	
 	return <Box width={w+2}>
-		<canvas ref={canvasRef}></canvas>
+		<canvas width={w} height={h} ref={canvasRef}></canvas>
 		<XCenter>
 			<Typography textAlign={"center"} variant="h3">
 				{name}

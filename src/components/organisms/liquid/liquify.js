@@ -1,15 +1,15 @@
 import Decimal from "decimal.js";
 
 export class Liquify {
-	constructor(canvas ,w, h, percentage){
+	constructor(mode, canvas ,w, h, percentage){
 		this.canvas = canvas;
 		this.canvas.width = w;
 		this.canvas.height = h;
-		this.antiAliasing();
 		this.radius = Math.floor(w/2);
 		this.w = w;
 		this.h = h;
 		this.ctx = this.canvas.getContext("2d");
+		this.antiAliasing();
 		this.xBasicRaduisMovedTimes = 0;
 		this.originCotrolPoints = [];
 		this.points = [];
@@ -39,6 +39,7 @@ export class Liquify {
 		this.fillCompleted = false;
 		this.requestAnimationFrameId = null;
 		this.isAnimating = false;
+		this.backgroundColor = mode === "light" ? "#fefbff": "#1b1b1f";
 		// this.animate();
 	}
 
@@ -85,16 +86,16 @@ export class Liquify {
 		const { currentWaterColorRGB } = this;
 		return `rgb(${currentWaterColorRGB[0]},${currentWaterColorRGB[1]},${currentWaterColorRGB[2]})`;
 	};
+	
 	antiAliasing = () => {
-		const { canvas } = this;
-		const width = canvas.offsetWidth;
-		const height = canvas.offsetHeight;
-		// console.log(window.devicePixelRatio, height)
-		canvas.style.width = `${width}px`;
-		canvas.style.height = `${height}px`;
-		canvas.height = height * window.devicePixelRatio;
-		canvas.width = width * window.devicePixelRatio;
-		// ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+		const { canvas, ctx } = this;
+		const dpr = window.devicePixelRatio;
+		const rect = canvas.getBoundingClientRect();
+		canvas.width = rect.width * dpr;
+		canvas.height = rect.height * dpr;
+		ctx.scale(dpr, dpr);
+		canvas.style.width = `${rect.width}px`;
+		canvas.style.height = `${rect.height}px`;
 	};
 
 	getCurrentTextColor = () => {
@@ -171,7 +172,7 @@ export class Liquify {
 		ctx.restore();
 
 		ctx.beginPath();
-		ctx.strokeStyle = "white";
+		ctx.strokeStyle = this.backgroundColor;
 		ctx.lineWidth  = 20;
 		ctx.arc(w/2 - this.xTranslated, w/2 - this.yTranslated, this.radius, 0 , 2*Math.PI);
 		ctx.stroke();

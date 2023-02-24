@@ -4,4 +4,5 @@ export type LiquidProps = {
 	time: string;
 	width?: number;
 	height?: number;
+	mode: "dark" | "light"
 }
