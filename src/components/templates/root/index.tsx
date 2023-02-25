@@ -1,10 +1,16 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-// import { useTranslation } from "react-i18next";
-// import { hideChangeRouteLoading } from "src/app/router/lib";
+import { XBetween } from "..";
+import ThemeController from "features/theme/themeController";
+import { LanguageToggler } from "atoms/languageToggler";
 const Root = () => {
 
-	return <><Outlet /></>;
+	return <><Outlet />
+		<XBetween>
+			<ThemeController />
+			<LanguageToggler />
+		</XBetween>
+	</>;
 };
 
 export default Root;

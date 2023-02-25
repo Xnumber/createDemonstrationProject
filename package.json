@@ -9,6 +9,7 @@
 		"@uiw/react-codemirror": "^4.19.5",
 		"bootstrap-icons": "^1.9.1",
 		"chart.js": "^4.2.1",
+		"decimal.js": "^10.4.3",
 		"html-webpack-plugin": "^5.5.0",
 		"i18next": "^21.9.2",
 		"i18next-browser-languagedetector": "^6.1.8",
