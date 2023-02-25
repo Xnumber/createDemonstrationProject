@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { RouteObject } from "react-router-dom";
 import Home from "pages/home";
+import { Water } from "pages/water/indext";
 // const Contact = React.lazy(() => import("src/components/pages/contact"));
 const WeatherForecast = lazy(() => import("pages/weatherForecast"));
 
@@ -14,5 +15,10 @@ export const routes: (RouteObject & { name: string })[] =  [
 		name: "weather-forecast",
 		path: "/:lng/weather-forecast",
 		element: <WeatherForecast />
+	},
+	{
+		name: "water",
+		path: "/:lng/water",
+		element: <Water />
 	},
 ];

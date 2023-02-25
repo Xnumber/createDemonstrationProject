@@ -27,7 +27,23 @@ export const typographies: {
 		props: { variant: "h3" },
 		style: {
 			color: "var(--md-sys-color-on-background)",
-			margin: "1rem 0 1rem 0",
+			margin: "0.5rem 0 0.5rem 0",
+			fontWeight: "lighter"
+		}
+	},
+	{
+		props: { variant: "h5" },
+		style: {
+			color: "var(--md-sys-color-secondary)",
+			margin: "0.25rem 0 0.25rem 0",
+			fontWeight: "lighter"
+		}
+	},
+	{
+		props: { variant: "body1" },
+		style: {
+			color: "var(--md-sys-color-secondary)",
+			// margin: "1rem 0 1rem 0",
 			fontWeight: "lighter"
 		}
 	},
