@@ -8,7 +8,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Modal } from "@mui/material";
 import  Grid2  from "@mui/material/Unstable_Grid2";
-
+import BrokenImageIcon from "@mui/icons-material/BrokenImage";
+import { useTranslation } from "react-i18next";
 const style = {
 	position: "absolute" as const,
 	top: "50%",
@@ -26,6 +27,7 @@ const style = {
 
 export const ContentDetailModal = () => {
 	const id = useAppSelector(state => state.listAction.contentDetailModalId);
+	const { t } = useTranslation("simple-content-management");
 	const shown = useAppSelector(state => state.listAction.contentDetailModalShown);
 	const condition = useAppSelector(state => state.listCondition);
 	const { data } = useGetSimpleContentQueryState({ type: condition.type, searchString: condition.searchString });
@@ -35,7 +37,7 @@ export const ContentDetailModal = () => {
 		: [];
 	const title = details.find(o => o.column === "name")?.content;
 	const image = details.find(o => o.column === "image")?.content;
-	
+
 	return <Modal
 		open={shown}
 		onClose={() => dispatch(setDetailModalShown(false))}
@@ -44,7 +46,8 @@ export const ContentDetailModal = () => {
 	>
 		<Box sx={style}>
 			{
-				image ? <img width={"30%"} src={(image as string).replace("public", "http://localhost/storage")}/>: null
+				image && image !== "null" ? <img width={"30%"} src={(image as string).replace("public", "http://localhost/storage")}/>: 
+					<BrokenImageIcon fontSize="large"/>
 			}
 			<Typography mt={2} mb={2} id="modal-modal-title" variant="h6" component="h2">
 				{ title }
@@ -52,9 +55,9 @@ export const ContentDetailModal = () => {
 			{
 				details.map((d, i) => {
 					if (d.column !== "image") {
-						return <Grid2 key={i} container columns={3}>
+						return <Grid2 mb={2} key={i} container columns={3}>
 							<Grid2 xs={3} sm={1} >
-								{d.column}
+								{t(d.column)}
 							</Grid2>
 							<Grid2 xs={3} sm={2}>
 								{d.content}
