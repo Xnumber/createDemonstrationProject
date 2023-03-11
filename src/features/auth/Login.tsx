@@ -1,10 +1,10 @@
 import React from "react";
 import { TextField, Button, Modal, Box, Typography } from "@mui/material";
-import { useLoginMutation } from "service/auth/api";
 import { XEnd } from "templates/xEnd";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { LoginRequest } from "service/auth/type";
+import { useLoginMutation } from "service/auth/login";
 const style = {
 	position: "absolute" as const,
 	top: "50%",

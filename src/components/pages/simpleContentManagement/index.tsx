@@ -11,10 +11,11 @@ import Register from "features/auth/Register";
 import { useAppSelector } from "src/app/hooks";
 import { YCenter } from "templates/yCenter";
 import { ListCondition } from "features/simpleContentManagement/listCondition/ListCondition";
-import { useCheckLoginMutation, useGetXCSRFTokenQuery } from "service/auth/api";
+import { useGetXCSRFTokenQuery } from "service/auth/api";
 import { UpLoadButton } from "atoms/button";
 import { CreateModal } from "organisms/createModal";
 import { FlexBox } from "templates/flexBox";
+import { useCheckLoginMutation } from "service/auth/login";
 
 export function SimpleContentManagement() {
 	const { t } = useTranslation("simple-content-management");
