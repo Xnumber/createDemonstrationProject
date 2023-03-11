@@ -20,5 +20,18 @@
 	"email": "Email",
 	"password": "Password",
 	"register": "Register",
-	"password-confirmation": "Password Confirmation"
+	"password-confirmation": "Password Confirmation",
+	"line": "Line",
+	"bar": "Bar",
+	"polar-area": "Ploar Area",
+	"id": "ID",
+	"rows-per-page": "Rows per page",
+	"update": "Update",
+	"name-is-required": "Name is required.",
+	"type-is-required": "Type is required.",
+	"price-is-required": "Price is required.",
+	"price-must-be-number": "Price must be number.",
+	"quantity-is-required": "Quantity is required.",
+	"quantity-must-be-number": "Quantity must be number.",
+	"image": "Image"
 }
