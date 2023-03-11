@@ -1,12 +1,26 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { XBetween } from "..";
 import ThemeController from "features/theme/themeController";
 import { LanguageToggler } from "atoms/languageToggler";
+import { disableLoading } from "src/lib/loading";
 const Root = () => {
-
-	return <><Outlet />
-		<XBetween>
+	const location = useLocation();
+	const navigate = useNavigate();
+	useEffect(() => {
+		disableLoading("Change Route");
+	}, [location.pathname]);
+	
+	useEffect(() => {
+		if (location.pathname === "/") {
+			navigate("/zh");
+		}
+	}, [location.pathname]);
+	return <>
+		<React.Suspense fallback={false}>
+			<Outlet />
+		</React.Suspense>
+		<XBetween p={3} left={0} width={"100%"} position={"fixed"} bottom={0}>
 			<ThemeController />
 			<LanguageToggler />
 		</XBetween>
