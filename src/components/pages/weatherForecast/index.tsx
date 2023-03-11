@@ -17,14 +17,11 @@ import { useGetWeatherForcastQuery } from "service/weather/get";
 import { getChartDatasetFromWeatherRawData, getDerivedDatasets } from "./lib";
 import { SingleSelect } from "molecules/singleSelect";
 import { getStyledDatasets } from "./lib/style";
-import { LanguageToggler } from "atoms";
 import { WeatherChartLegend } from "features/chart/weatherLegend";
 import { chartLegendPlugin } from "./plugin/legend";
 import { getTopLayerSpecifiedDataset } from "./lib/layerOrder";
 import { useAppSelector } from "src/app/hooks";
-import ThemeController from "features/theme/themeController";
 import { XCenter } from "templates/xCenter";
-import { XBetween } from "templates/xBetween";
 
 ChartJS.register(
 	CategoryScale,
@@ -292,10 +289,6 @@ function WeatherForecast() {
 				/>
 			</Grid2>
 		</Grid2>
-		<XBetween>
-			<ThemeController />
-			<LanguageToggler />
-		</XBetween>
 	</>;
 }
 
