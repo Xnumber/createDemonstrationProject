@@ -2,9 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import ChainedBackend from "i18next-chained-backend";
-import { store } from "src/app/store";
-import { hideLoading, showLoading } from "features/loading/loadingSlice";
 import LanguageDetector from "i18next-browser-languagedetector";
+import { disableLoading, loading } from "src/lib/loading";
 // https://www.npmjs.com/package/i18next-resources-to-backend
 
 const pathnameArray = location.pathname.split("/");
@@ -24,13 +23,12 @@ i18n
 		backend: {
 			backends: [
 				resourcesToBackend((language, namespace, callback) => {
-					store.dispatch(showLoading({ event: `${namespace}/${language}`, message: "" }));
-				
+					const event = `get language pack: ${namespace}/${language}`;
+					loading(event);
 					import(`./locales/${language}/${namespace}.json`)
 						.then((resources) => {
-							// console.log(`${namespace}/${language}`);
 							callback(null, resources);
-							store.dispatch(hideLoading({ event: `${namespace}/${language}`, message: "" }));
+							disableLoading(event);
 						})
 						.catch((error) => {
 							callback(error, null);
