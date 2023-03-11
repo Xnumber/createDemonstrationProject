@@ -57,7 +57,7 @@ export function _WaterCondition() {
 				options={reservoirOptions}
 				callback={handleReservoir}
 			/>
-		</Grid2>``
+		</Grid2>
 		<Grid2 xs={12} md={3}>
 			<SingleSelect
 				label={t("mode")}
