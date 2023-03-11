@@ -13,10 +13,10 @@ export function getTypePercentageTableData(rawData: ContentRawData["data"]): Typ
 	rawData.forEach(rD => {
 		allCost += rD.price*rD.quantity;
 		allQuantity += rD.quantity;
-		const TypesWithQuantitiesAndCost = allTypesWithQuantitiesAndCost.find(o => rD.type === o.type);
-		if (TypesWithQuantitiesAndCost) {
-			TypesWithQuantitiesAndCost.totalCost += rD.price*rD.quantity;
-			TypesWithQuantitiesAndCost.totalQuantity += rD.quantity;
+		const typesWithQuantitiesAndCost = allTypesWithQuantitiesAndCost.find(o => rD.type === o.type);
+		if (typesWithQuantitiesAndCost) {
+			typesWithQuantitiesAndCost.totalCost += rD.price*rD.quantity;
+			typesWithQuantitiesAndCost.totalQuantity += rD.quantity;
 		} else {
 			allTypesWithQuantitiesAndCost.push({
 				type: rD.type,

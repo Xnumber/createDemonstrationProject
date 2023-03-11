@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Box, Button } from "@mui/material";
 import { XBetween } from "templates/xBetween";
 import { FlexBox } from "templates/flexBox";
-import { getTypePercentageTableData } from "../typePercentageTable/utils";
+import { getTypePercentageTableData } from "../utils";
 import { getPercentageChartData } from "./util";
 import { useGetSimpleContentQueryState } from "service/simpleContentManagement/get";
 
@@ -33,12 +33,9 @@ export function TypePercentageChart() {
 	const mode = useAppSelector(store => store.theme.mode);
 	const [chartType, setChartType] = useState<"line" | "bar" | "polarArea">("line");
 	const [dataType, setDataType] = useState<"costPercentage" | "quantityPercentage">("costPercentage");
-	// const [shownDataColumn, setShownDataColumn] = useState<"cost" | "quantity">("cost");
-	// line bar dognut
 	const condition = useAppSelector(state => state.listCondition);
 	const { data } = useGetSimpleContentQueryState({ type: condition.type, searchString: condition.searchString });
 	const { t } = useTranslation("simple-content-management");
-	// alert("123");
 	const handleSetChartType = useCallback((type: "line" | "bar" | "polarArea") => {
 		setChartType(type);
 	}, []);
@@ -49,8 +46,7 @@ export function TypePercentageChart() {
 	const handleDataType = useCallback((type: "costPercentage" | "quantityPercentage") => {
 		setDataType(type);
 	}, []);
-	// shownDataColumn;
-	console.log(chartData);
+
 	return <Box height={600}>
 		<XBetween height={"100px"}>
 			<FlexBox margin={"0 -0.5rem"}>
@@ -89,16 +85,6 @@ export function TypePercentageChart() {
 				type={chartType}
 				ref={chartRef}
 				data={chartData}
-				// data={{
-				// 	labels: ["1", "2", "3"],
-				// 	datasets: [
-				// 		{
-				// 			label: t("percentage"),
-				// 			data: [1, 2, 3],
-				// 			fill: true,
-				// 			backgroundColor: "blue"
-				// 		}
-				// 	] }}
 				options={{
 					maintainAspectRatio: false,
 					responsive: true,

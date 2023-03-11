@@ -10,8 +10,6 @@ export type ContentRawData = {
 	}[]
 }
 
-export type ContentFormProps = {
-	[K in Exclude<ContentColumn, "image" | "id">]: string;
-} & { image: FileList}
+export type ContentData = ContentRawData["data"][number]
 
 export type ContentColumn = keyof ContentRawData["data"][number];

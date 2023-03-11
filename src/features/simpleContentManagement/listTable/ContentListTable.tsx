@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { getComparator, stableSort } from "organisms/table/utils";
 import { ContentColumn, ContentData } from "service/simpleContentManagement/type";
 
-const columns: ColumnData<keyof ContentData>[] = [
+const columns: ColumnData<keyof ContentData, keyof ContentData>[] = [
 	{
 		width: 200,
 		label: "name",
