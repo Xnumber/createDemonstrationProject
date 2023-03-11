@@ -1,7 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { LoadingEvent } from "./type";
-import { loadingTimeout } from "./const";
-
 export const hideLoadingThunk = createAsyncThunk<
 	LoadingEvent, LoadingEvent
 >(
@@ -10,7 +8,7 @@ export const hideLoadingThunk = createAsyncThunk<
 		const result = new Promise<LoadingEvent>(res => {
 			setTimeout(() => {
 				res(loadingEvent);
-			}, loadingTimeout);
+			}, 3000);
 		});
 		return result;
 	}
