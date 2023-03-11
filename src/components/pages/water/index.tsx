@@ -3,7 +3,7 @@ import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Liquids } from "features/water/liquids";
-import { XCenter } from "templates/xCenter";
+// import { XCenter } from "templates/xCenter";
 import { WaterCondition } from "features/index";
 import { useAppSelector } from "src/app/hooks";
 import { WaterChart } from "features/water/chart";
@@ -18,11 +18,9 @@ export function Water() {
 		<WaterCondition />
 		<Grid2 container columns={12}>
 			<Grid2 xs={12}>
-				<XCenter>
-					<Typography variant="h2">
-						{t(modeChosen[0] === "single" ? "single": "compare")}
-					</Typography>
-				</XCenter>
+				<Typography variant="h2">
+					{t(modeChosen[0] === "single" ? "single": "compare")}
+				</Typography>
 			</Grid2>
 		</Grid2>
 		{

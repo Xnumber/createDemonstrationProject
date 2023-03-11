@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 import { RouteObject } from "react-router-dom";
 import Home from "pages/home";
-import { Water } from "pages/water/indext";
+import { Water } from "pages/water";
 import { SimpleContentManagement } from "pages/simpleContentManagement";
 // const Contact = React.lazy(() => import("src/components/pages/contact"));
 const WeatherForecast = lazy(() => import("pages/weatherForecast"));
