@@ -17,16 +17,16 @@ import "./style/app.scss";
 const App = () => {
 	const mode = useAppSelector(state => state.theme.mode);
 	const theme = useMemo(() => getTheme(), [mode]);
-
 	const bodyRef = useRef<HTMLBodyElement>();
+	
 	useEffect(() => {
 		bodyRef.current = document.body as HTMLBodyElement;
 	}, []);
 
 	return <ThemeProvider theme={theme}>
 		<CssBaseline />
-		<Box className={"background"} pt={"2rem"}>
-			<Container >
+		<Box minHeight={"100%"} className={"background"}>
+			<Container sx={{ paddingTop: "16px", paddingBottom: "60px" }}>
 				<RouterProvider router={router}/>
 				<Loading />
 			</Container>
@@ -36,6 +36,7 @@ const App = () => {
 
 const BuildApp = () => {
 	const rootElement = document.getElementById("root");
+	
 	if (rootElement) {
 		const root = ReactDOM.createRoot(rootElement);
 		root.render(
@@ -45,4 +46,5 @@ const BuildApp = () => {
 		);
 	}
 };
+
 BuildApp();

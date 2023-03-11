@@ -1,13 +1,142 @@
 import { createTheme } from "@mui/material";
-import { getButtonStyle } from "./button";
 import { getCardStyle } from "./card";
 import { getIconButtonStyle } from "./iconButton";
 import { typographies } from "./typography";
 import { getSVGIconStyle } from "./svgIcon";
+import { getButtonStyle } from "./button";
 
 export const getTheme = () => {
 	const theme = createTheme({
 		components: {
+			MuiBackdrop: {
+				styleOverrides: {
+					root: {
+						zIndex: 101,
+						backgroundColor: "rgba(0, 0, 0, 0.85)"
+					}
+				}
+			},
+			MuiModal: {
+				styleOverrides: {
+					root: {
+						zIndex: 100
+					}
+				}
+			},
+			MuiTabs: {
+				styleOverrides: {
+					indicator: {
+						background: "var(--md-sys-color-secondary)"
+					},
+				}
+			},
+			MuiTab: {
+				styleOverrides: {
+					textColorPrimary: {
+						color: "var(--md-sys-color-outline-variant)"
+					},
+					root: {
+						"&.Mui-selected": {
+							color: "var(--md-sys-color-secondary) !important"
+						}
+					}
+				}
+			},
+			MuiTableContainer: {
+				styleOverrides: {
+					root: {
+						background: "var(--md-sys-color-secondary)"
+					}
+				}
+			},
+			MuiTablePagination: {
+				styleOverrides: {
+					root: {
+						color: "var(--md-sys-color-secondary)",
+						"& .MuiButtonBase-root": {
+							color: "var(--md-sys-color-secondary)"
+						},
+						"& .Mui-disabled": {
+							color: "var(--md-sys-color-outline-variant) !important"
+						},
+					}
+				}
+			},
+			MuiTableHead: {
+				styleOverrides: {
+					root: {
+						background: "var(--md-sys-color-primary)",
+						"& .MuiTableCell-head": {
+							color: "var(--md-sys-color-on-primary)",
+							backgroundColor: "transparent",
+							fontWeight: "bolder",
+						},
+						"& .MuiTableSortLabel-root": {
+							color: " var(--md-sys-color-on-primary)"
+						},
+						"& .MuiTableSortLabel-root.Mui-active": {
+							color: " var(--md-sys-color-on-primary)"
+						},
+					}
+				}
+			},
+			MuiTableSortLabel: {
+				styleOverrides: {
+					root: {
+						"&:hover": {
+							color: "var(--md-sys-color-on-primary)"
+						},
+					},
+					iconDirectionAsc: {
+						color: "var(--md-sys-color-on-primary) !important",
+					},
+					iconDirectionDesc: {
+						color: "var(--md-sys-color-on-primary) !important",
+					}
+				}
+			},
+			MuiTableCell: {
+				styleOverrides: {
+					root: {
+						color: "var(--md-sys-color-on-secondary)"
+					}
+				}
+			},
+			MuiInputBase: {
+				styleOverrides: {
+					root: {
+						color: "var(--md-sys-color-secondary)",
+						// WebkitTextFillColor: "red",
+						"& fieldset": {
+							borderColor: "var(--md-sys-color-secondary)",
+							borderRadius: 0
+						},
+						"&:hover fieldset": {
+							borderColor: "var(--md-sys-color-secondary) !important"
+						},
+						"&.Mui-focused fieldset": {
+							borderColor: "var(--md-sys-color-secondary) !important"
+						},
+						"&.Mui-disabled fieldset": {
+							color: "var(--md-sys-color-outline-variant) !important",
+							borderColor: "var(--md-sys-color-outline-variant) !important"
+						},
+						"& .Mui-disabled": {
+							color: "var(--md-sys-color-outline-variant) !important",
+							WebkitTextFillColor: "var(--md-sys-color-outline-variant) !important",
+						}
+					}
+				}
+			},
+			MuiFormLabel: {
+				styleOverrides: {
+					root: {
+						"&.Mui-disabled": {
+							color: "var(--md-sys-color-outline-variant)"
+						}
+					}
+				}
+			},
 			MuiGrid2: {
 				defaultProps: {
 					spacing: 2
@@ -25,7 +154,6 @@ export const getTheme = () => {
 			},
 			MuiFormControlLabel: {
 				styleOverrides: {
-					
 					root: () => {
 						return {
 							color: "var(--md-sys-color-secondary)",
