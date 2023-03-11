@@ -40,6 +40,14 @@ export const typographies: {
 		}
 	},
 	{
+		props: { variant: "h6" },
+		style: {
+			color: "var(--md-sys-color-secondary)",
+			margin: "0.5rem 0 0.5rem 0",
+			fontWeight: "lighter"
+		}
+	},
+	{
 		props: { variant: "body1" },
 		style: {
 			color: "var(--md-sys-color-secondary)",
