@@ -1,6 +1,6 @@
-export type ColumnData<K> = {
+export type ColumnData<K, L> = {
 	dataKey: K;
-	label: K;
+	label: L;
 	numeric?: boolean;
 	width: number;
 	type: "display" | "action";
