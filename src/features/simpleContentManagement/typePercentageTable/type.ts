@@ -1,7 +1,7 @@
 export type TypePercentageData = {
 	type: string;
-	quantityPercentage: number;
-	costPercentage: number;
+	"cost-percentage": number;
+	"quantity-percentage": number;
 }
 
 export type TypePercentageLabel = "type" | "cost-percentage" | "quantity-percentage"

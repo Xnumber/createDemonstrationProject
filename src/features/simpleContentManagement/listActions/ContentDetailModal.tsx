@@ -10,20 +10,7 @@ import { Modal } from "@mui/material";
 import  Grid2  from "@mui/material/Unstable_Grid2";
 import BrokenImageIcon from "@mui/icons-material/BrokenImage";
 import { useTranslation } from "react-i18next";
-const style = {
-	position: "absolute" as const,
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: "50%",
-	maxHeight: "60%",
-	overflow: "scroll",
-	bgcolor: "var(--md-sys-color-background)",
-	border: "2px solid var(--md-sys-color-outline)",
-	color: "var(--md-sys-color-secondary)",
-	boxShadow: 24,
-	p: 4,
-};
+import { modalBoxStyle } from "src/style/modal";
 
 export const ContentDetailModal = () => {
 	const id = useAppSelector(state => state.listAction.contentDetailModalId);
@@ -44,12 +31,12 @@ export const ContentDetailModal = () => {
 		aria-labelledby="modal-modal-title"
 		aria-describedby="modal-modal-description"
 	>
-		<Box sx={style}>
+		<Box sx={modalBoxStyle}>
 			{
 				image && image !== "null" ? <img width={"30%"} src={(image as string).replace("public", "http://localhost/storage")}/>: 
 					<BrokenImageIcon fontSize="large"/>
 			}
-			<Typography mt={2} mb={2} id="modal-modal-title" variant="h6" component="h2">
+			<Typography mt={2} mb={2} id="modal-modal-title" variant="h3" component="h2">
 				{ title }
 			</Typography>
 			{
