@@ -46,8 +46,10 @@ export function CreateModal() {
 		defaultValues: defaultValues,
 		mode: "onBlur"
 	});
+	
+	const { onChange: imgOnChange, ...imgRest } = register("image");
 	const handleOpen = () => setOpen(true);
-	const handleClose = () => { reset(); setOpen(false);};
+	const handleClose = () => { reset(); setSrc(""); setOpen(false);};
 
 	const onSubmit: SubmitHandler<ContentData> = data => {
 		const form = new FormData();
@@ -63,7 +65,7 @@ export function CreateModal() {
 		});
 
 		create(form).unwrap().finally(() => {
-			setOpen(false);reset();
+			setOpen(false); reset(); setSrc("");
 		});
 	};
 	
@@ -124,46 +126,44 @@ export function CreateModal() {
 					</YCenter>
 				</XBetween>
 				<Grid2 container columns={3}>
+					<Grid2 mb={2} xs={3} sm={3}>
+						{
+							src ? <label>
+								<img width={"100%"} src={src} />
+								<input
+									{...imgRest}
+									type="file"
+									multiple
+									accept="image/*"
+									hidden
+									onChange={e=> {
+										imgOnChange(e);
+										onImgInputChange(e);
+									}}
+								/>
+							</label>: <Button
+								variant="contained"
+								component="label"
+								startIcon={<CloudUploadIcon />}
+							>
+								<input
+									{...imgRest}
+									type="file"
+									multiple
+									accept="image/*"
+									hidden
+									onChange={e=> {
+										imgOnChange(e);
+										onImgInputChange(e);
+									}}
+								/>
+								{t("select-image")}
+							</Button>
+						}
+					</Grid2>
 					{
 						contentColumns.map((k, i) => {
-							if (k === "image") {
-								const { onChange, ...rest } = register("image");
-								return <Grid2 key={i}>
-									{
-										src ? <label>
-											<img width={"100%"} src={src} />
-											<input
-												{...rest}
-												type="file"
-												multiple
-												accept="image/*"
-												hidden
-												onChange={e=> {
-													onChange(e);
-													onImgInputChange(e);
-												}}
-											/>
-										</label>: <Button
-											variant="contained"
-											component="label"
-											startIcon={<CloudUploadIcon />}
-										>
-											<input
-												{...rest}
-												type="file"
-												multiple
-												accept="image/*"
-												hidden
-												onChange={e=> {
-													onChange(e);
-													onImgInputChange(e);
-												}}
-											/>
-											{t("select-image")}
-										</Button>
-									}
-								</Grid2>;
-							} else if(k !== "id"){
+							if(k !== "id" && k !== "image"){
 								return <Grid2 xs={3} sm={3} key={i}>
 									{
 										<Controller
