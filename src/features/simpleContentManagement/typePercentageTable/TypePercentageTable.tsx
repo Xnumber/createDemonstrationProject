@@ -25,7 +25,7 @@ const columns: ColumnData<keyof TypePercentageData, TypePercentageLabel>[] = [
 	{
 		width: 120,
 		label: "quantity-percentage",
-		dataKey: "quantityPercentage",
+		dataKey: "quantity-percentage",
 		numeric: true,
 		type: "display",
 		sortable: true
@@ -33,7 +33,7 @@ const columns: ColumnData<keyof TypePercentageData, TypePercentageLabel>[] = [
 	{
 		width: 120,
 		label: "cost-percentage",
-		dataKey: "costPercentage",
+		dataKey: "cost-percentage",
 		numeric: true,
 		type: "display",
 		sortable: true

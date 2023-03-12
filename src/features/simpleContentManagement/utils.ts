@@ -29,8 +29,8 @@ export function getTypePercentageTableData(rawData: ContentRawData["data"]): Typ
 	return allTypesWithQuantitiesAndCost.map(o => {
 		return {
 			type: o.type,
-			quantityPercentage: Math.round((o.totalQuantity/allQuantity)*100)/100,
-			costPercentage: Math.round((o.totalCost/allCost)*100)/100
+			"quantity-percentage": Math.round((o.totalQuantity/allQuantity)*100)/100,
+			"cost-percentage": Math.round((o.totalCost/allCost)*100)/100
 		};
 	});
 }
