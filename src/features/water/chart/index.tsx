@@ -42,14 +42,12 @@ export function WaterChart() {
 							},
 						},
 						ticks: {
-							// padding: 12,
 							color: mode === "light" ? "#1b1b1f": "#e3e2e6",
 							font: {
 								size: 20,
 								family: "sans-serif, 'Noto Sans TC'",
 							},
 						},
-						
 					},
 					y: {
 						offset: true,
@@ -69,7 +67,6 @@ export function WaterChart() {
 					}
 				}
 			}}
-			// datasetIdKey='id'
 			data={chartData}
 		/>
 	</>;

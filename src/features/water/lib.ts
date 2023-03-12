@@ -54,17 +54,13 @@ export function getChartData(resData: ReturnType<typeof waterResponseDataProcess
 
 	const chartLabels = resData.map(o => o.ReservoirName);
 
-	// return {
-	// 	label: chartLabels,
-	// 	datasets: chartDatasets
-	// };
 	return {
 		labels: chartLabels,
 		datasets: [{
 			fill: true,
 			backgroundColor: "blue",
 			pointBackgroundColor: "aqua",
-			pointRadius: 12,
+			pointRadius: 6,
 			data: data
 		}]
 	};
