@@ -1,24 +1,20 @@
 import { ButtonBase, Typography } from "@mui/material";
-import { hideLoading, showLoading } from "features/loading/loadingSlice";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "src/app/hooks";
+import { disableLoading, loading } from "src/lib/loading";
+
 function _LanguageToggler(){
 	const { i18n } = useTranslation();
-	const dispatch = useAppDispatch();
 	const { lng } = useParams();
+	
 	const toggleLanguage = useCallback(() => {
-		dispatch(showLoading({ event: "toggleLanguage", message: ""}));
-		setTimeout(() => {
-			const newLang = i18n.language === "zh" ? "en": "zh";
-			localStorage.setItem("front-end-development-language", newLang);
-			setTimeout(() => {
-				i18n.changeLanguage(newLang);
-				dispatch(hideLoading({ event: "toggleLanguage", message: ""}));
-			},300);
-		}, 300);
+		loading("ToggleLanguage");
+		const newLang = i18n.language === "zh" ? "en": "zh";
+		localStorage.setItem("front-end-development-language", newLang);
+		i18n.changeLanguage(newLang);
+		disableLoading("ToggleLanguage");
 	}, [i18n.language]);
 
 	return <Link to={`/${lng === "en" ? "zh": "en"}${location.pathname.replace(new RegExp("/en|/zh"), "")}`} onClick={toggleLanguage}>
