@@ -5,20 +5,8 @@ import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { LoginRequest } from "service/auth/type";
 import { useLoginMutation } from "service/auth/login";
-const style = {
-	position: "absolute" as const,
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: "50%",
-	maxHeight: "60%",
-	overflow: "scroll",
-	bgcolor: "var(--md-sys-color-background)",
-	border: "2px solid var(--md-sys-color-outline)",
-	color: "var(--md-sys-color-secondary)",
-	boxShadow: 24,
-	p: 4,
-};
+import { modalBoxStyle } from "src/style/modal";
+import { SimpleContentManagementKey } from "src/app/language/typing";
 
 export const Login = () => {
 	const { t } = useTranslation("simple-content-management");
@@ -43,14 +31,11 @@ export const Login = () => {
 		setLoginOpen(false);
 	};
 
-	const onSubmit: SubmitHandler<LoginRequest> = data => {
-		console.log(data);
+	const onSubmit: SubmitHandler<LoginRequest> = () => {
 		try {
 			login(getValues()).unwrap().catch().finally(() => {
 				handleClose();
 			});
-			// dispatch(setCredentials(user));
-			// navigate("/");
 		} catch (err) { console.log(err);}
 	};
 
@@ -58,16 +43,16 @@ export const Login = () => {
 		{ 
 			required: {
 				value: true,
-				message: "user-name-is-required"
+				message: "email-is-required"
 			},
 			pattern: {
 				value: /\S+@\S+\.\S+/,
-				message: "Entered value does not match email format"
+				message: "wrong-email-format"
 			}
 		}); 
 	register("password", { required: {
 		value: true,
-		message: "password-name-is-required"
+		message: "password-is-required"
 	}}); 
 	
 	const errors = formState.errors;
@@ -81,7 +66,7 @@ export const Login = () => {
 			aria-labelledby="modal-modal-title"
 			aria-describedby="modal-modal-description"
 		>
-			<Box sx={style}>
+			<Box sx={modalBoxStyle}>
 				<Typography mt={2} mb={2} variant="h6" component="h2">
 					{ "Error" }
 				</Typography>
@@ -95,7 +80,7 @@ export const Login = () => {
 			onClose={handleClose}
 		>
 			<Box
-				sx={style}
+				sx={modalBoxStyle}
 				component="form"
 				autoComplete="off"
 				onSubmit={handleSubmit(onSubmit)}
@@ -114,7 +99,7 @@ export const Login = () => {
 							name={t("email")}
 							label={t("email")}
 							variant="outlined"
-							helperText={errors["email"] ? errors["email"].message: ""}
+							helperText={errors["email"] ? t(errors["email"].message as SimpleContentManagementKey): ""}
 						/>
 					)}
 				/>
@@ -130,7 +115,7 @@ export const Login = () => {
 							label={t("password")}
 							variant="outlined"
 							type="password"
-							helperText={errors["password"] ? errors["password"].message: ""}
+							helperText={errors["password"] ? t(errors["password"].message as SimpleContentManagementKey): ""}
 						/>
 					)}
 				/>

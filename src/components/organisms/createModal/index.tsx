@@ -16,7 +16,7 @@ import { useCreateSimpleContentMutation } from "service/simpleContentManagement/
 import { validations } from "./const";
 import { ContentData } from "service/simpleContentManagement/type";
 import { modalBoxStyle } from "src/style/modal";
-
+import { SimpleContentManagementKey } from "src/app/language/typing";
 export function CreateModal() {
 	const [open, setOpen] = React.useState(false);
 	const [src, setSrc] = React.useState("");
@@ -163,7 +163,7 @@ export function CreateModal() {
 													name={k}
 													label={t(k)}
 													variant="outlined"
-													helperText={errors[k] ? errors[k]?.message: ""}
+													helperText={errors[k] ? t(errors[k]?.message as SimpleContentManagementKey): ""}
 												/>
 											)}
 										/>

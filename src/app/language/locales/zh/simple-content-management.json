@@ -28,10 +28,14 @@
 	"rows-per-page": "每頁列數",
 	"update": "更新",
 	"name-is-required": "請輸入名稱。",
+	"email-is-required": "請輸入電子郵件。",
+	"password-is-required": "請輸入密碼。",
+	"wrong-email-format": "錯誤電子郵件格式。",
 	"type-is-required": "請輸入種類。",
 	"price-is-required": "請輸入價格。",
 	"price-must-be-number": "價格必須是數字。",
 	"quantity-is-required": "請輸入數量。",
 	"quantity-must-be-number": "數量必須是數字。",
+	"password-column-message": "密碼必須至少八位，至少一個數字，包含大小寫。",
 	"image": "圖片"
 }

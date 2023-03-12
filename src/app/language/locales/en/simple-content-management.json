@@ -28,10 +28,14 @@
 	"rows-per-page": "Rows per page",
 	"update": "Update",
 	"name-is-required": "Name is required.",
+	"email-is-required": "Email is required.",
+	"wrong-email-format": "Wrong email format.",
+	"password-is-required": "Password is required.",
 	"type-is-required": "Type is required.",
 	"price-is-required": "Price is required.",
 	"price-must-be-number": "Price must be number.",
 	"quantity-is-required": "Quantity is required.",
 	"quantity-must-be-number": "Quantity must be number.",
+	"password-column-message": "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number.",
 	"image": "Image"
 }

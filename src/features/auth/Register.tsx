@@ -5,20 +5,8 @@ import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { RegisterRequest, useRegisterMutation } from "service/auth/register";
 import { useAppSelector } from "src/app/hooks";
-const style = {
-	position: "absolute" as const,
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: "50%",
-	maxHeight: "60%",
-	overflow: "scroll",
-	bgcolor: "var(--md-sys-color-background)",
-	border: "2px solid var(--md-sys-color-outline)",
-	color: "var(--md-sys-color-secondary)",
-	boxShadow: 24,
-	p: 4,
-};
+import { SimpleContentManagementKey } from "src/app/language/typing";
+import { modalBoxStyle } from "src/style/modal";
 
 export const Register = () => {
 	const { t } = useTranslation("simple-content-management");
@@ -54,12 +42,12 @@ export const Register = () => {
 	
 	register("name", { required: {
 		value: true,
-		message: "user-name-is-required"
+		message: "name-is-required"
 	}}); 
 	register("password", { 
 		required: {
 			value: true,
-			message: "password-name-is-required"
+			message: "password-is-required"
 		},
 		
 		// https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
@@ -72,20 +60,20 @@ export const Register = () => {
 	register("password_confirmation", { 
 		required: {
 			value: true,
-			message: "password-name-is-required"
+			message: "password-is-required"
 		},
 		validate: { 
 			same: (value) => getValues().password === value ? true: "should-password-same"
 		},
-	}); 
+	});
 	register("email", { 
 		required: {
 			value: true,
-			message: "emaile-is-required"
+			message: "email-is-required"
 		},
 		pattern: {
 			value: /\S+@\S+\.\S+/,
-			message: "Entered value does not match email format"
+			message: "wrong-email-format"
 		}
 	});
 
@@ -99,7 +87,7 @@ export const Register = () => {
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
 			>
-				<Box sx={style}>
+				<Box sx={modalBoxStyle}>
 					<Typography mt={2} mb={2} variant="h6" component="h2">
 						{ "Error" }
 					</Typography>
@@ -113,7 +101,7 @@ export const Register = () => {
 				onClose={handleClose}
 			>
 				<Box
-					sx={style}
+					sx={modalBoxStyle}
 					component="form"
 					autoComplete="off"
 					onSubmit={handleSubmit(onSubmit)}
@@ -132,7 +120,7 @@ export const Register = () => {
 								name={t("email")}
 								label={t("email")}
 								variant="outlined"
-								helperText={errors["email"] ? errors["email"].message: ""}
+								helperText={errors["email"] ? t(errors["email"].message as SimpleContentManagementKey): ""}
 							/>
 						)}
 					/>
@@ -147,7 +135,7 @@ export const Register = () => {
 								name={t("name")}
 								label={t("name")}
 								variant="outlined"
-								helperText={errors["name"] ? errors["name"].message: ""}
+								helperText={errors["name"] ? t(errors["name"].message as SimpleContentManagementKey): ""}
 							/>
 						)}
 					/>
@@ -162,7 +150,7 @@ export const Register = () => {
 								name={t("password")}
 								label={t("password")}
 								variant="outlined"
-								helperText={errors["password"] ? errors["password"].message: ""}
+								helperText={errors["password"] ? t(errors["password"].message as SimpleContentManagementKey): ""}
 								type="password"
 							/>
 						)}
@@ -179,7 +167,7 @@ export const Register = () => {
 								label={t("password-confirmation")}
 								variant="outlined"
 								type="password"
-								helperText={errors["password_confirmation"] ? errors["password_confirmation"].message: ""}
+								helperText={errors["password_confirmation"] ? t(errors["password_confirmation"].message as SimpleContentManagementKey): ""}
 							/>
 						)}
 					/>
