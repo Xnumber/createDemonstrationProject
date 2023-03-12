@@ -17,21 +17,7 @@ import { ContentColumn, ContentData } from "service/simpleContentManagement/type
 import { useUpdateSimpleContentMutation } from "service/simpleContentManagement/update";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { SimpleContentManagementKey } from "src/app/language/typing";
-
-const style = {
-	position: "absolute" as const,
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: "50%",
-	maxHeight: "60%",
-	overflow: "scroll",
-	bgcolor: "var(--md-sys-color-background)",
-	border: "2px solid var(--md-sys-color-outline)",
-	color: "var(--md-sys-color-secondary)",
-	boxShadow: 24,
-	p: 4,
-};
+import { modalBoxStyle } from "src/style/modal";
 
 const validations: { name: ContentColumn, condition: RegisterOptions }[]  = [
 	{
@@ -163,7 +149,7 @@ export const UpdateModal = () => {
 				component="form"
 				autoComplete="off"
 				onSubmit={handleSubmit(onSubmit)}
-				sx={style}
+				sx={modalBoxStyle}
 			>
 				<XBetween>
 					<Typography mt={2} mb={2} id="modal-modal-title" variant="h6" component="h2">
@@ -173,45 +159,43 @@ export const UpdateModal = () => {
 						<CloseIcon onClick={handleClose}/>
 					</YCenter>
 				</XBetween>
-				<Typography mt={2} mb={2} id="modal-modal-title" variant="h6" component="h2">
+				{
+					src ? <label>
+						<img width={"30%"} src={src} />
+						<input
+							{...imgRest}
+							type="file"
+							multiple
+							accept="image/*"
+							hidden
+							onChange={e=> {
+								imgOnChange(e);
+								onImgInputChange(e);
+							}}
+						/>
+					</label>: <Button
+						variant="contained"
+						component="label"
+						startIcon={<CloudUploadIcon />}
+					>
+						<input
+							{...imgRest}
+							type="file"
+							multiple
+							accept="image/*"
+							hidden
+							onChange={e=> {
+								imgOnChange(e);
+								onImgInputChange(e);
+							}}
+						/>
+						{t("select-image")}
+					</Button>
+				}
+				<Typography mt={2} mb={2} id="modal-modal-title" variant="h3" component="h2">
 					{ content ? content.name: "" }
 				</Typography>
 				<Grid2 container columns={3}>
-					<Grid2 mb={2} xs={3} sm={3}>
-						{
-							src ? <label>
-								<img width={"100%"} src={src} />
-								<input
-									{...imgRest}
-									type="file"
-									multiple
-									accept="image/*"
-									hidden
-									onChange={e=> {
-										imgOnChange(e);
-										onImgInputChange(e);
-									}}
-								/>
-							</label>: <Button
-								variant="contained"
-								component="label"
-								startIcon={<CloudUploadIcon />}
-							>
-								<input
-									{...imgRest}
-									type="file"
-									multiple
-									accept="image/*"
-									hidden
-									onChange={e=> {
-										imgOnChange(e);
-										onImgInputChange(e);
-									}}
-								/>
-								{t("select-image")}
-							</Button>
-						}
-					</Grid2>
 					{
 						contentKeys.map((k , i) => {
 							const errorMessage = errors[k]?.message;

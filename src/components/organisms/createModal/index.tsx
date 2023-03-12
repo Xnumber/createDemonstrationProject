@@ -15,21 +15,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useCreateSimpleContentMutation } from "service/simpleContentManagement/create";
 import { validations } from "./const";
 import { ContentData } from "service/simpleContentManagement/type";
-
-const style = {
-	position: "absolute" as const,
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: "50%",
-	maxHeight: "60%",
-	overflow: "scroll",
-	bgcolor: "var(--md-sys-color-background)",
-	border: "2px solid var(--md-sys-color-outline)",
-	color: "var(--md-sys-color-secondary)",
-	boxShadow: 24,
-	p: 4,
-};
+import { modalBoxStyle } from "src/style/modal";
 
 export function CreateModal() {
 	const [open, setOpen] = React.useState(false);
@@ -115,7 +101,7 @@ export function CreateModal() {
 				autoComplete="off"
 				onSubmit={handleSubmit(onSubmit)}
 				encType="multipart/form-data"
-				sx={style}
+				sx={modalBoxStyle}
 			>
 				<XBetween>
 					<Typography mt={2} mb={2} id="modal-modal-title" variant="h6" component="h2">
@@ -129,7 +115,7 @@ export function CreateModal() {
 					<Grid2 mb={2} xs={3} sm={3}>
 						{
 							src ? <label>
-								<img width={"100%"} src={src} />
+								<img width={"30%"} src={src} />
 								<input
 									{...imgRest}
 									type="file"
