@@ -16,7 +16,8 @@ function a11yProps(index: string) {
 const typesMapping = [
 	{ label: "a", value: 0 },
 	{ label: "b", value: 1 },
-	{ label: "", value: 2 },
+	{ label: "c", value: 2 },
+	{ label: "", value: 3 }
 ];
 
 const _ListCondition = () => {
@@ -44,7 +45,8 @@ const _ListCondition = () => {
 					<Tabs color="secondary" value={tabValue} onChange={handleType} aria-label="basic tabs example">
 						<Tab label={"A"} {...a11yProps("a")} />
 						<Tab label={"B"} {...a11yProps("b")} />
-						<Tab label={"All"} {...a11yProps("all")} />
+						<Tab label={"C"} {...a11yProps("c")} />
+						<Tab label={"All"} {...a11yProps("all")}/>
 					</Tabs>
 				</Box>
 			</Box>

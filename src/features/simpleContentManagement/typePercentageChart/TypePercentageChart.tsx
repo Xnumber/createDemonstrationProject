@@ -42,7 +42,7 @@ export function TypePercentageChart() {
 
 	const typePercentageTableData = data ? getTypePercentageTableData(data.data): [];
 	
-	const chartData = getPercentageChartData(typePercentageTableData, dataType);
+	const chartData = getPercentageChartData(typePercentageTableData, dataType, chartType);
 	const handleDataType = useCallback((type: "costPercentage" | "quantityPercentage") => {
 		setDataType(type);
 	}, []);
@@ -90,6 +90,8 @@ export function TypePercentageChart() {
 					responsive: true,
 					scales: {
 						y: {
+							max: 1,
+							min: 0,
 							offset: true,
 							title: {
 								display: true,
@@ -107,14 +109,8 @@ export function TypePercentageChart() {
 							}
 						},
 						x: {
-							// offset: true,
 							ticks: {
 								color: mode === "light" ? "#1b1b1f": "#e3e2e6",
-								callback(this, _tickValue, index) {
-									const textArray = this.getLabelForValue(index).split("-");
-									textArray.shift();
-									return textArray.join("/");
-								},
 							},
 							title: {
 								display: true,

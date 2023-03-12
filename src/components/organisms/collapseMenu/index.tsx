@@ -3,7 +3,6 @@ import Stack from "@mui/material/Stack";
 import { PNavLink } from "src/components/molecules/pNavLink";
 import { useTranslation } from "react-i18next";
 import { CollapseMenuProps } from "./typing";
-// import { LanguageResourceKeysContent } from "src/app/language/typing";
 import "./style.scss";
 import { collapseMenuStyleCreator } from "./lib";
 import { useAppSelector } from "src/app/hooks";
@@ -11,11 +10,9 @@ import { Box } from "@mui/material";
 export const CollapseMenu = (props: CollapseMenuProps) => {
 	const { items } = props;
 	const [_items, setItems] = useState<CollapseMenuProps["items"]>([]);
-	// const namespace = items[0] ? items[0].label.split(":")[0]: "";
 	const { i18n } = useTranslation();
-	// const { t, i18n } = useTranslation(namespace as keyof CustomTypeOptions["resources"]);
 	const [collapse, setCollapse] = useState<boolean>(true);
-	const loading = useAppSelector(state => state.loading.loading);
+	const loadingQueue = useAppSelector(state => state.loading.loadingQueue);
 	
 	const handleCollapse = useCallback(() => {
 		setCollapse(true);
@@ -29,18 +26,10 @@ export const CollapseMenu = (props: CollapseMenuProps) => {
 	}, [items]);
 	
 	useEffect(() => {
-		if (!loading) {
-			setTimeout(() =>
-				open(), 300
-			);
+		if (loadingQueue.length === 0) {
+			open();
 		}
-	}, [loading]);
-	
-	useEffect(() => {
-		if (!loading) {
-			setTimeout(() => open(), 200);
-		}
-	}, [items]);
+	}, [loadingQueue.length]);
 
 	const lng = i18n.language;
 

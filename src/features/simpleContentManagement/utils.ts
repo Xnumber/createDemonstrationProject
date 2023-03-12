@@ -20,7 +20,7 @@ export function getTypePercentageTableData(rawData: ContentRawData["data"]): Typ
 		} else {
 			allTypesWithQuantitiesAndCost.push({
 				type: rD.type,
-				totalCost: rD.price,
+				totalCost: rD.price*rD.quantity,
 				totalQuantity: rD.quantity
 			});
 		}
