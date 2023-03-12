@@ -13,6 +13,7 @@ import { useAppSelector } from "src/app/hooks";
 import { useGetSimpleContentQueryState } from "service/simpleContentManagement/get";
 import { getTypePercentageTableData } from "../utils";
 import { Order } from "organisms/table/typing";
+import { useTranslation } from "react-i18next";
 
 const columns: ColumnData<keyof TypePercentageData, TypePercentageLabel>[] = [
 	{
@@ -39,9 +40,10 @@ const columns: ColumnData<keyof TypePercentageData, TypePercentageLabel>[] = [
 	},
 ];
 
-export default function TypePercentageTable() {
+const TypePercentageTable= () => {
 	const [order, setOrder] = React.useState<Order>("asc");
 	const [orderBy, setOrderBy] = React.useState<keyof TypePercentageData | "">("");
+	const { t } = useTranslation("simple-content-management");
 	const condition = useAppSelector(state => state.listCondition);
 	const { data } = useGetSimpleContentQueryState({ type: condition.type, searchString: condition.searchString });
 	const handleRequestSort = (
@@ -59,7 +61,7 @@ export default function TypePercentageTable() {
 	return <><TableContainer sx={{height: "100%"}} component={Paper}>
 		<Table aria-label="simple table">
 			<EnhancedTableHead
-				columns={columns}
+				columns={columns.map(o => ({...o, label: t(o.label)}))}
 				order={order}
 				orderBy={orderBy}
 				onRequestSort={handleRequestSort}
@@ -93,4 +95,6 @@ export default function TypePercentageTable() {
 		</Table>
 	</TableContainer>
 	</>;
-}
+};
+
+export default React.memo(TypePercentageTable);
