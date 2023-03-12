@@ -145,6 +145,11 @@ export const UpdateModal = () => {
 		if (content) {
 			reset(content);
 		}
+
+		if (content?.image && shown) {
+			setSrc(content.image.replace("public", "http://localhost/storage"));
+		}
+		
 	}, [shown]);
 
 	return (
