@@ -125,6 +125,15 @@ export function TypePercentageChart() {
 								display: false,
 							}
 						},
+						r: {
+							ticks: {
+								color: mode === "light" ? "#1b1b1f": "#e3e2e6",
+								backdropColor: "transparent",
+								callback: (tickValue: number) => {
+									return `${tickValue*100}%`;
+								},
+							},
+						}
 					},
 					plugins: {
 						legend: { display: false }
