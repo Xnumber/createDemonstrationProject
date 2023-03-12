@@ -254,6 +254,7 @@ function WeatherForecast() {
 								}
 							},
 							x: {
+								alignToPixels: true,
 								offset: true,
 								ticks: {
 									color: mode === "light" ? "#1b1b1f": "#e3e2e6",
