@@ -42,7 +42,7 @@ export function TypePercentageChart() {
 
 	const typePercentageTableData = data ? getTypePercentageTableData(data.data): [];
 	
-	const chartData = getPercentageChartData(typePercentageTableData, dataType);
+	const chartData = getPercentageChartData(typePercentageTableData, dataType, chartType);
 	const handleDataType = useCallback((type: "costPercentage" | "quantityPercentage") => {
 		setDataType(type);
 	}, []);
