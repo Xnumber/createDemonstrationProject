@@ -7,7 +7,7 @@ import { Box, Button } from "@mui/material";
 import { XBetween } from "templates/xBetween";
 import { FlexBox } from "templates/flexBox";
 import { getTypePercentageTableData } from "../utils";
-import { getPercentageChartData } from "./util";
+import { getChartOptions, getPercentageChartData } from "./util";
 import { useGetSimpleContentQueryState } from "service/simpleContentManagement/get";
 
 ChartJS.register(
@@ -85,60 +85,7 @@ export function TypePercentageChart() {
 				type={chartType}
 				ref={chartRef}
 				data={chartData}
-				options={{
-					maintainAspectRatio: false,
-					responsive: true,
-					scales: {
-						y: {
-							max: 1,
-							min: 0,
-							offset: true,
-							title: {
-								display: true,
-								text: "%",
-								color: mode === "light" ? "#1b1b1f": "#e3e2e6",
-								font: {
-									size: 32
-								},
-							},
-							ticks: {
-								color: mode === "light" ? "#1b1b1f": "#e3e2e6",
-							},
-							grid: {
-								display: false,
-							}
-						},
-						x: {
-							ticks: {
-								color: mode === "light" ? "#1b1b1f": "#e3e2e6",
-							},
-							title: {
-								display: true,
-								text: t("type"),
-								color: mode === "light" ? "#1b1b1f": "#e3e2e6",
-								font: {
-									size: 32,
-									family: "sans-serif, 'Noto Sans TC'",
-								},
-							},
-							grid: {
-								display: false,
-							}
-						},
-						r: {
-							ticks: {
-								color: mode === "light" ? "#1b1b1f": "#e3e2e6",
-								backdropColor: "transparent",
-								callback: (tickValue: number) => {
-									return `${tickValue*100}%`;
-								},
-							},
-						}
-					},
-					plugins: {
-						legend: { display: false }
-					}
-				}}
+				options={getChartOptions(chartType, mode, t)}
 			/>
 		</Box>
 	</Box>;
