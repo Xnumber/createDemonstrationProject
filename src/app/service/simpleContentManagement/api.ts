@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
-// import { RootState } from "store"
+
 export const simpleContentManagementApi = createApi({
 	reducerPath: "simpleContentManagementApi",
 	baseQuery: fetchBaseQuery({ 
-		baseUrl: "http://localhost/api",
+		baseUrl: SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL,
 		credentials: "include",
 		prepareHeaders: (headers) => {
 			const xsrfToken =  Cookies.get("XSRF-TOKEN");

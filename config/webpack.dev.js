@@ -2,6 +2,7 @@ const path = require("path");
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const common = require('./webpack.common.js');
 const { merge } = require('webpack-merge');
+const { DefinePlugin } = require("webpack");
 
 module.exports = merge(common("development"), {
 	mode: "development",
@@ -12,7 +13,10 @@ module.exports = merge(common("development"), {
 		hot: true
 	},
 	plugins: [
-		new ReactRefreshWebpackPlugin()
+		new ReactRefreshWebpackPlugin(),
+		new DefinePlugin({
+			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api")
+		})
 	].filter(Boolean),
 	optimization: {
 		// don't minimize so we can debug
