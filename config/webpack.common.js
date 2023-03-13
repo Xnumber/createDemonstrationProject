@@ -3,10 +3,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshTypeScript = require('react-refresh-typescript');
-// const classNameMapper = require("../plugins/classCompressPlugin/class-compress-plugin")
-// const ClassNameCompressPlugin = require("../plugins/classCompressPlugin/class-compress-plugin");
 const entryJS = "../src/index.tsx";
-// const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
 
 module.exports = (mode) => {
 	const isDevelopment =  mode !== 'production';
@@ -94,15 +91,9 @@ module.exports = (mode) => {
 					  },
 					],
 				  }
-				// {
-				// 	test: /\.js/,
-				// 	exclude: /node_modules/,
-				// 	include: ["/node_modules/chartjs/dist/chart.mjs"]
-				// }
 			]
 		},
 		plugins: [
-		// 	new ClassNameCompressPlugin()
 			new HtmlWebpackPlugin({
 				template: path.resolve(__dirname, "../src/index.html"),
 				// 若output.publicPath有指定會到其相對位置
@@ -110,16 +101,8 @@ module.exports = (mode) => {
 				filename: "index.html",
 				inject: true,
 				favicon: path.resolve(__dirname, "../src/favicon2.ico"),
-				// templateParameters: {
-				// },
 				'cdn': !isDevelopment ? "<script crossorigin src='https://unpkg.com/react@^18.2.0/umd/react.production.min.js'></script><script crossorigin src='https://unpkg.com/react-dom@^18.2.0/umd/react-dom.production.min.js'></script>": ""
 			}),
-			// new DynamicCdnWebpackPlugin()
-		],
-		// externals: {
-		// 	react: 'React',
-		// 	"react-dom/client": "ReactDOM",
-		// 	// 'react-router-dom': ["createBrowserRouter", "react-router-dom"]
-		// },	
+		]
 	};
 };

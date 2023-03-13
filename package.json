@@ -71,7 +71,7 @@
 		"stylelint": "stylelint src/**/*.scss --fix",
 		"prepare": "husky install",
 		"serve": "webpack serve --env mode=development",
-		"serve-production": "start webpack -w --env mode=production && start nodemon ./server.js --config ./nodemon.json"
+		"serve-production": "start webpack -w --env mode=production && start nodemon ./production-testserver.js --config ./nodemon.json"
 	},
 	"lint-staged": {
 		"*.{ts,tsx}": "eslint --fix --max-warnings=0",
