@@ -67,11 +67,12 @@
 	},
 	"scripts": {
 		"lint": "eslint src/**/*.{ts,tsx} --fix --max-warnings=0",
-		"build": "webpack -w --env mode=production",
 		"stylelint": "stylelint src/**/*.scss --fix",
 		"prepare": "husky install",
 		"serve": "webpack serve --env mode=development",
-		"serve-production": "start webpack -w --env mode=production && start nodemon ./production-testserver.js --config ./nodemon.json"
+		"serve-production": "start webpack --config config/webpack.prod.js && start nodemon ./production-testserver.js --config ./nodemon.json",
+		"start": "webpack serve --open --config config/webpack.dev.js",
+		"build": "webpack --config config/webpack.prod.js"
 	},
 	"lint-staged": {
 		"*.{ts,tsx}": "eslint --fix --max-warnings=0",
