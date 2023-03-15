@@ -36,7 +36,8 @@ module.exports = merge(common("production"), {
 	// https://unpkg.com/react@18.2.0/umd/react.production.min.js
 	plugins: [
 		new DefinePlugin({
-			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api")
+			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api"),
+			IMAGE_STORAGE_URL: JSON.stringify("https://frontenddeveloper.url.tw/public")
 		})
 	]
 });

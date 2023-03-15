@@ -69,7 +69,6 @@
 		"lint": "eslint src/**/*.{ts,tsx} --fix --max-warnings=0",
 		"stylelint": "stylelint src/**/*.scss --fix",
 		"prepare": "husky install",
-		"serve": "webpack serve --env mode=development",
 		"serve-production": "start webpack --config config/webpack.prod.js && start nodemon ./production-testserver.js --config ./nodemon.json",
 		"start": "webpack serve --open --config config/webpack.dev.js",
 		"build": "webpack --config config/webpack.prod.js"
