@@ -1,6 +1,9 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { DefinePlugin } = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+
 module.exports = merge(common("production"), {
 	mode: "production",
 	output: {
@@ -35,6 +38,11 @@ module.exports = merge(common("production"), {
 	},
 	// https://unpkg.com/react@18.2.0/umd/react.production.min.js
 	plugins: [
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, "../src/404.html"),
+			filename: "404.html",
+			inject: false
+		}),
 		new DefinePlugin({
 			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api"),
 			IMAGE_STORAGE_URL: JSON.stringify("https://frontenddeveloper.url.tw/public")
