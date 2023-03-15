@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { RootState } from "store";
 import { useSelector } from "react-redux";
-
-import { LoadingOrganism } from "organisms";
-
+import { LoadingBackdrop } from "organisms";
+import { disableLoading } from "src/lib/loading";
 const Loading = () => {
-	const loading = useSelector((state: RootState) => state.loading.loading);
-	return <LoadingOrganism
-		loading={loading}
+	const events = useSelector((state: RootState) => state.loading.loadingQueue);
+
+	useEffect(() => {
+		if (events.length === 1 && events[0].event === "Complete") {
+			disableLoading("Complete");
+		}
+	}, [events]);
+
+	return <LoadingBackdrop
+		events={events}
 	/>;
 };
 

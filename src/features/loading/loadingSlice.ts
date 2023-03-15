@@ -1,12 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-export interface LoadingState {
-  loadingQueue: {
-	event: string,
-	message: string
-  }[];
-  loading: boolean;
-}
+import { hideLoadingThunk } from "./loadingThunk";
+import { LoadingState } from "./type";
 
 const initialState: LoadingState = {
 	loadingQueue: [],
@@ -33,6 +27,21 @@ export const loadingSlice = createSlice({
 			}
 		},
 	},
+	extraReducers: (builder) => {
+		builder.addCase(hideLoadingThunk.fulfilled, (state, action) => {
+			
+			state.loadingQueue = state.loadingQueue.filter(o => action.payload.event !== o.event);
+			
+			if (state.loadingQueue.length === 0) {
+				state.loadingQueue.push({ event: "Complete", message: ""});
+			}
+
+			if (state.loadingQueue.length === 1 && action.payload.event === "Complete") {
+				state.loadingQueue = [];
+			}
+		});
+	},
 });
+
 export const { showLoading, hideLoading } = loadingSlice.actions;
 export default loadingSlice;

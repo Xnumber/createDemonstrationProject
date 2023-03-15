@@ -1,0 +1,33 @@
+/** @define pNavLink **/
+
+.m-pNavLink {
+	flex-direction: column;
+	user-select: none;
+	display: inline-block;
+	overflow: hidden;
+
+	&__decorator {
+		border-bottom: 2px solid var(--md-sys-color-on-background);
+		width: 100%;
+		transform: translateX(102%);
+		transition: 0.6s;
+
+		&:hover {
+			transform: translateX(-25%);
+		}
+		
+		&--dummyHover {
+			transform: translateX(-25%);
+		}
+	}
+	
+	&__controlledHover &__decorator {
+		transform: translateX(-25%);
+	}
+
+	&:hover > &__decorator  {
+		transform: translateX(-25%);
+	}
+}
+
+/** @end **/

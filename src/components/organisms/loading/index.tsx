@@ -1,41 +1,53 @@
-import React, { useEffect, useState, memo } from "react";
-import { XYCenter } from "src/components/templates/xyCenter";
-import "./style.scss";
-// import { FaSpinner } from "react-icons/fa";
-import CircularProgress from "@mui/material/CircularProgress";
-const _LoadingOrganism = (props: { loading: boolean }) => {
-	const { loading } = props;
-	const [zIndex, setZIndex] = useState(1);
-	const [loadingHasBeenHidden, setLoadingHasBeenHidden] = useState(false);
-	
-	useEffect(() => {
-		if (loading) {
-			setZIndex(1);
-		} else {
-			if (!loadingHasBeenHidden) {
-				setTimeout(() => {
-					setLoadingHasBeenHidden(() => true);
-				}, 300);
+import React, { memo } from "react";
+import { Backdrop, CircularProgress, Typography, Box, Portal } from "@mui/material";
+import { XCenter } from "templates/xCenter";
+import Cookies from "js-cookie";
+import { LoadingState } from "features/loading/type";
+import { useTranslation } from "react-i18next";
+
+const _LoadingBackdrop = (props: { events: LoadingState["loadingQueue"] }) => {
+	const { events } = props;
+	const xsrfToken = Cookies.get("XSRF-TOKEN");
+	const { t } = useTranslation("home");
+	return <Portal container={document.body}>
+		<Backdrop open={events.length !== 0}>
+			{
+				events.length === 1 && events[0].event === "Complete"  ? <Typography variant="h2" color={"#fff"}>
+					{t("loading-complete")}
+				</Typography>: 
+					<div>
+						<XCenter mb={7}>
+							<CircularProgress size={60}/>
+						</XCenter>
+						<Box mb={2}>
+							{
+								events.length && xsrfToken ? <>
+									<Typography variant="h5" color={"#fff"}>
+										XSRF-TOKEN
+									</Typography>
+									<Typography fontSize={"12px"} style={{ wordWrap: "break-word"}} maxWidth={"600px"} variant="body1" color={"#fff"}>
+										{xsrfToken}
+									</Typography></>: null
+							}
+						</Box>
+						<div>
+							{
+								events.map((o, i) => {
+									return <Box key={i}>
+										<Typography variant="h5" color={"#fff"}>
+											{t("event")}: {o.event}
+										</Typography>
+										<Typography variant="h6" color={"#fff"}>
+											{o.message}
+										</Typography>
+									</Box>;
+								})
+							}
+						</div>
+					</div>
 			}
-			setTimeout(() => {
-				setZIndex(-1);
-			}, 600);
-		}
-	}, [loading]);
-
-	let className = "";
-
-	if (!loadingHasBeenHidden) {
-		className = "";
-	} else if(loading) {
-		className = " o-loading--show";
-	} else {
-		className = " o-loading--hide";
-	}
-	
-	return <XYCenter width={"100%"} className={`background o-loading position-fixed${className}`} height={"100%"} zIndex={zIndex}> 
-		<CircularProgress className="o-loading__spinner"/>
-	</XYCenter>;
+		</Backdrop>
+	</Portal>;
 };
 
-export const LoadingOrganism = memo(_LoadingOrganism);
+export const LoadingBackdrop = memo(_LoadingBackdrop);

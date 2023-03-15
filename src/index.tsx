@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
@@ -9,27 +9,34 @@ import "./style/app.scss";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { getTheme } from "./lib/style/style";
-// import "./style/properties/index.scss";
 import { useAppSelector } from "./app/hooks";
 import Loading from "features/loading";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import "./style/app.scss";
 
 const App = () => {
 	const mode = useAppSelector(state => state.theme.mode);
 	const theme = useMemo(() => getTheme(), [mode]);
-	// alert("123");
+	const bodyRef = useRef<HTMLBodyElement>();
+	
+	useEffect(() => {
+		bodyRef.current = document.body as HTMLBodyElement;
+	}, []);
+
 	return <ThemeProvider theme={theme}>
 		<CssBaseline />
-		<Box className={`${mode} background`} height={"100%"}>
-			<RouterProvider router={router}/>
-			<Loading />
+		<Box minHeight={"100%"} className={"background"}>
+			<Container sx={{ paddingTop: "16px", paddingBottom: "60px" }}>
+				<RouterProvider router={router}/>
+				<Loading />
+			</Container>
 		</Box>
 	</ThemeProvider>;
 };
 
 const BuildApp = () => {
 	const rootElement = document.getElementById("root");
+	
 	if (rootElement) {
 		const root = ReactDOM.createRoot(rootElement);
 		root.render(
@@ -39,4 +46,5 @@ const BuildApp = () => {
 		);
 	}
 };
+
 BuildApp();

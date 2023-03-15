@@ -1,6 +1,7 @@
-// const path = require('path');
-
-module.exports = {
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common.js');
+const { DefinePlugin } = require("webpack");
+module.exports = merge(common("production"), {
 	mode: "production",
 	output: {
 		clean: true, // Clean the output directory before emit.
@@ -33,4 +34,10 @@ module.exports = {
 		// 'react-router-dom': ["createBrowserRouter", "react-router-dom"]
 	},
 	// https://unpkg.com/react@18.2.0/umd/react.production.min.js
-};
+	plugins: [
+		new DefinePlugin({
+			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api"),
+			IMAGE_STORAGE_URL: JSON.stringify("https://frontenddeveloper.url.tw/public")
+		})
+	]
+});

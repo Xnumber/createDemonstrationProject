@@ -1,36 +1,23 @@
 const path = require("path");
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
-// const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const entryHtml = "../src/index.html";
+const common = require('./webpack.common.js');
+const { merge } = require('webpack-merge');
+const { DefinePlugin } = require("webpack");
 
-const webpack = require("webpack");
-module.exports = {
+module.exports = merge(common("development"), {
 	mode: "development",
 	devServer: {
-		// devMiddleware: {
-		//     writeToDisk: true
-		// },
-		// watchFiles: ['./dist/**/*.js'],
 		historyApiFallback: true,
 		open: true,
-		// static: [
-		// 	{
-		// 		directory: "./dist",
-		// 	},
-		// 	{
-		// 		directory: "./public",
-		// 		publicPath: "/assets"
-		// 	},
-		// ],
 		port: 3000,
 		hot: true
-		// proxy: {
-		// 	"/getTest": "http://localhost:6001",
-		// 	"/postTest": "http://localhost:6001",
-		// }
 	},
 	plugins: [
-		new ReactRefreshWebpackPlugin()
+		new ReactRefreshWebpackPlugin(),
+		new DefinePlugin({
+			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api"),
+			IMAGE_STORAGE_URL: JSON.stringify("http://localhost/storage")
+		})
 	].filter(Boolean),
 	optimization: {
 		// don't minimize so we can debug
@@ -42,4 +29,4 @@ module.exports = {
 		runtimeChunk: "single",
 	},
 	devtool: "eval-source-map",
-};
+});

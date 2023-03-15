@@ -6,23 +6,28 @@
 		"@mui/material": "^5.10.16",
 		"@reduxjs/toolkit": "^1.9.1",
 		"@svgr/webpack": "^6.5.0",
+		"@types/js-cookie": "^3.0.3",
 		"@uiw/react-codemirror": "^4.19.5",
 		"bootstrap-icons": "^1.9.1",
-		"chart.js": "^3.9.1",
+		"chart.js": "^4.2.1",
+		"decimal.js": "^10.4.3",
 		"html-webpack-plugin": "^5.5.0",
 		"i18next": "^21.9.2",
 		"i18next-browser-languagedetector": "^6.1.8",
 		"i18next-chained-backend": "^3.1.0",
 		"i18next-http-backend": "^1.4.4",
 		"i18next-resources-to-backend": "^1.0.0",
+		"js-cookie": "^3.0.1",
 		"lodash": "^4.17.21",
 		"perfect-scrollbar": "^1.5.5",
 		"react": "^18.2.0",
-		"react-chartjs-2": "^4.3.1",
+		"react-chartjs-2": "^5.2.0",
 		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.43.2",
 		"react-i18next": "^11.18.6",
 		"react-redux": "^8.0.4",
-		"react-router-dom": "^6.6.2"
+		"react-router-dom": "^6.6.2",
+		"xlsx": "https://cdn.sheetjs.com/xlsx-0.19.2/xlsx-0.19.2.tgz"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.19.3",
@@ -62,15 +67,14 @@
 	},
 	"scripts": {
 		"lint": "eslint src/**/*.{ts,tsx} --fix --max-warnings=0",
-		"build": "webpack -w --env mode=production",
 		"stylelint": "stylelint src/**/*.scss --fix",
 		"prepare": "husky install",
-		"serve": "webpack serve --env mode=development",
-		"serve-production": "start webpack -w --env mode=production && start nodemon ./server.js --config ./nodemon.json"
+		"serve-production": "start webpack --config config/webpack.prod.js && start nodemon ./production-testserver.js --config ./nodemon.json",
+		"start": "webpack serve --open --config config/webpack.dev.js",
+		"build": "webpack --config config/webpack.prod.js"
 	},
 	"lint-staged": {
-		"*.ts": "eslint --config .eslintrc.json --fix",
-		"*.tsx": "eslint --config .eslintrc.json --fix",
-		"*.scss": "stylelint --fix"
+		"*.{ts,tsx}": "eslint --fix --max-warnings=0",
+		"*.{,scss}": "stylelint --fix --max-warnings=0"
 	}
 }
