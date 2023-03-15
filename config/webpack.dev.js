@@ -15,7 +15,8 @@ module.exports = merge(common("development"), {
 	plugins: [
 		new ReactRefreshWebpackPlugin(),
 		new DefinePlugin({
-			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api")
+			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api"),
+			IMAGE_STORAGE_URL: JSON.stringify("http://localhost/storage")
 		})
 	].filter(Boolean),
 	optimization: {

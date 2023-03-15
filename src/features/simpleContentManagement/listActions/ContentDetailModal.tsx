@@ -33,7 +33,7 @@ export const ContentDetailModal = () => {
 	>
 		<Box sx={modalBoxStyle}>
 			{
-				image && image !== "null" ? <img width={"30%"} src={(image as string).replace("public", "http://localhost/storage")}/>: 
+				image && image !== "null" ? <img width={"30%"} src={(image as string).replace("public", IMAGE_STORAGE_URL)}/>: 
 					<BrokenImageIcon fontSize="large"/>
 			}
 			<Typography mt={2} mb={2} id="modal-modal-title" variant="h3" component="h2">
