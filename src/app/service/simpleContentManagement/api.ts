@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 export const simpleContentManagementApi = createApi({
 	reducerPath: "simpleContentManagementApi",
 	baseQuery: fetchBaseQuery({ 
-		baseUrl: SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL,
+		baseUrl: `${SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL}/api`,
 		credentials: "include",
 		prepareHeaders: (headers) => {
 			const xsrfToken =  Cookies.get("XSRF-TOKEN");

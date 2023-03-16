@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 
 export const authApi = createApi({
 	baseQuery: fetchBaseQuery({
-		baseUrl: "http://localhost",
+		baseUrl: SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL,
 		prepareHeaders: (headers) => {
 			const xsrfToken =  Cookies.get("XSRF-TOKEN");
 			headers.set("Content-Type", "application/json");
@@ -27,7 +27,7 @@ export const authApi = createApi({
 				await queryFulfilled;
 				disableLoading("GetXCSRFToken");
 			},
-		})
+		}),
 	}),
 });
 
