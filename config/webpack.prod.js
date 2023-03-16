@@ -44,7 +44,7 @@ module.exports = merge(common("production"), {
 			inject: false
 		}),
 		new DefinePlugin({
-			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api"),
+			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("https://create-demonstration-project.herokuapp.com"),
 			IMAGE_STORAGE_URL: JSON.stringify("https://frontenddeveloper.url.tw/public")
 		})
 	]
