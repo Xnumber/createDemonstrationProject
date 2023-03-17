@@ -1,10 +1,10 @@
 import React, { lazy } from "react";
 import { RouteObject } from "react-router-dom";
-import Home from "pages/home";
-import { Water } from "pages/water";
-import { SimpleContentManagement } from "pages/simpleContentManagement";
-// const Contact = React.lazy(() => import("src/components/pages/contact"));
-const WeatherForecast = lazy(() => import("pages/weatherForecast"));
+import { withCloseLoadingOnMount } from "./utils";
+const WeatherForecast = withCloseLoadingOnMount(lazy(() => import("pages/weatherForecast")));
+const Home = lazy(() => import("pages/home"));
+const Water = withCloseLoadingOnMount(lazy(() => import("pages/water")));
+const SimpleContentManagement = withCloseLoadingOnMount(lazy(() => import("pages/simpleContentManagement")));
 
 export const routes: (RouteObject & { name: string })[] =  [
 	{
