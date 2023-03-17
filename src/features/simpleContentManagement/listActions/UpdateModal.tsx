@@ -133,7 +133,7 @@ export const UpdateModal = () => {
 		}
 
 		if (content?.image && shown) {
-			setSrc(content.image.replace("public", "http://localhost/storage"));
+			setSrc(content.image.replace("public", IMAGE_STORAGE_URL));
 		}
 		
 	}, [shown]);
@@ -145,7 +145,7 @@ export const UpdateModal = () => {
 			aria-labelledby="modal-modal-title"
 			aria-describedby="modal-modal-description"
 		>
-			<Box 
+			<Box
 				component="form"
 				autoComplete="off"
 				onSubmit={handleSubmit(onSubmit)}
