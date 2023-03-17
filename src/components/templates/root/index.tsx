@@ -3,13 +3,10 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { XBetween } from "..";
 import ThemeController from "features/theme/themeController";
 import { LanguageToggler } from "atoms/languageToggler";
-import { disableLoading } from "src/lib/loading";
+
 const Root = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	useEffect(() => {
-		disableLoading("Change Route");
-	}, [location.pathname]);
 	
 	useEffect(() => {
 		if (location.pathname === "/") {
