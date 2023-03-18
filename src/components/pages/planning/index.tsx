@@ -5,12 +5,10 @@ import { bkgUrl, menu } from "./const";
 import { useTranslation } from "react-i18next";
 import { XCenter } from "templates/xCenter";
 import "./style.scss";
-import type HomeEn from "src/app/language/locales/en/home.json";
-
 const Planning = () => {
 	const { t } = useTranslation("home");
 	const bkgRef = useRef<HTMLElement>(null);
-	const translatedMenu = menu.map(o => ({...o, label: t(o.label as keyof typeof HomeEn )}));
+	const translatedMenu = menu.map(o => ({...o, label: t(o.label)}));
 	useEffect(() => {
 		const bkg = new Image();
 		bkg.src = bkgUrl;

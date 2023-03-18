@@ -1,5 +1,7 @@
-import { CollapseMenuProps } from "organisms/collapseMenu/typing";
-export const menu: CollapseMenuProps["items"] = [
+import { CollapseMenuItem } from "organisms/collapseMenu/typing";
+import type HomeEn from "src/app/language/locales/en/home.json";
+
+export const menu: CollapseMenuItem<keyof typeof HomeEn>[] = [
 	{
 		label: "work-flow",
 		url: "/",

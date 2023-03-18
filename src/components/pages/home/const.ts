@@ -1,12 +1,7 @@
+import { CollapseMenuItem } from "organisms/collapseMenu/typing";
 import type HomeEn from "src/app/language/locales/en/home.json";
 
-export type HomeCollapseMenuItem = {
-	label: keyof typeof HomeEn;
-	url: string;
-	activateLoading?: boolean;
-}
-
-export const mainMenu: HomeCollapseMenuItem[] = [
+export const mainMenu: CollapseMenuItem<keyof typeof HomeEn>[] = [
 	{
 		label: "weather-forecast",
 		url: "/weather-forecast",
