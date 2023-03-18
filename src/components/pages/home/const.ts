@@ -22,4 +22,9 @@ export const mainMenu: HomeCollapseMenuItem[] = [
 		url: "/simple-content-management",
 		activateLoading: true
 	},
+	{
+		label: "reading-notes",
+		url: "/reading-notes",
+		activateLoading: true
+	}
 ];
