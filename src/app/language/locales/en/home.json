@@ -18,5 +18,9 @@
 	"total": "Total",
 	"component": "Component",
 	"none-customized-component": "None Customized Component",
-	"reading-notes": "Reading Notes"
+	"reading-notes": "Reading Notes",
+	"planning": "Planning",
+	"requirement": "Requirement",
+	"work-flow": "Work Flow",
+	"programming": "Programming"
 }

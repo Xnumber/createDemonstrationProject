@@ -26,5 +26,10 @@ export const mainMenu: HomeCollapseMenuItem[] = [
 		label: "reading-notes",
 		url: "/reading-notes",
 		activateLoading: true
+	},
+	{
+		label: "planning",
+		url: "/planning",
+		activateLoading: true
 	}
 ];
