@@ -6,6 +6,8 @@ const Home = lazy(() => import("pages/home"));
 const Water = withCloseLoadingOnMount(lazy(() => import("pages/water")));
 const SimpleContentManagement = withCloseLoadingOnMount(lazy(() => import("pages/simpleContentManagement")));
 const ReadingNotes = withCloseLoadingOnMount(lazy(() => import("pages/readingNotes")));
+const Planning = withCloseLoadingOnMount(lazy(() => import("pages/planning")));
+
 export const routes: (RouteObject & { name: string })[] =  [
 	{
 		name: "home",
@@ -31,5 +33,10 @@ export const routes: (RouteObject & { name: string })[] =  [
 		name: "reading-notes",
 		path: "/:lng/reading-notes",
 		element: <ReadingNotes />
+	},
+	{
+		name: "planning",
+		path: "/:lng/planning",
+		element: <Planning />
 	},
 ];
