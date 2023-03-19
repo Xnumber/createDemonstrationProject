@@ -1,4 +1,5 @@
 {
+	"react-project-example": "React Project Example",
 	"event": "Event",
 	"loading-complete": "Loading Complete",
 	"weather-forecast": "Weather Forecast",
@@ -22,5 +23,6 @@
 	"planning": "Planning",
 	"requirement": "Requirement",
 	"work-flow": "Work Flow",
-	"programming": "Programming"
+	"programming": "Programming",
+	"about": "About Clement"
 }

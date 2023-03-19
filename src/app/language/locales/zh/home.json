@@ -1,4 +1,5 @@
 {
+	"react-project-example": "React 專案範例",
 	"event": "事件",
 	"loading-complete": "載入完成",
 	"weather-forecast": "天氣預報",
@@ -22,5 +23,6 @@
 	"planning": "規劃",
 	"requirement": "需求",
 	"work-flow": "流程",
-	"programming": "程式"
+	"programming": "程式",
+	"about": "關於 Clement"
 }
