@@ -26,5 +26,10 @@ export const mainMenu: CollapseMenuItem<keyof typeof HomeEn>[] = [
 		label: "planning",
 		url: "/planning",
 		activateLoading: true
+	},
+	{
+		label: "about",
+		url: "/about",
+		activateLoading: true
 	}
 ];

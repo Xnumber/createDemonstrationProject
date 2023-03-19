@@ -35,8 +35,8 @@ export const typographies: {
 		props: { variant: "h5" },
 		style: {
 			color: "var(--md-sys-color-secondary)",
-			margin: "0.25rem 0 0.25rem 0",
-			fontWeight: "lighter"
+			margin: "0.25rem 0 0.5rem 0",
+			fontWeight: "300"
 		}
 	},
 	{
@@ -51,8 +51,18 @@ export const typographies: {
 		props: { variant: "body1" },
 		style: {
 			color: "var(--md-sys-color-secondary)",
-			// margin: "1rem 0 1rem 0",
-			fontWeight: "lighter"
+			fontWeight: "300",
+			lineHeight: "1.5rem",
+			letterSpacing: "2px"
+		}
+	},
+	{
+		props: { variant: "body2" },
+		style: {
+			color: "var(--md-sys-color-on-secondary)",
+			fontWeight: "lighter",
+			lineHeight: "2rem",
+			letterSpacing: "1px"
 		}
 	},
 ];

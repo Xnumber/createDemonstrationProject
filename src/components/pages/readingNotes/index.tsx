@@ -20,7 +20,6 @@ const ReadingNotes = () => {
 	}, []);
 	return <div className="p-readingNotes">
 		<Box
-			
 			ref={bkgRef}
 			sx={{ 
 				filter: "blur(20px)",

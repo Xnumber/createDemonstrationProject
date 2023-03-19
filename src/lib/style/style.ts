@@ -271,9 +271,17 @@ export const getTheme = () => {
 					}
 				}
 			},
-			// MuiPaper: {
-			// 	variants: paparStyles,
-			// },
+			MuiLink: {
+				variants: [
+					{
+						props: { variant: "body1" },
+						style: {
+							color: "var(--md-sys-color-on-background)",
+							textDecorationColor: "var(--md-sys-color-on-background)"
+						}
+					}
+				]
+			}
 		},
 		typography: {
 			fontFamily: [
