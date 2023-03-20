@@ -1,0 +1,7 @@
+// @define about
+
+.p-about {
+	&__readingNotesItem::marker {
+		color: var(--md-sys-color-on-surface-variant);
+	}
+}
