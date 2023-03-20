@@ -1,0 +1,20 @@
+// @deine background
+
+.m-background {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+
+	&--initial {
+		opacity: 0;
+		filter: blur(20px);
+	}
+
+	&--complete {
+		opacity: 0.75;
+		filter: blur(2px);
+	}
+}
