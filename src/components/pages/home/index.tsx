@@ -3,9 +3,7 @@ import { Typography } from "@mui/material";
 import React from "react";
 import { mainMenu } from "./const";
 import { useTranslation } from "react-i18next";
-import "./style.scss";
 import { XCenter } from "templates/xCenter";
-
 const Home = () => {
 	const { t } = useTranslation("home");
 	
@@ -17,7 +15,7 @@ const Home = () => {
 		};
 	});
 
-	return <div className="p-home">
+	return <div>
 		<XCenter zIndex={2}>
 			<Typography variant="h1">
 				{t("react-project-example")}

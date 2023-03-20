@@ -50,7 +50,7 @@ export const typographies: {
 	{
 		props: { variant: "body1" },
 		style: {
-			color: "var(--md-sys-color-secondary)",
+			color: "var(--md-sys-color-on-background)",
 			fontWeight: "300",
 			lineHeight: "1.5rem",
 			letterSpacing: "2px"
