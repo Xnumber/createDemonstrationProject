@@ -4,14 +4,10 @@ import { getIconButtonStyle } from "./iconButton";
 import { typographies } from "./typography";
 import { getSVGIconStyle } from "./svgIcon";
 import { getButtonStyle } from "./button";
-import { paparStyles } from "./paper";
 
 export const getTheme = () => {
 	const theme = createTheme({
 		components: {
-			MuiPaper: {
-				"variants": paparStyles
-			},
 			MuiBackdrop: {
 				styleOverrides: {
 					root: {

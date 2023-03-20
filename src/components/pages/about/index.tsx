@@ -10,6 +10,7 @@ import "./style.scss";
 
 const About = () => {
 	const { t, i18n } = useTranslation("about");
+
 	return <div className="p-about">
 		<Grid2 mb={3} container columns={8}>
 			<Grid2 sm={8} md={3}>
@@ -46,7 +47,7 @@ const About = () => {
 					{t("reading-notes")}
 				</Typography>
 				<Paper variant="elevation">
-					<ul>
+					<ul className="p-about__readingNotes">
 						{
 							readingNotes.map((r, i) => {
 								return<li className="p-about__readingNotesItem" key={i}>
