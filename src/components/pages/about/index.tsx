@@ -1,10 +1,13 @@
 import React from "react";
-import { Typography, Link } from "@mui/material";
+import { Typography, Link, Paper } from "@mui/material";
 import { XCenter } from "templates/xCenter";
 import { useTranslation } from "react-i18next";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import Clement from "./clement.jpg";
 import { XYCenter } from "templates/xyCenter";
+import { readingNotes } from "./const";
+import "./style.scss";
+
 const About = () => {
 	const { t, i18n } = useTranslation("about");
 	return <div className="p-about">
@@ -37,6 +40,24 @@ const About = () => {
 						</Link>
 					</XCenter>
 				</XYCenter>
+			</Grid2>
+			<Grid2 sm={8}>
+				<Typography variant="h2">
+					{t("reading-notes")}
+				</Typography>
+				<Paper variant="elevation">
+					<ul>
+						{
+							readingNotes.map((r, i) => {
+								return<li className="p-about__readingNotesItem" key={i}>
+									<Link variant="body2" href={r.url}>
+										{r.name}
+									</Link>
+								</li>;
+							})
+						}
+					</ul>
+				</Paper>
 			</Grid2>
 		</Grid2>
 	</div>;
