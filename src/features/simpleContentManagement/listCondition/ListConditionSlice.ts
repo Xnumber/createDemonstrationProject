@@ -2,12 +2,12 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface ListConditionProps {
   searchString: string;
-  type: "a" | "b"
+  type: "a" | "b" | "c" | ""
 }
 
 const initialState: ListConditionProps = {
 	searchString: "",
-	type: "a",
+	type: "",
 };
 
 export const listConditionSlice = createSlice({
@@ -17,7 +17,7 @@ export const listConditionSlice = createSlice({
 		setSearchString: (state, action: PayloadAction<string>) => {
 			state.searchString = action.payload;
 		},
-		setType: (state, action: PayloadAction<"a" | "b">) => {
+		setType: (state, action: PayloadAction<ListConditionProps["type"]>) => {
 			state.type = action.payload;
 		},
 	},
