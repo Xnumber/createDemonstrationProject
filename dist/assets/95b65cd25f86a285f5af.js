@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[687],{687:e=>{e.exports=JSON.parse('{"mode":"模式","storage-ratio":"蓄水百分比","condition":"條件","reservoir-multiple":"水庫(多選)","reservoir":"水庫","sort":"排序","area":"區域","single":"逐一","compare":"比較","north":"北部","middle":"中部","south":"南部","asc":"升冪","desc":"降冪","none":"無"}')}}]);

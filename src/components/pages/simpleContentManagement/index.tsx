@@ -17,7 +17,7 @@ import { CreateModal } from "organisms/createModal";
 import { FlexBox } from "templates/flexBox";
 import { useCheckLoginMutation } from "service/auth/login";
 
-export function SimpleContentManagement() {
+export default function SimpleContentManagement() {
 	const { t } = useTranslation("simple-content-management");
 	const user = useAppSelector(state => state.auth.user);
 	const { isSuccess } = useGetXCSRFTokenQuery();

@@ -1,4 +1,5 @@
 {
+	"react-project-example": "React Project Example",
 	"event": "Event",
 	"loading-complete": "Loading Complete",
 	"weather-forecast": "Weather Forecast",
@@ -17,5 +18,12 @@
 	"back": "Back",
 	"total": "Total",
 	"component": "Component",
-	"none-customized-component": "None Customized Component"
+	"none-customized-component": "None Customized Component",
+	"reading-notes": "Reading Notes",
+	"planning": "Planning",
+	"requirement": "Requirement",
+	"work-flow": "Work Flow",
+	"programming": "Programming",
+	"about": "About Clement",
+	"example-features": "Example Features"
 }

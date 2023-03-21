@@ -1,16 +1,19 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const { DefinePlugin } = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+
 module.exports = merge(common("production"), {
 	mode: "production",
 	output: {
 		clean: true, // Clean the output directory before emit.
 		chunkFilename: "assets/[chunkhash].js"
 	},
+	// react: {
 	optimization: {
 		splitChunks: {
 			cacheGroups: {
-				// react: {
 				//     test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom|redux|react-redux|@reduxjs[\\/]toolkit)[\\/]/,
 				//     name: 'react',
 				//     chunks: 'all',
@@ -36,7 +39,7 @@ module.exports = merge(common("production"), {
 	// https://unpkg.com/react@18.2.0/umd/react.production.min.js
 	plugins: [
 		new DefinePlugin({
-			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("http://localhost/api"),
+			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("https://create-demonstration-project.herokuapp.com"),
 			IMAGE_STORAGE_URL: JSON.stringify("https://frontenddeveloper.url.tw/public")
 		})
 	]
