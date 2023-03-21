@@ -23,7 +23,7 @@ i18n
 		backend: {
 			backends: [
 				resourcesToBackend((language, namespace, callback) => {
-					const event = `get language pack: ${namespace}/${language}`;
+					const event = `GetLanguagePack: ${namespace}/${language}`;
 					loading(event);
 					import(`./locales/${language}/${namespace}.json`)
 						.then((resources) => {
