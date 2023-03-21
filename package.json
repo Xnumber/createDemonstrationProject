@@ -40,6 +40,7 @@
 		"@typescript-eslint/parser": "^5.38.1",
 		"babel-loader": "^9.1.2",
 		"connect-livereload": "^0.6.1",
+		"cross-env": "^7.0.3",
 		"css-loader": "^6.7.1",
 		"eslint": "^8.24.0",
 		"eslint-plugin-react": "^7.31.8",
@@ -69,9 +70,11 @@
 		"lint": "eslint src/**/*.{ts,tsx} --fix --max-warnings=0",
 		"stylelint": "stylelint src/**/*.scss --fix",
 		"prepare": "husky install",
-		"serve-production": "start webpack -w --config config/webpack.prod.js && start nodemon ./production-testserver.js --config ./nodemon.json",
+		"serve-production": "start webpack --config config/webpack.prod.js && start nodemon ./production-testserver.js --config ./nodemon.json",
 		"start": "webpack serve --open --config config/webpack.dev.js",
-		"build": "webpack --config config/webpack.prod.js"
+		"build": "webpack --config config/webpack.prod.js",
+		"test-dev-config": "cross-env NODE_ENV=development nodemon testWebpackConfig.js --config nodemon-webpack-config.json",
+		"test-build-config": "cross-env NODE_ENV=production nodemon testWebpackConfig.js --config nodemon-webpack-config.json"
 	},
 	"lint-staged": {
 		"*.{ts,tsx}": "eslint --fix --max-warnings=0",
