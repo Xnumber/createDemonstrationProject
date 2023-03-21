@@ -1,1 +1,1 @@
-export { SimpleContentManagement } from "./simpleContentManagement";
+// export { SimpleContentManagement } from "./simpleContentManagement";

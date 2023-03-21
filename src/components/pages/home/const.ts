@@ -1,25 +1,20 @@
+import { CollapseMenuItem } from "organisms/collapseMenu/typing";
 import type HomeEn from "src/app/language/locales/en/home.json";
 
-export type HomeCollapseMenuItem = {
-	label: keyof typeof HomeEn;
-	url: string;
-	activateLoading?: boolean;
-}
-
-export const mainMenu: HomeCollapseMenuItem[] = [
+export const mainMenu: CollapseMenuItem<keyof typeof HomeEn>[] = [
 	{
-		label: "weather-forecast",
-		url: "/weather-forecast",
+		label: "example-features",
+		url: "/example-features",
 		activateLoading: true
 	},
 	{
-		label: "water",
-		url: "/water",
+		label: "planning",
+		url: "/planning",
 		activateLoading: true
 	},
 	{
-		label: "simple-content-management",
-		url: "/simple-content-management",
+		label: "about",
+		url: "/about",
 		activateLoading: true
-	},
+	}
 ];

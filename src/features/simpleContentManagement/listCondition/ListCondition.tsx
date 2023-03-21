@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { XBetween } from "templates/xBetween";
 import SearchIcon from "@mui/icons-material/Search";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { setSearchString, setType } from "./ListConditionSlice";
+import { ListConditionProps, setSearchString, setType } from "./ListConditionSlice";
 
 function a11yProps(index: string) {
 	return {
@@ -13,11 +13,11 @@ function a11yProps(index: string) {
 	};
 }
 
-const typesMapping = [
-	{ label: "a", value: 0 },
-	{ label: "b", value: 1 },
-	{ label: "c", value: 2 },
-	{ label: "", value: 3 }
+const typesMapping: { label: ListConditionProps["type"], value: number}[] = [
+	{ label: "", value: 0 },
+	{ label: "a", value: 1 },
+	{ label: "b", value: 2 },
+	{ label: "c", value: 3 }
 ];
 
 const _ListCondition = () => {
@@ -28,7 +28,7 @@ const _ListCondition = () => {
 	const handleType = useCallback((_e: React.SyntheticEvent, value: number) => {
 		const target = typesMapping.find(tM => tM.value === value);
 		if (target) {
-			dispatch(setType(target.label as "a" | "b"));
+			dispatch(setType(target.label));
 		}
 	}, []);
 	
@@ -43,10 +43,10 @@ const _ListCondition = () => {
 			<Box sx={{ width: "100%" }}>
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 					<Tabs color="secondary" value={tabValue} onChange={handleType} aria-label="basic tabs example">
+						<Tab label={"All"} {...a11yProps("")}/>
 						<Tab label={"A"} {...a11yProps("a")} />
 						<Tab label={"B"} {...a11yProps("b")} />
 						<Tab label={"C"} {...a11yProps("c")} />
-						<Tab label={"All"} {...a11yProps("all")}/>
 					</Tabs>
 				</Box>
 			</Box>

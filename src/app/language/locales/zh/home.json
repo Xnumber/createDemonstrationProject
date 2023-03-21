@@ -1,4 +1,5 @@
 {
+	"react-project-example": "React 專案範例",
 	"event": "事件",
 	"loading-complete": "載入完成",
 	"weather-forecast": "天氣預報",
@@ -17,5 +18,12 @@
 	"back": "上一頁",
 	"total": "總計",
 	"component": "元件",
-	"none-customized-component": "非客製化元件"
+	"none-customized-component": "非客製化元件",
+	"reading-notes": "讀書筆記",
+	"planning": "規劃",
+	"requirement": "需求",
+	"work-flow": "流程",
+	"programming": "程式",
+	"about": "關於 Clement",
+	"example-features": "範例功能"
 }

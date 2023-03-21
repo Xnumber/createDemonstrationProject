@@ -1,0 +1,16 @@
+.p-readingNotes {
+	&__content {
+		z-index: 2;
+		position: relative;
+	}
+
+	&__background {
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background-size: cover;
+		transition: 10s;
+	}
+}
