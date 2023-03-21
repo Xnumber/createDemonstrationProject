@@ -10,10 +10,10 @@ module.exports = merge(common("production"), {
 		clean: true, // Clean the output directory before emit.
 		chunkFilename: "assets/[chunkhash].js"
 	},
+	// react: {
 	optimization: {
 		splitChunks: {
 			cacheGroups: {
-				// react: {
 				//     test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom|redux|react-redux|@reduxjs[\\/]toolkit)[\\/]/,
 				//     name: 'react',
 				//     chunks: 'all',
@@ -38,11 +38,6 @@ module.exports = merge(common("production"), {
 	},
 	// https://unpkg.com/react@18.2.0/umd/react.production.min.js
 	plugins: [
-		new HtmlWebpackPlugin({
-			template: path.resolve(__dirname, "../src/404.html"),
-			filename: "404.html",
-			inject: false
-		}),
 		new DefinePlugin({
 			SIMPLE_CONTENT_MANAGEMENT_API_BASE_URL: JSON.stringify("https://create-demonstration-project.herokuapp.com"),
 			IMAGE_STORAGE_URL: JSON.stringify("https://frontenddeveloper.url.tw/public")
