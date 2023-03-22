@@ -1,5 +1,5 @@
 import { ButtonBase, Typography } from "@mui/material";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -16,6 +16,15 @@ function _LanguageToggler(){
 		i18n.changeLanguage(newLang);
 		disableLoading("ToggleLanguage");
 	}, [i18n.language]);
+
+	useEffect(() => {
+		if (
+			localStorage.getItem("front-end-development-language") && 
+			localStorage.getItem("front-end-development-language") !== lng
+		) {
+			toggleLanguage();
+		}
+	}, [lng]);
 
 	return <Link to={`/${lng === "en" ? "zh": "en"}${location.pathname.replace(new RegExp("/en|/zh"), "")}`} onClick={toggleLanguage}>
 		<ButtonBase disableRipple >
