@@ -10,4 +10,5 @@ export type PNavLinkProps = {
 	event?: string;
 	disable?: boolean;
 	fontSize?: string;
+	external?: boolean;
 };
