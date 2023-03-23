@@ -120,10 +120,10 @@ function WeatherForecast() {
 	const [elementColors, setElementColors] = useElementColor();
 	const [locationColors, setLocationColors] = useLocationColor();
 
-	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
-	const withDerivedDatasets = getDerivedDatasets(chartDataset, derativeChosen, differencePairs);
-	const styledChartDatasets = getStyledDatasets(withDerivedDatasets, labelChosen, compare === "element" ? elementColors: locationColors);
-	const topLayerSpecifiedDatasets = getTopLayerSpecifiedDataset(styledChartDatasets, topLayerDatasetIndex);
+	const chartDataset = useMemo(() =>getChartDatasetFromWeatherRawData(rawData, compare), [rawData, compare]);
+	const withDerivedDatasets = useMemo(()=>getDerivedDatasets(chartDataset, derativeChosen, differencePairs), [chartDataset, derativeChosen, differencePairs]);
+	const styledChartDatasets = useMemo(() =>getStyledDatasets(withDerivedDatasets, labelChosen, compare === "element" ? elementColors: locationColors), [withDerivedDatasets, labelChosen, compare, elementColors, locationColors]);
+	const topLayerSpecifiedDatasets = useMemo(() => getTopLayerSpecifiedDataset(styledChartDatasets, topLayerDatasetIndex), [styledChartDatasets, topLayerDatasetIndex]);
 	
 	useEffect(() => {
 		
