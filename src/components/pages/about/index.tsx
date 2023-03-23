@@ -7,6 +7,7 @@ import Clement from "./clement.jpg";
 import { XYCenter } from "templates/xyCenter";
 import { readingNotes } from "./const";
 import "./style.scss";
+import { YCenter } from "templates/yCenter";
 
 const About = () => {
 	const { t, i18n } = useTranslation("about");
@@ -14,7 +15,7 @@ const About = () => {
 	return <div className="p-about">
 		<Grid2 mb={3} container columns={8}>
 			<Grid2 sm={8} md={3}>
-				<img height="auto" width={"100%"} src={Clement} alt=""/>
+				<img height="auto" width={"100%"} src={Clement} alt="profile"/>
 			</Grid2>
 			<Grid2 sm={8} md={5}>
 				<XYCenter height={"100%"} flexDirection={"column"}>
@@ -46,18 +47,50 @@ const About = () => {
 				<Typography variant="h2">
 					{t("reading-notes")}
 				</Typography>
-				<Paper variant="elevation">
-					<ul className="p-about__readingNotes">
-						{
-							readingNotes.map((r, i) => {
-								return<li className="p-about__readingNotesItem" key={i}>
-									<Link variant="body2" href={r.url}>
-										{r.name}
-									</Link>
-								</li>;
-							})
-						}
-					</ul>
+				<Paper variant="elevation" className="p-about__readingNotes">
+					<Grid2 container columns={5}>
+						<Grid2 xs={5} md={2}>
+							<YCenter height={"100%"}>
+								<ul className="p-about__readingNotesList">
+									{
+										readingNotes.map((r, i) => {
+											return<li className="p-about__readingNotesItem" key={i}>
+												<Link variant="body2" href={r.url}>
+													{r.name}
+												</Link>
+											</li>;
+										})
+									}
+								</ul>
+							</YCenter>
+						</Grid2>
+						<Grid2 xs={2} md={3}>
+							<img height="auto" width={"100%"} src={"https://frontenddeveloper.url.tw/public/image/books.jpg"} alt="books" />
+						</Grid2>
+					</Grid2>
+				</Paper>
+			</Grid2>
+			<Grid2 sm={8}>
+				<Typography variant="h2">
+					{t("my-little-hobby")}
+				</Typography>
+				<Paper 
+					variant="elevation" 
+					className="p-about__readingNotes"
+				>
+					<Grid2 container columns={2}>
+						<Grid2 xs={5} md={3}>
+							<YCenter height={"100%"}>
+								<ul className="p-about__readingNotesList">
+									<li className="p-about__readingNotesItem">
+										<Link variant="body2" href={"https://frontenddeveloper.url.tw/public/image/examination.jpg"} target="_blank">
+											{t("steinbach-music-grade-advancing-examination")}
+										</Link>
+									</li>
+								</ul>
+							</YCenter>
+						</Grid2>
+					</Grid2>
 				</Paper>
 			</Grid2>
 		</Grid2>
