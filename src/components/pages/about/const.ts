@@ -12,6 +12,10 @@ export const readingNotes = [
 		url: "https://1drv.ms/u/s!AjhwmEJDt_AfpAHvbSCW5qsIVfRj?e=dabidn"
 	},
 	{
+		name: "資料視覺化設計",
+		url: "https://1drv.ms/o/s!AjhwmEJDt_AfpCZWCbFME5wcKNpS?e=1vpLeY"
+	},
+	{
 		name: "原則",
 		url: "https://1drv.ms/u/s!AjhwmEJDt_AfpFRgkTaksnVcid0M?e=vLqIrr"
 	},

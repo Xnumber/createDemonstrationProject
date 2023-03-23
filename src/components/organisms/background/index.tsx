@@ -24,7 +24,7 @@ const Background = () => {
 				bkg.current.onload = () => {
 					disableLoading("LoadBackground");
 					setTimeout(() => {
-						bkgBlock.style.backgroundImage = `url(${bkgUrl})`;
+						bkgBlock.style.backgroundImage = `linear-gradient(120deg, rgba(0,0,0,0), rgba(0,0,0,1)), url(${bkgUrl})`;
 						res();
 					}, fadeOutDuration);
 				};
