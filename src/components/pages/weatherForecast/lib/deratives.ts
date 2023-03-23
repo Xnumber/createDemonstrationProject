@@ -1,11 +1,19 @@
 import { WeatherDataset, WeatherDerivative } from "../typing";
 
+export const getDerativeLabel = (label: string | undefined, derative: WeatherDerivative) => {
+	if (derative === "moving-average") {
+		return `${label}: 2個資料移動平均`;
+	} else if(derative === "average"){
+		return `${label}: 平均`;
+	}
+};
+
 function addAverageDatasets(datasets: WeatherDataset): WeatherDataset {
 	const averageDatasets = datasets.map((cDataset) => {
 		const sum = cDataset.data.reduce((a, c) => a + Number(c.y), 0);
 		const average = sum/cDataset.data.length;
 		const dataset = {
-			label: `${cDataset.label}: 平均`,
+			label: getDerativeLabel(cDataset.label, "average"),
 			data: cDataset.data.map((o) => {
 				return {
 					x: o.x,
@@ -22,7 +30,7 @@ function addAverageDatasets(datasets: WeatherDataset): WeatherDataset {
 function addMovingAverageDatasets(datasets: WeatherDataset): WeatherDataset {
 	const averageDatasets = datasets.map((cDataset) => {
 		const dataset = {
-			label: `${cDataset.label}: 2個資料移動平均`,
+			label: getDerativeLabel(cDataset.label , "moving-average"),
 			data: cDataset.data.map((o, i) => {
 				const ma = i !== 0 ? ((Number(cDataset.data[i].y) + Number(cDataset.data[i - 1].y))/2): null;
 				
@@ -38,6 +46,10 @@ function addMovingAverageDatasets(datasets: WeatherDataset): WeatherDataset {
 	return [...datasets, ...averageDatasets];
 }
 
+export const getDifferencesDatasetLabel = (pair: string[]) => {
+	return `${pair[0]} - ${pair[1]}`;
+};
+
 const addDifferenceDatasets =  (datasets: WeatherDataset, biasPairs: string[][]): WeatherDataset => {
 	const biasDatasets: WeatherDataset = [];
 	biasPairs.forEach(p => {
@@ -49,9 +61,8 @@ const addDifferenceDatasets =  (datasets: WeatherDataset, biasPairs: string[][])
 					x: o.x, y: (Number(o.y) - Number(sectDataset.data[i].y))
 				};
 			});
-
 			biasDatasets.push({
-				label: `${p[0]} - ${p[1]}`,
+				label: getDifferencesDatasetLabel(p),
 				data: biasData
 			});
 		}

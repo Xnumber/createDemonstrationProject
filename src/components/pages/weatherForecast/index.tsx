@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useMemo } from "react";
+import React, { useRef, useState, useCallback, useMemo, useEffect } from "react";
 import { MultipleSelect } from "molecules/multipleSelect";
 import { useTranslation } from "react-i18next";
 import { Typography } from "@mui/material";
@@ -9,19 +9,25 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import { Box } from "@mui/material";
 import FormLabel from "@mui/material/FormLabel";
-import { Compare, WeatherChartTData, WeatherDerivative, WeatherTag } from "./typing";
+import { Compare, ElementChartDatasetColors, LocationChartDatasetColors, WeatherChartTData, WeatherDerivative, WeatherTag } from "./typing";
 import { elements, locations, labels, deratives } from "./const";
 import { getOptions } from "src/lib/option";
 import { useGetWeatherForcastQuery } from "service/weather/get";
 import { getChartDatasetFromWeatherRawData, getDerivedDatasets } from "./lib";
 import { SingleSelect } from "molecules/singleSelect";
-import { getStyledDatasets } from "./lib/style";
+import { getStyledDatasets, useElementColor, useLocationColor } from "./lib/style";
 import { WeatherChartLegend } from "features/chart/weatherLegend";
 import { chartLegendPlugin } from "./plugin/legend";
 import { getTopLayerSpecifiedDataset } from "./lib/layerOrder";
 import { useAppSelector } from "src/app/hooks";
 import { XCenter } from "templates/xCenter";
+import { CreateButton, DeleteButton } from "atoms/button";
+import { YCenter } from "templates/yCenter";
+import { FlexBox } from "templates/flexBox";
+import { getRandomColor } from "src/lib/color";
+import { getDifferencesDatasetLabel, getDerativeLabel } from "./lib/deratives";
 
 ChartJS.register(
 	CategoryScale,
@@ -111,11 +117,81 @@ function WeatherForecast() {
 		setDerativesChosen([e]);
 	}, []);
 	
+	const [elementColors, setElementColors] = useElementColor();
+	const [locationColors, setLocationColors] = useLocationColor();
+
 	const chartDataset = getChartDatasetFromWeatherRawData(rawData, compare);
 	const withDerivedDatasets = getDerivedDatasets(chartDataset, derativeChosen, differencePairs);
-	const styledChartDatasets = getStyledDatasets(withDerivedDatasets, labelChosen, compare);
+	const styledChartDatasets = getStyledDatasets(withDerivedDatasets, labelChosen, compare === "element" ? elementColors: locationColors);
 	const topLayerSpecifiedDatasets = getTopLayerSpecifiedDataset(styledChartDatasets, topLayerDatasetIndex);
 	
+	useEffect(() => {
+		
+		if (differencePairs.length === 0) {
+			return;
+		}
+
+		const label = getDifferencesDatasetLabel(differencePairs[differencePairs.length - 1]);
+		if (compare === "location" && locationColors[label]) {
+			return;
+		}
+		
+		if (compare === "element" && elementColors[label]) {
+			return;
+		}
+		
+		if (compare === "element") {
+			setElementColors({
+				...elementColors,
+				[label]: {
+					backgroundColor: getRandomColor()
+				}
+			});
+		} else {
+			setLocationColors({
+				...locationColors,
+				[label]: {
+					backgroundColor: getRandomColor()
+				}
+			});
+		}
+	}, [differencePairs]);
+
+	useEffect(() => {
+		
+		if (derativeChosen.length === 0) {
+			return;
+		}
+		let colors: ElementChartDatasetColors | LocationChartDatasetColors;
+
+		if (compare === "element") {
+			colors = elementColors;
+		} else {
+			colors = locationColors;
+		}
+
+		for (let index = 0; index < chartDataset.length; index++) {
+			const label = getDerativeLabel(chartDataset[index].label, derativeChosen[0]);
+			if (label && colors[label]) {
+				continue;
+			} else if(label){
+				colors = {
+					...colors,
+					[label]: {
+						backgroundColor: getRandomColor()
+					}
+				};
+			}
+		}
+
+		if (compare === "element") {
+			setElementColors(colors);
+		} else {
+			setLocationColors(colors);
+		}
+
+	}, [derativeChosen]);
+
 	return <>
 		<Typography variant="h1">
 			{t("weather-forecast")}
@@ -190,7 +266,7 @@ function WeatherForecast() {
 				/>
 			</Grid2>
 			<Grid2 xs={12} md={3}>
-				<SingleSelect 
+				<SingleSelect
 					label={t("derivatives")}
 					value={derativeChosen}
 					options={derativeOptions}
@@ -198,26 +274,25 @@ function WeatherForecast() {
 				/>
 				{
 					derativeChosen.includes("difference") ? 
-						<div>
-							<Typography component={"span"}>
-								{t("difference")}
-							</Typography>
+						<Box mt={2}>
 							<div>
 								{
 									differencePairs.map((o, i) => {
-										return <div style={{display: "flex"}} key={i}>
+										return <FlexBox mb={2} key={i}>
 											<SingleSelect defaultSelected={o[0]} options={differencePairOptions} callback={(value:string) => {handleSetDifferencePairs(i, 0, value);}}/>
 											<div>-</div>
 											<SingleSelect defaultSelected={o[1]} options={differencePairOptions} callback={(value:string) => {handleSetDifferencePairs(i, 1, value);}}/>
-											<button onClick={() => handleDeleteDifferencePairs(i)}>delete</button>
-										</div>;
+											<YCenter>
+												<DeleteButton onClick={() => handleDeleteDifferencePairs(i)}/>
+											</YCenter>
+										</FlexBox>;
 									})
 								}
 								<div>
-									<button onClick={handleCreateDifferencePairs}>createBiasPairs</button>
+									<CreateButton onClick={handleCreateDifferencePairs}/>
 								</div>
 							</div>
-						</div>: null
+						</Box>: null
 				}
 			</Grid2>
 		</Grid2>
