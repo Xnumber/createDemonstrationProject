@@ -1,30 +1,31 @@
-import { WeatherDataset, WeatherTag, Compare } from "../typing";
+import { useState, Dispatch, SetStateAction } from "react";
+import { WeatherDataset, WeatherTag, ElementChartDatasetColors, LocationChartDatasetColors } from "../typing";
 import { elementChartDatasetColors, locationChartDatasetColors } from "../const";
 import { getSegmentStyleHandler } from "./segment";
 import { findMaxIndexes, findMinIndexes } from "./point";
+export const useElementColor = (): [ElementChartDatasetColors, Dispatch<SetStateAction<ElementChartDatasetColors>>] => {
+	const [colors, setColors] = useState(elementChartDatasetColors);
+	return [colors, setColors];
+};
 
-export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], compare: Compare) {	
+export const useLocationColor = (): [LocationChartDatasetColors, Dispatch<SetStateAction<LocationChartDatasetColors>>] => {
+	const [colors, setColors] = useState(locationChartDatasetColors);
+	return [colors, setColors];
+};
+
+export function getStyledDatasets(datasets: WeatherDataset, tags: WeatherTag[], colors: ElementChartDatasetColors | LocationChartDatasetColors) {
 	const styledDatasets = datasets.reduce((a, currentDataset)=> {
-		let backgroundColor = "";
-
-		if (compare === "element") {
-			const label = currentDataset.label;
-			const bkgColor = elementChartDatasetColors[label as string]?.backgroundColor;
-			backgroundColor = bkgColor ? bkgColor: "aqua";
-		} else {
-			const label = currentDataset.label;
-			const bkgColor = locationChartDatasetColors[label as string]?.backgroundColor;
-			backgroundColor = bkgColor ? bkgColor: "aqua";
-		}
+		const label = currentDataset.label;
+		const bkgColor = colors[label as string]?.backgroundColor;
 
 		const dataset: WeatherDataset[number] = {
 			...currentDataset,
 			fill: true,
 			tension: 0.2,
-			backgroundColor: backgroundColor,
+			backgroundColor: bkgColor,
 			pointStyle: () => "circle",
 			pointRadius: () => 3,
-			pointBackgroundColor: () => backgroundColor,
+			pointBackgroundColor: () => bkgColor,
 			pointHoverRadius: 20,
 			segment: {}
 		};
