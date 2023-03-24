@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useRef, useState } from "react";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ChartType, BarElement, RadialLinearScale, ArcElement } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ChartType, BarElement, BarController, RadialLinearScale, ArcElement, PolarAreaController } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { useAppSelector } from "src/app/hooks";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,9 @@ import { PercentageDataType } from "./type";
 
 ChartJS.register(
 	ArcElement,
+	PolarAreaController,
 	BarElement,
+	BarController,
 	CategoryScale,
 	LinearScale,
 	PointElement,
