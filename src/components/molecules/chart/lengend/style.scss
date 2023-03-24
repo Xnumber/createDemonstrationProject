@@ -2,12 +2,15 @@
 .m-chart {
 	&__legendList {
 		list-style-type: none;
-
+		flex-wrap: wrap;
+		margin: 0;
+		padding: 0;
 	}
 
 	&__legendItem {
 		flex: 0 0 160px;
 		font-size: 1rem;
+		margin-bottom: 1rem;
 	}
 
 	&__legendColorBox {
