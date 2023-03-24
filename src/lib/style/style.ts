@@ -8,6 +8,18 @@ import { getButtonStyle } from "./button";
 export const getTheme = () => {
 	const theme = createTheme({
 		components: {
+			MuiCheckbox: {
+				defaultProps: {
+					disableRipple: true
+				},
+				styleOverrides: {
+					root: {
+						"& svg": {
+							color: "var(--md-sys-color-secondary)"
+						}
+					}
+				}
+			},
 			MuiBackdrop: {
 				styleOverrides: {
 					root: {
