@@ -1,14 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { LoadingEvent } from "./type";
+import { LoadingEvent, LoadingState } from "./type";
 export const hideLoadingThunk = createAsyncThunk<
-	LoadingEvent, LoadingEvent
+	LoadingEvent, LoadingEvent, { state: { loading: LoadingState } }
 >(
 	"loading/hideLoadingThunk",
-	async (loadingEvent) => {
+	async (loadingEvent, thunkAPI) => {
+		const displayEventsLonger = thunkAPI.getState().loading.displayEventsLonger;
+		
 		const result = new Promise<LoadingEvent>(res => {
 			setTimeout(() => {
 				res(loadingEvent);
-			}, 3000);
+			}, displayEventsLonger ? 3000: 0);
 		});
 		return result;
 	}
