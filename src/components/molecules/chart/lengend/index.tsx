@@ -17,7 +17,7 @@ export function ChartLegend(props: ChartLegendProps) {
 	const dispatch = useAppDispatch();
 	const { chart, items } = props;
 
-	return items && chart ? <XCenter mb={2} className="m-chart__legendList">
+	return items && chart ? <XCenter component={"ul"} mb={2} className="m-chart__legendList">
 		{
 			items.map((item, i) => {
 				const { text, hidden, fillStyle } = item;
