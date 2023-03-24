@@ -2,9 +2,12 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { hideLoadingThunk } from "./loadingThunk";
 import { LoadingState } from "./type";
 
+const displayEventsLonger = localStorage.getItem("display-events-longer");
+
 const initialState: LoadingState = {
 	loadingQueue: [],
 	loading: false,
+	displayEventsLonger: displayEventsLonger ? JSON.parse(displayEventsLonger): true
 };
 
 export const loadingSlice = createSlice({
@@ -26,6 +29,10 @@ export const loadingSlice = createSlice({
 				state.loading = false;
 			}
 		},
+		toggleDisplayEventsLonger: (state) => {
+			state.displayEventsLonger = !state.displayEventsLonger;
+			localStorage.setItem("display-events-longer", JSON.stringify(state.displayEventsLonger));
+		}
 	},
 	extraReducers: (builder) => {
 		builder.addCase(hideLoadingThunk.fulfilled, (state, action) => {
@@ -43,5 +50,5 @@ export const loadingSlice = createSlice({
 	},
 });
 
-export const { showLoading, hideLoading } = loadingSlice.actions;
+export const { showLoading, hideLoading, toggleDisplayEventsLonger } = loadingSlice.actions;
 export default loadingSlice;

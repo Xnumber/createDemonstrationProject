@@ -7,6 +7,7 @@ import { Background } from "organisms/background";
 import { Box } from "@mui/material";
 import { routes } from "src/app/router/routes";
 import { menu } from "./const";
+import { LoadingEventController } from "features/loading/loadingEventController";
 
 const Root = () => {
 	const location = useLocation();
@@ -31,6 +32,7 @@ const Root = () => {
 		</React.Suspense>
 		<XBetween p={3} left={0} width={"100%"} position={"fixed"} bottom={0}>
 			<ThemeController />
+			<LoadingEventController />
 			<LanguageToggler />
 		</XBetween>
 	</>;
