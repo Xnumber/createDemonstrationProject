@@ -18,7 +18,6 @@ const api = simpleContentManagementApi.injectEndpoints({
 				loading("UploadSimpleContent",	"method: POST");
 				const result = await queryFulfilled;
 				if(result.data.status) {
-					alert("success");
 					disableLoading("UploadSimpleContent",	"");
 				} else {
 					alert("error");
