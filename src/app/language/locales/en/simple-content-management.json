@@ -37,5 +37,6 @@
 	"quantity-is-required": "Quantity is required.",
 	"quantity-must-be-number": "Quantity must be number.",
 	"password-column-message": "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number.",
-	"image": "Image"
+	"image": "Image",
+	"example-xlsx": "Example XLSX"
 }
