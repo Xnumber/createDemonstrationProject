@@ -38,5 +38,6 @@
 	"quantity-must-be-number": "數量必須是數字。",
 	"password-column-message": "密碼必須至少八位，至少一個數字，包含大小寫。",
 	"image": "圖片",
-	"example-xlsx": "範例 XLSX"
+	"example-xlsx": "範例 XLSX",
+	"incorrect-username-or-password": "帳號或密碼錯誤"
 }

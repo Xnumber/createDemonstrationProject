@@ -21,7 +21,7 @@ export const Login = () => {
 
 	const [loginOpen, setLoginOpen] = React.useState(false);
 	
-	const [ errorOpen ] = React.useState(false);
+	const [ errorOpen, setErrorOpen ] = React.useState(false);
 
 	const handleClickOpen = () => {
 		setLoginOpen(true);
@@ -33,10 +33,17 @@ export const Login = () => {
 
 	const onSubmit: SubmitHandler<LoginRequest> = () => {
 		try {
-			login(getValues()).unwrap().catch().finally(() => {
-				handleClose();
+			login(getValues()).unwrap().then(e => {
+				if (e.errors) {
+					setErrorOpen(true);
+					setTimeout(() => {
+						setErrorOpen(false);
+					}, 2000);
+				} else {
+					handleClose();
+				}
 			});
-		} catch (err) { console.log(err);}
+		} catch (err) { console.log(err); }
 	};
 
 	register("email", 
@@ -67,11 +74,11 @@ export const Login = () => {
 			aria-describedby="modal-modal-description"
 		>
 			<Box sx={modalBoxStyle}>
-				<Typography mt={2} mb={2} variant="h6" component="h2">
+				{/* <Typography mt={2} mb={2} variant="h6" component="h2">
 					{ "Error" }
-				</Typography>
+				</Typography> */}
 				<Typography mt={2} mb={2} variant="body1" component="span">
-					{ "Error" }
+					{t("incorrect-username-or-password")}
 				</Typography>
 			</Box>
 		</Modal>
