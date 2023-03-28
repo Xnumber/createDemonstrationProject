@@ -3,10 +3,11 @@ import type { PaletteMode } from "@mui/material";
 export interface LoadingState {
   mode: PaletteMode
 }
+
 const mode = localStorage.getItem("front-end-development-mode") as PaletteMode | null;
 
 const initialState: LoadingState = {
-	mode: mode ? mode: "light",
+	mode: mode ? mode: "dark",
 };
 
 export const themeControllerSlice = createSlice({
