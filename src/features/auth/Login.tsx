@@ -69,6 +69,7 @@ export const Login = () => {
 			{t("login")}
 		</Button>
 		<Modal
+			sx={{ zIndex: 200 }}
 			open={errorOpen}
 			aria-labelledby="modal-modal-title"
 			aria-describedby="modal-modal-description"
