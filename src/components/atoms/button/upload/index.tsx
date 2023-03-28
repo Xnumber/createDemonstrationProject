@@ -36,6 +36,7 @@ export function UpLoadButton() {
 		<input
 			onChange={upLoadFile}
 			type="file"
+			accept=".xlsx"
 			hidden
 		/>
 	</Button>;

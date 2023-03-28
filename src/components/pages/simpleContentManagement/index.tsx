@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Link } from "@mui/material";
 import React, {  useEffect } from "react";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { useTranslation } from "react-i18next";
@@ -63,6 +63,13 @@ export default function SimpleContentManagement() {
 					</Box>
 					<Box mr={2}>
 						<CreateModal />
+					</Box>
+					<Box mr={2}>
+						<YCenter height={"100%"}>
+							<Link variant="body1" href="https://frontenddeveloper.url.tw/public/example.xlsx">
+								{t("example-xlsx")}
+							</Link>
+						</YCenter>
 					</Box>
 				</FlexBox>
 				<ListCondition />
