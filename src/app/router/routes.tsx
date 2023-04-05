@@ -9,6 +9,7 @@ const SimpleContentManagement = withCloseLoadingOnMount(lazy(() => import("pages
 const ReadingNotes = withCloseLoadingOnMount(lazy(() => import("pages/readingNotes")));
 const Planning = withCloseLoadingOnMount(lazy(() => import("pages/planning")));
 const About = withCloseLoadingOnMount(lazy(() => import("pages/about")));
+const Stock = withCloseLoadingOnMount(lazy(() => import("pages/stock")));
 
 export const routes: (
 	RouteObject & { name: string }
@@ -52,5 +53,10 @@ export const routes: (
 			name: "about",
 			path: "/:lng/about",
 			element: <About />
+		},
+		{
+			name: "stock",
+			path: "/:lng/stock",
+			element: <Stock />
 		},
 	];
