@@ -155,6 +155,8 @@ export class KLines extends BasicCanvas {
 		this.barWidth = this.canvas.width / this.numBars * 0.8;
 		this.barSpacing = this.canvas.width / this.numBars * 0.2;
 		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
+		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
+		this.priceHeight = (this.canvas.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);
 	};
 
 	getRangeData = (startIndex: number, endIndex: number, data: ChartData) => {
