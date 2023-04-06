@@ -17,6 +17,7 @@ export class KLines extends BasicCanvas {
 		data: ChartData[number]
 	}[];
 	private padding: number;
+	private xAxisShownIndexArray: number[];
 
 	constructor(canvas: HTMLCanvasElement, data: StockRawData) {
 		super(canvas);
@@ -32,12 +33,16 @@ export class KLines extends BasicCanvas {
 		this.numBars = this.data.length;
 		this.barWidth = this.canvas.width / this.numBars * 0.8;
 		this.barSpacing = this.canvas.width / this.numBars * 0.2;
+		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
+
 		this.barRanges = [];
 		this.padding = 60;
 		this.draw();
 	}
 
 	draw() {
+		this.drawXGrid();
+		this.drawXLabels();
 		this.drawKLines();
 	}
 
@@ -50,12 +55,59 @@ export class KLines extends BasicCanvas {
 		return interval;
 	};
 
+	drawXGrid = () => {
+		const numLabels = this.data.length;  // 顯示的日期標籤數量
+		const labelIndices = this.getLabelIndices(numLabels);  // 取得要顯示日期標籤的index
+		for (let i = 0; i < this.data.length; i++) {
+			const labelIndex = labelIndices[i];
+			const labelX = labelIndex * (this.barWidth + this.barSpacing) + this.barWidth / 2;
+			//   const labelDate = this.data[i][0];
+			if (this.xAxisShownIndexArray.indexOf(i) !== -1) {
+				this.ctx.beginPath();
+				this.ctx.moveTo(labelX, this.canvas.height);
+				this.ctx.lineTo(labelX, 0);
+				this.ctx.strokeStyle = "lightgrey";
+				this.ctx.stroke();
+			}
+		}
+	};
+
+	drawXLabels = () => {
+		const labelSpacing = 5;  // 日期標籤之間的間距
+		const numLabels = this.data.length;  // 顯示的日期標籤數量
+		const labelIndices = this.getLabelIndices(numLabels);  // 取得要顯示日期標籤的index
+		this.ctx.fillStyle = "#000000";
+		this.ctx.font = "12px Arial";
+		this.ctx.textAlign = "center";
+		for (let i = 0; i < this.data.length; i++) {
+			const labelIndex = labelIndices[i];
+			const labelX = labelIndex * (this.barWidth + this.barSpacing) + this.barWidth / 2;
+			const labelDate = this.data[i][0];
+			if (this.xAxisShownIndexArray.indexOf(i) !== -1) {
+				this.ctx.fillText(labelDate, labelX, this.canvas.height - labelSpacing);
+			}
+		}
+	};
+
+	getXAxisShownIndexArray = (arr: unknown[]) => {
+		const arrLength = arr.length;
+		const shownNumber = 10;
+		// 輸入陣列小於等於 10 時，回傳全部的 index
+		if (arrLength <= shownNumber) {
+			return Array.from(Array(arrLength), (_, index) => index);
+		}
+		// 輸入陣列大於 10 時，回傳 10 個均勻分布的 index
+		const step = arrLength / shownNumber;
+		return Array.from(Array(shownNumber), (_, index) => Math.round(index * step));
+	};
+	
 	setKLinesConfigure = () => {
 		this.highestPrice = this.getHighestPrice();
 		this.lowestPrice = this.getLowestPrice();
 		this.numBars = this.data.length;
 		this.barWidth = this.canvas.width / this.numBars * 0.8;
 		this.barSpacing = this.canvas.width / this.numBars * 0.2;
+		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
 	};
 
 	getRangeData = (startIndex: number, endIndex: number, data: ChartData) => {
