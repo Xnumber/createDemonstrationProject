@@ -28,7 +28,7 @@ export class CrossHair extends BasicCanvas {
 	drawCrossHair = (event: MouseEvent) => {
 		this.clear();
 		const x = event.clientX - this.canvasX;
-		const y = event.clientY - this.canvasY;
+		const y = event.clientY - this.canvasY + window.scrollY;
 		// 畫水平線
 		this.ctx.beginPath();
 		this.ctx.moveTo(0, y);
