@@ -29,19 +29,19 @@ export class KLines extends BasicCanvas {
 		this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
 		this.risingColor = "#FF0000";
 		this.fallingColor = "#00FF00";
-
 		// configure for k line
 		this.highestPrice = this.getHighestPrice();
 		this.lowestPrice = this.getLowestPrice();
 		this.numBars = this.data.length;
 		this.barWidth = this.canvas.width / this.numBars * 0.8;
 		this.barSpacing = this.canvas.width / this.numBars * 0.2;
-	
 		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
 		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
 		this.padding = 60;
 		this.priceHeight = (this.canvas.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);  
 		this.barRanges = [];
+		this.canvas.addEventListener("wheel", this.handleScroll);
+		
 		this.draw();
 	}
 
@@ -197,6 +197,23 @@ export class KLines extends BasicCanvas {
 		return Math.min(...lowPrices);
 	};
 
+	handleScroll = (event: MouseEvent) => {
+		// 防止滾動事件的預設行為
+		event.preventDefault();
+		// // 獲取滾動的方向以及滾動量
+		const deltaY = event.movementY;
+		// const deltaY = event.deltaY;
+		const direction = deltaY > 0 ? 10 : -10;
+		// // 在此處實現處理滾動事件的程式碼
+		if (this.data.length > 20 || direction < 0) {
+			this.currentRange = [this.currentRange[0] + direction, this.currentRange[1]];
+			this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
+			this.setKLinesConfigure();
+			// // 重繪 Canvas
+			this.clear();
+			this.draw();
+		}
+	};
 	drawKLines = () => {
 		const paddingHeight = this.canvas.height - 2*this.padding;
 		this.barRanges = [];

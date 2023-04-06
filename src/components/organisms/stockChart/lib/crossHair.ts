@@ -12,7 +12,6 @@ export class CrossHair extends BasicCanvas {
 		super(canvas);
 		this.canvas = canvas;
 		this.chartCanvas = chartCanvas;
-		// this.ctx = canvas.getContext("2d")!;
 		this.ctx.strokeStyle = "#000";
 		this.ctx.setLineDash([5, 5]);
 		this.ctx.lineWidth = 1;
@@ -21,6 +20,7 @@ export class CrossHair extends BasicCanvas {
 		this.canvasX = this.canvasRect.left;
 		this.canvasY = this.canvasRect.top;
 		this.canvas.addEventListener("mousemove", this.drawCrossHair);
+		this.canvas.addEventListener("wheel", this.handleScroll);
 	}
 
 	drawCrossHair = (event: MouseEvent) => {
@@ -39,4 +39,16 @@ export class CrossHair extends BasicCanvas {
 		this.ctx.lineTo(x, this.canvas.height);
 		this.ctx.stroke();
 	};
+
+	handleScroll = (e: WheelEvent) => {
+		e.preventDefault();
+		const event = new MouseEvent("wheel", {
+			bubbles: true,
+			cancelable: true,
+			view: window,
+			movementY: e.deltaY,
+		});
+		this.chartCanvas.dispatchEvent(event);
+	};
+
 }
