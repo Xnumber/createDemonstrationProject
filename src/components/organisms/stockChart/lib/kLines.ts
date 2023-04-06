@@ -17,8 +17,11 @@ export class KLines extends BasicCanvas {
 		data: ChartData[number]
 	}[];
 	private padding: number;
+	// for x axis grid and label
 	private xAxisShownIndexArray: number[];
-
+	// for y axis grid and label
+	private priceInterval: number;
+	private priceHeight: number;
 	constructor(canvas: HTMLCanvasElement, data: StockRawData) {
 		super(canvas);
 		this.parsedRawData = this.parseData(data);
@@ -33,17 +36,21 @@ export class KLines extends BasicCanvas {
 		this.numBars = this.data.length;
 		this.barWidth = this.canvas.width / this.numBars * 0.8;
 		this.barSpacing = this.canvas.width / this.numBars * 0.2;
+	
 		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
-
-		this.barRanges = [];
+		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
 		this.padding = 60;
+		this.priceHeight = (this.canvas.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);  
+		this.barRanges = [];
 		this.draw();
 	}
 
 	draw() {
 		this.drawXGrid();
+		this.drawYGrid();
 		this.drawXLabels();
 		this.drawKLines();
+		this.drawYLabels();
 	}
 
 	getPriceInterval = (max: number, min: number, n: number) => {
@@ -69,6 +76,38 @@ export class KLines extends BasicCanvas {
 				this.ctx.strokeStyle = "lightgrey";
 				this.ctx.stroke();
 			}
+		}
+	};
+
+	drawYGrid = () => {
+		const roundedLowestPrice = Math.floor(this.lowestPrice/100)*100;
+		for (let i = roundedLowestPrice; i <= this.highestPrice; i += this.priceInterval) {
+
+			const y = this.canvas.height - this.padding - (i - this.lowestPrice) * this.priceHeight;
+			const x = this.canvas.width;
+			this.ctx.beginPath();
+			this.ctx.moveTo(x, y);
+			this.ctx.lineTo(0, y);
+			this.ctx.strokeStyle = "lightgrey";
+			this.ctx.stroke();
+		}
+	};
+
+	drawYLabels = () => {
+		this.ctx.font = "12px Arial";
+		this.ctx.textAlign = "right";
+		this.ctx.textBaseline = "middle";
+		const roundedLowestPrice = Math.floor(this.lowestPrice/100)*100;
+		for (let i = roundedLowestPrice; i <= this.highestPrice; i += this.priceInterval) {
+			const y = this.canvas.height - this.padding - (i - this.lowestPrice) * this.priceHeight;
+			const x = this.canvas.width;
+			this.ctx.beginPath();
+			this.ctx.moveTo(x, y);
+			this.ctx.lineTo(x - 5, y);
+			this.ctx.strokeStyle = "#000";
+			this.ctx.stroke();
+			this.ctx.fillStyle = "#000";
+			this.ctx.fillText(i.toFixed(2), x - 10, y);
 		}
 	};
 
