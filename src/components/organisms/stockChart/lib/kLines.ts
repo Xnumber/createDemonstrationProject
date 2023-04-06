@@ -22,6 +22,10 @@ export class KLines extends BasicCanvas {
 	// for y axis grid and label
 	private priceInterval: number;
 	private priceHeight: number;
+	// for drag
+	private dragStartX: number;
+	private movingIndex: number; // moved indexes in one drag
+
 	constructor(canvas: HTMLCanvasElement, data: StockRawData) {
 		super(canvas);
 		this.parsedRawData = this.parseData(data);
@@ -40,7 +44,11 @@ export class KLines extends BasicCanvas {
 		this.padding = 60;
 		this.priceHeight = (this.canvas.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);  
 		this.barRanges = [];
+		this.dragStartX;
+		this.movingIndex = 0;
 		this.canvas.addEventListener("wheel", this.handleScroll);
+
+		this.canvas.addEventListener("mousedown", this.drag.bind(this));
 		
 		this.draw();
 	}
@@ -214,6 +222,38 @@ export class KLines extends BasicCanvas {
 			this.draw();
 		}
 	};
+
+	onMouseMove = (event: MouseEvent) => {
+		// 獲取滑鼠移動時的位置
+		const x = event.clientX;
+		// 計算滑鼠移動的距離
+		const movingIndex = Math.floor((x - this.dragStartX)/5);
+		this.movingIndex = movingIndex;
+		this.data = this.getRangeData(this.currentRange[0] - movingIndex, this.currentRange[1] - movingIndex, this.parsedRawData);
+		this.setKLinesConfigure();
+		// // 重繪 Canvas
+		this.clear();
+		this.draw();
+	};
+
+	onMouseUp = () => {
+		this.currentRange = [this.currentRange[0] - this.movingIndex, this.currentRange[1] - this.movingIndex];
+		// 當滑鼠放開時，移除mousemove事件監聽器
+		document.removeEventListener("mousemove", this.onMouseMove);
+		// 移除mouseup事件監聽器
+		document.removeEventListener("mouseup", this.onMouseUp);
+	};
+
+	drag = (event: MouseEvent) => {
+		// 當mousedown事件被觸發時，執行此回調函數
+		// 獲取滑鼠按下時的位置
+		this.dragStartX = event.clientX;
+		// 當滑鼠按下時，設置mousemove事件監聽器
+		document.addEventListener("mousemove", this.onMouseMove);
+		// 當滑鼠放開時，移除mousemove事件監聽器
+		document.addEventListener("mouseup", this.onMouseUp);
+	};
+
 	drawKLines = () => {
 		const paddingHeight = this.canvas.height - 2*this.padding;
 		this.barRanges = [];

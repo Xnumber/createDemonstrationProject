@@ -21,6 +21,8 @@ export class CrossHair extends BasicCanvas {
 		this.canvasY = this.canvasRect.top;
 		this.canvas.addEventListener("mousemove", this.drawCrossHair);
 		this.canvas.addEventListener("wheel", this.handleScroll);
+		this.canvas.addEventListener("mousedown", this.handleMouseDown);
+		this.canvas.addEventListener("mouseup", this.handleMouseDown);
 	}
 
 	drawCrossHair = (event: MouseEvent) => {
@@ -47,6 +49,25 @@ export class CrossHair extends BasicCanvas {
 			cancelable: true,
 			view: window,
 			movementY: e.deltaY,
+		});
+		this.chartCanvas.dispatchEvent(event);
+	};
+
+	handleMouseDown = (e: MouseEvent) => {
+		const event = new MouseEvent("mousedown", {
+			bubbles: false,
+			cancelable: true,
+			view: window,
+			clientX: e.clientX,
+		});
+		this.chartCanvas.dispatchEvent(event);
+	};
+
+	handleMouseUp = () => {
+		const event = new MouseEvent("mouseup", {
+			bubbles: false,
+			cancelable: true,
+			view: window,
 		});
 		this.chartCanvas.dispatchEvent(event);
 	};
