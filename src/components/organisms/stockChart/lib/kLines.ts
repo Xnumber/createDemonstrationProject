@@ -1,10 +1,10 @@
 import { BasicCanvas } from "./basic";
-import { ChartData, StockRawData } from "./type";
+import { ChartData, KLineBarRange, StockRawData } from "./type";
 
 export class KLines extends BasicCanvas {
 	private parsedRawData: ChartData;
 	private currentRange: [number, number];
-	private data: ChartData;
+	public data: ChartData;
 	private risingColor: string;
 	private fallingColor: string;
 	private highestPrice: number;
@@ -12,10 +12,7 @@ export class KLines extends BasicCanvas {
 	private numBars: number;
 	private barWidth: number;
 	private barSpacing: number;
-	private barRanges: { 
-		range: [number, number],
-		data: ChartData[number]
-	}[];
+	public barRanges: KLineBarRange[];
 	private padding: number;
 	// for x axis grid and label
 	private xAxisShownIndexArray: number[];
