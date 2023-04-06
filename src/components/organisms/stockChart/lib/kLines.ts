@@ -26,7 +26,7 @@ export class KLines extends BasicCanvas {
 	constructor(canvas: HTMLCanvasElement, data: StockRawData) {
 		super(canvas);
 		this.parsedRawData = this.parseData(data);
-		this.currentRange = [data.length - 30, data.length];
+		this.currentRange = [data.length - 30, data.length - 1];
 		this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
 		this.risingColor = "#FF0000";
 		this.fallingColor = "#00FF00";
@@ -227,16 +227,28 @@ export class KLines extends BasicCanvas {
 		const x = event.clientX;
 		// 計算滑鼠移動的距離
 		const movingIndex = Math.floor((x - this.dragStartX)/5);
-		this.movingIndex = movingIndex;
-		this.data = this.getRangeData(this.currentRange[0] - movingIndex, this.currentRange[1] - movingIndex, this.parsedRawData);
-		this.setKLinesConfigure();
-		// // 重繪 Canvas
-		this.clear();
-		this.draw();
+		// check range that is not over the latest date
+		if (this.currentRange[1] - movingIndex < this.parsedRawData.length - 1) {
+			this.movingIndex = movingIndex;
+			this.data = this.getRangeData(this.currentRange[0] - movingIndex, this.currentRange[1] - movingIndex, this.parsedRawData);
+			this.setKLinesConfigure();
+			// // 重繪 Canvas
+			this.clear();
+			this.draw();
+		}
+		// if the changed range is over the latest date, set the ranges to the latest date
+		if (this.currentRange[1] - movingIndex >= this.parsedRawData.length - 1 && movingIndex < 0) {
+			this.data = this.getRangeData(this.currentRange[0], this.parsedRawData.length - 1, this.parsedRawData);
+			this.setKLinesConfigure();
+			this.clear();
+			this.draw();
+		}
 	};
 
 	onMouseUp = () => {
 		this.currentRange = [this.currentRange[0] - this.movingIndex, this.currentRange[1] - this.movingIndex];
+		// reset after every drag, or it could affect next drag
+		this.movingIndex = 0;
 		// 當滑鼠放開時，移除mousemove事件監聽器
 		document.removeEventListener("mousemove", this.onMouseMove);
 		// 移除mouseup事件監聽器
