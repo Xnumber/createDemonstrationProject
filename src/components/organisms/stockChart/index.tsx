@@ -6,6 +6,7 @@ import "./style.scss";
 import { CrossHair } from "./lib/crossHair";
 import { StockChartHeader } from "./lib/header";
 import { useAppSelector } from "src/app/hooks";
+import { MovingAerage } from "./lib/movingAverage";
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;
@@ -17,14 +18,17 @@ const _StockChart = () => {
 	const kLines = useRef<KLines|null>(null);
 	const crossHair = useRef<CrossHair|null>(null);
 	const stockChartHeader = useRef<StockChartHeader|null>(null);
+	const movingAerage = useRef<MovingAerage|null>(null);
 	const chartCanvas = useRef<HTMLCanvasElement>(null);
 	const foregroundCanvasRef = useRef<HTMLCanvasElement>(null);
 	const chartHeaderCanvasRef = useRef<HTMLCanvasElement>(null);
+	const movingAerageCanvasRef = useRef<HTMLCanvasElement>(null);
 	const mode = useAppSelector(state => state.theme.mode);
 	
 	useEffect(() => {
 		if (
 			chartHeaderCanvasRef.current &&
+			movingAerageCanvasRef.current &&
 			chartCanvas.current &&
 			foregroundCanvasRef.current &&
 			chartCanvas.current.getContext("2d") && 
@@ -33,6 +37,8 @@ const _StockChart = () => {
 			const wrapperSize = getElementSize(chartCanvas.current.parentElement);
 			chartCanvas.current.width = wrapperSize.width;
 			chartCanvas.current.height = wrapperSize.height;
+			movingAerageCanvasRef.current.width = wrapperSize.width;
+			movingAerageCanvasRef.current.height = wrapperSize.height;
 			foregroundCanvasRef.current.width = wrapperSize.width;
 			foregroundCanvasRef.current.height = wrapperSize.height;
 			chartHeaderCanvasRef.current.width = wrapperSize.width;
@@ -40,6 +46,7 @@ const _StockChart = () => {
 			kLines.current = new KLines(chartCanvas.current, weightedData, mode);
 			crossHair.current = new CrossHair(foregroundCanvasRef.current, chartCanvas.current, mode);
 			stockChartHeader.current = new StockChartHeader(chartHeaderCanvasRef.current, kLines.current, foregroundCanvasRef.current, mode);
+			movingAerage.current = new MovingAerage(movingAerageCanvasRef.current, kLines.current, foregroundCanvasRef.current, mode);
 		} else {
 			alert("不支援CanvasRenderingContext2D");
 		}
@@ -48,6 +55,7 @@ const _StockChart = () => {
 			kLines.current?.destroy();
 			crossHair.current?.destroy();
 			stockChartHeader.current?.destroy();
+			movingAerage.current?.destroy();
 		};
 	}, []);
 
@@ -63,6 +71,7 @@ const _StockChart = () => {
 		</div>
 		<Box height={"360px"}>
 			<canvas className="o-stockChart__kLine" ref={chartCanvas}></canvas>
+			<canvas className="o-stockChart__movingAverage" ref={movingAerageCanvasRef}></canvas>
 			<canvas className="o-stockChart__foreground" ref={foregroundCanvasRef}></canvas>
 		</Box>
 	</Box>; 

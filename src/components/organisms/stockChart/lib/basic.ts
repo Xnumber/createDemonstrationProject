@@ -4,11 +4,13 @@ export class BasicCanvas {
 	protected ctx: CanvasRenderingContext2D;
 	protected canvas: HTMLCanvasElement;
 	protected mode: PaletteMode;
+	protected padding: number;
 	
 	constructor(canvas: HTMLCanvasElement, mode: PaletteMode) {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		this.mode = mode;
+		this.padding = 60;
 	}
 
 	clear() {

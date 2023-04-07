@@ -8,13 +8,13 @@ export class KLines extends BasicCanvas {
 	public data: ChartData;
 	private risingColor: string;
 	private fallingColor: string;
-	private highestPrice: number;
-	private lowestPrice: number;
+	public highestPrice: number;
+	public lowestPrice: number;
 	private numBars: number;
-	private barWidth: number;
-	private barSpacing: number;
+	public barWidth: number;
+	public barSpacing: number;
 	public barRanges: KLineBarRange[];
-	private padding: number;
+	// private padding: number;
 	private wickColor: string;
 	private axisLabelColor: string;
 	// for x axis grid and label
@@ -43,7 +43,7 @@ export class KLines extends BasicCanvas {
 		this.barSpacing = this.canvas.width / this.numBars * 0.2;
 		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
 		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
-		this.padding = 60;
+		// this.padding = 60;
 		this.priceHeight = (this.canvas.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);  
 		this.barRanges = [];
 		this.dragStartX;
@@ -112,6 +112,7 @@ export class KLines extends BasicCanvas {
 		for (let i = roundedLowestPrice; i <= this.highestPrice; i += this.priceInterval) {
 			const y = this.canvas.height - this.padding - (i - this.lowestPrice) * this.priceHeight;
 			const x = this.canvas.width;
+
 			this.ctx.fillText(i.toFixed(2), x - 10, y);
 		}
 	};
@@ -266,15 +267,15 @@ export class KLines extends BasicCanvas {
 	};
 
 	drawKLines = () => {
-		const paddingHeight = this.canvas.height - 2*this.padding;
+		const drawingRangeHeight = this.canvas.height - 2*this.padding;
 		this.barRanges = [];
 
 		for (let i = 0; i < this.data.length; i++) {
 			const item = this.data[i];
 			const [, openPrice, highPrice, lowPrice, closePrice] = item;
 			const x = i * (this.barWidth + this.barSpacing);
-			const y = (this.highestPrice - highPrice) / (this.highestPrice - this.lowestPrice) * paddingHeight;
-			const height = Math.abs(highPrice - lowPrice) / (this.highestPrice - this.lowestPrice) * paddingHeight;
+			const y = (this.highestPrice - highPrice) / (this.highestPrice - this.lowestPrice) * drawingRangeHeight;
+			const height = Math.abs(highPrice - lowPrice) / (this.highestPrice - this.lowestPrice) * drawingRangeHeight;
 
 			this.barRanges.push({
 				range: [x, x + this.barWidth],
@@ -289,13 +290,13 @@ export class KLines extends BasicCanvas {
 
 			if (closePrice >= openPrice) {
 				this.ctx.fillStyle = this.risingColor;
-				const closeY = this.padding + (this.highestPrice - closePrice) / (this.highestPrice - this.lowestPrice) * paddingHeight;
-				const openY = this.padding + (this.highestPrice - openPrice) / (this.highestPrice - this.lowestPrice) * paddingHeight;
+				const closeY = this.padding + (this.highestPrice - closePrice) / (this.highestPrice - this.lowestPrice) * drawingRangeHeight;
+				const openY = this.padding + (this.highestPrice - openPrice) / (this.highestPrice - this.lowestPrice) * drawingRangeHeight;
 				this.ctx.fillRect(x, closeY, this.barWidth, Math.abs(closeY - openY));
 			} else {
 				this.ctx.fillStyle = this.fallingColor;
-				const closeY = this.padding + (this.highestPrice - closePrice) / (this.highestPrice - this.lowestPrice) * paddingHeight;
-				const openY = this.padding + (this.highestPrice - openPrice) / (this.highestPrice - this.lowestPrice) * paddingHeight;
+				const closeY = this.padding + (this.highestPrice - closePrice) / (this.highestPrice - this.lowestPrice) * drawingRangeHeight;
+				const openY = this.padding + (this.highestPrice - openPrice) / (this.highestPrice - this.lowestPrice) * drawingRangeHeight;
 				this.ctx.fillRect(x, openY, this.barWidth, Math.abs(closeY - openY));
 			}
 		}
