@@ -7,11 +7,11 @@ export const mainMenu: CollapseMenuItem<keyof typeof HomeEn>[] = [
 		url: "/example-features",
 		activateLoading: true
 	},
-	{
-		label: "planning",
-		url: "/planning",
-		activateLoading: true
-	},
+	// {
+	// 	label: "planning",
+	// 	url: "/planning",
+	// 	activateLoading: true
+	// },
 	{
 		label: "about",
 		url: "/about",
