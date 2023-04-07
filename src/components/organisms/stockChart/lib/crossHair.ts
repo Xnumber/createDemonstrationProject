@@ -1,18 +1,18 @@
+import { PaletteMode } from "@mui/material";
 import { BasicCanvas } from "./basic";
 
 export class CrossHair extends BasicCanvas {
 	protected canvas: HTMLCanvasElement;
 	protected chartCanvas: HTMLCanvasElement;
-	// ctx: CanvasRenderingContext2D;
 	canvasRect: DOMRect;
 	canvasX: number;
 	canvasY: number;
 
-	constructor(canvas: HTMLCanvasElement, chartCanvas: HTMLCanvasElement) {
-		super(canvas);
+	constructor(canvas: HTMLCanvasElement, chartCanvas: HTMLCanvasElement, mode: PaletteMode) {
+		super(canvas, mode);
 		this.canvas = canvas;
 		this.chartCanvas = chartCanvas;
-		this.ctx.strokeStyle = "#000";
+		this.ctx.strokeStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.ctx.setLineDash([5, 5]);
 		this.ctx.lineWidth = 1;
 		// 計算畫布在文檔中的位置
@@ -20,10 +20,16 @@ export class CrossHair extends BasicCanvas {
 		this.canvasX = this.canvasRect.left;
 		this.canvasY = this.canvasRect.top;
 		this.canvas.addEventListener("mousemove", this.drawCrossHair);
+		this.canvas.addEventListener("mouseout", this.handleMouseOut);
 		this.canvas.addEventListener("wheel", this.handleScroll);
 		this.canvas.addEventListener("mousedown", this.handleMouseDown);
 		this.canvas.addEventListener("mouseup", this.handleMouseDown);
 	}
+
+	setMode = (mode: PaletteMode) => {
+		this.mode = mode;
+		this.ctx.strokeStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+	};
 
 	drawCrossHair = (event: MouseEvent) => {
 		this.clear();
@@ -72,4 +78,15 @@ export class CrossHair extends BasicCanvas {
 		this.chartCanvas.dispatchEvent(event);
 	};
 
+	handleMouseOut = () => {
+		this.clear();
+	};
+
+	destroy = () => {
+		this.canvas.removeEventListener("mousemove", this.drawCrossHair);
+		this.canvas.removeEventListener("wheel", this.handleScroll);
+		this.canvas.removeEventListener("mousedown", this.handleMouseDown);
+		this.canvas.removeEventListener("mouseup", this.handleMouseDown);
+		this.canvas.removeEventListener("mouseout", this.handleMouseOut);
+	};
 }

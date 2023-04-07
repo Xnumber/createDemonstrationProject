@@ -1,5 +1,6 @@
 import { BasicCanvas } from "./basic";
 import { ChartData, KLineBarRange, StockRawData } from "./type";
+import type { PaletteMode } from "@mui/material";
 
 export class KLines extends BasicCanvas {
 	private parsedRawData: ChartData;
@@ -14,6 +15,8 @@ export class KLines extends BasicCanvas {
 	private barSpacing: number;
 	public barRanges: KLineBarRange[];
 	private padding: number;
+	private wickColor: string;
+	private axisLabelColor: string;
 	// for x axis grid and label
 	private xAxisShownIndexArray: number[];
 	// for y axis grid and label
@@ -22,15 +25,17 @@ export class KLines extends BasicCanvas {
 	// for drag
 	private dragStartX: number;
 	private movingIndex: number; // moved indexes in one drag
-
-	constructor(canvas: HTMLCanvasElement, data: StockRawData) {
-		super(canvas);
+   
+	constructor(canvas: HTMLCanvasElement, data: StockRawData, mode: PaletteMode) {
+		super(canvas, mode);
 		this.parsedRawData = this.parseData(data);
 		this.currentRange = [data.length - 30, data.length - 1];
 		this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
 		this.risingColor = "#FF0000";
 		this.fallingColor = "#00FF00";
 		// configure for k line
+		this.wickColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.highestPrice = this.getHighestPrice();
 		this.lowestPrice = this.getLowestPrice();
 		this.numBars = this.data.length;
@@ -45,12 +50,13 @@ export class KLines extends BasicCanvas {
 		this.movingIndex = 0;
 		this.canvas.addEventListener("wheel", this.handleScroll);
 
-		this.canvas.addEventListener("mousedown", this.drag.bind(this));
+		this.canvas.addEventListener("mousedown", this.drag);
 		
 		this.draw();
 	}
 
 	draw() {
+		this.clear();
 		this.drawXGrid();
 		this.drawYGrid();
 		this.drawXLabels();
@@ -87,7 +93,6 @@ export class KLines extends BasicCanvas {
 	drawYGrid = () => {
 		const roundedLowestPrice = Math.floor(this.lowestPrice/100)*100;
 		for (let i = roundedLowestPrice; i <= this.highestPrice; i += this.priceInterval) {
-
 			const y = this.canvas.height - this.padding - (i - this.lowestPrice) * this.priceHeight;
 			const x = this.canvas.width;
 			this.ctx.beginPath();
@@ -102,16 +107,11 @@ export class KLines extends BasicCanvas {
 		this.ctx.font = "12px Arial";
 		this.ctx.textAlign = "right";
 		this.ctx.textBaseline = "middle";
+		this.ctx.fillStyle = this.axisLabelColor;
 		const roundedLowestPrice = Math.floor(this.lowestPrice/100)*100;
 		for (let i = roundedLowestPrice; i <= this.highestPrice; i += this.priceInterval) {
 			const y = this.canvas.height - this.padding - (i - this.lowestPrice) * this.priceHeight;
 			const x = this.canvas.width;
-			this.ctx.beginPath();
-			this.ctx.moveTo(x, y);
-			this.ctx.lineTo(x - 5, y);
-			this.ctx.strokeStyle = "#000";
-			this.ctx.stroke();
-			this.ctx.fillStyle = "#000";
 			this.ctx.fillText(i.toFixed(2), x - 10, y);
 		}
 	};
@@ -120,7 +120,7 @@ export class KLines extends BasicCanvas {
 		const labelSpacing = 5;  // 日期標籤之間的間距
 		const numLabels = this.data.length;  // 顯示的日期標籤數量
 		const labelIndices = this.getLabelIndices(numLabels);  // 取得要顯示日期標籤的index
-		this.ctx.fillStyle = "#000000";
+		this.ctx.fillStyle = this.axisLabelColor;
 		this.ctx.font = "12px Arial";
 		this.ctx.textAlign = "center";
 		for (let i = 0; i < this.data.length; i++) {
@@ -217,7 +217,7 @@ export class KLines extends BasicCanvas {
 			this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
 			this.setKLinesConfigure();
 			// // 重繪 Canvas
-			this.clear();
+			// this.clear();
 			this.draw();
 		}
 	};
@@ -233,14 +233,14 @@ export class KLines extends BasicCanvas {
 			this.data = this.getRangeData(this.currentRange[0] - movingIndex, this.currentRange[1] - movingIndex, this.parsedRawData);
 			this.setKLinesConfigure();
 			// // 重繪 Canvas
-			this.clear();
+			// this.clear();
 			this.draw();
 		}
 		// if the changed range is over the latest date, set the ranges to the latest date
 		if (this.currentRange[1] - movingIndex >= this.parsedRawData.length - 1 && movingIndex < 0) {
 			this.data = this.getRangeData(this.currentRange[0], this.parsedRawData.length - 1, this.parsedRawData);
 			this.setKLinesConfigure();
-			this.clear();
+			// this.clear();
 			this.draw();
 		}
 	};
@@ -284,7 +284,7 @@ export class KLines extends BasicCanvas {
 			this.ctx.beginPath();
 			this.ctx.moveTo(x + this.barWidth / 2, y + this.padding);
 			this.ctx.lineTo(x + this.barWidth / 2, y + height + this.padding);
-			this.ctx.strokeStyle = "#000";
+			this.ctx.strokeStyle = this.wickColor;
 			this.ctx.stroke();
 
 			if (closePrice >= openPrice) {
@@ -299,5 +299,17 @@ export class KLines extends BasicCanvas {
 				this.ctx.fillRect(x, openY, this.barWidth, Math.abs(closeY - openY));
 			}
 		}
+	};
+
+	setMode = (mode: PaletteMode) => {
+		this.mode = mode;
+		this.wickColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.draw();
+	};
+
+	destroy = () => {
+		this.canvas.removeEventListener("wheel", this.handleScroll);
+		this.canvas.removeEventListener("mousedown", this.drag);
 	};
 }

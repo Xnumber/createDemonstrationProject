@@ -1,10 +1,14 @@
+import type { PaletteMode } from "@mui/material";
+
 export class BasicCanvas {
 	protected ctx: CanvasRenderingContext2D;
 	protected canvas: HTMLCanvasElement;
-
-	constructor(canvas: HTMLCanvasElement) {
+	protected mode: PaletteMode;
+	
+	constructor(canvas: HTMLCanvasElement, mode: PaletteMode) {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+		this.mode = mode;
 	}
 
 	clear() {

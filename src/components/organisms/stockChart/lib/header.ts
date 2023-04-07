@@ -1,15 +1,15 @@
 import { BasicCanvas } from "./basic";
 import { KLines } from "./kLines";
 import { KLineBarRange } from "./type";
-
+import type { PaletteMode } from "@mui/material";
 export class StockChartHeader extends BasicCanvas {
 	private foregroundCanvas: HTMLCanvasElement;
 	private kLines: KLines;
 	private indexWithinRange: number | undefined;
 	private priceColor: string;
 
-	constructor(canvas: HTMLCanvasElement, kLines: KLines, foregroundCanvas: HTMLCanvasElement) {
-		super(canvas);
+	constructor(canvas: HTMLCanvasElement, kLines: KLines, foregroundCanvas: HTMLCanvasElement, mode: PaletteMode) {
+		super(canvas, mode);
 		this.foregroundCanvas = foregroundCanvas;
 		this.kLines = kLines;
 		this.ctx.strokeStyle = "#000";
@@ -33,15 +33,20 @@ export class StockChartHeader extends BasicCanvas {
 		return undefined;
 	}
 
+	setMode = (mode: PaletteMode) => {
+		this.mode = mode;
+		this.drawText();
+	};
+
 	drawText = () => {
 		const { indexWithinRange } = this;
 		if (indexWithinRange) {
 			this.clear();
-			this.ctx.fillStyle = "black";
+			this.ctx.fillStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 			this.ctx.fillText(this.kLines.data[indexWithinRange][0], 10, 20);
 			this.ctx.fillStyle = this.priceColor;
 			this.ctx.fillText(this.kLines.data[indexWithinRange][4].toString(), 10, 80);
-			this.ctx.fillStyle = "black";
+			this.ctx.fillStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 			const detail = `開: ${this.kLines.data[indexWithinRange][1]}\
 				高: ${this.kLines.data[indexWithinRange][2]}\
 				低: ${this.kLines.data[indexWithinRange][3]}\
@@ -63,5 +68,9 @@ export class StockChartHeader extends BasicCanvas {
 		}
 
 		this.drawText();
+	};
+
+	destroy = () => {
+		this.foregroundCanvas.removeEventListener("mousemove", this.handleForegroundMouseMove);
 	};
 }
