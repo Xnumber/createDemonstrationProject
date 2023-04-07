@@ -7,7 +7,7 @@ const Features = withCloseLoadingOnMount(lazy(() => import("pages/features")));
 const Water = withCloseLoadingOnMount(lazy(() => import("pages/water")));
 const SimpleContentManagement = withCloseLoadingOnMount(lazy(() => import("pages/simpleContentManagement")));
 const ReadingNotes = withCloseLoadingOnMount(lazy(() => import("pages/readingNotes")));
-const Planning = withCloseLoadingOnMount(lazy(() => import("pages/planning")));
+// const Planning = withCloseLoadingOnMount(lazy(() => import("pages/planning")));
 const About = withCloseLoadingOnMount(lazy(() => import("pages/about")));
 
 export const routes: (
@@ -43,11 +43,11 @@ export const routes: (
 			path: "/:lng/reading-notes",
 			element: <ReadingNotes />
 		},
-		{
-			name: "planning",
-			path: "/:lng/planning",
-			element: <Planning />
-		},
+		// {
+		// 	name: "planning",
+		// 	path: "/:lng/planning",
+		// 	element: <Planning />
+		// },
 		{
 			name: "about",
 			path: "/:lng/about",
