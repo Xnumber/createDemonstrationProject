@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import { LoadingState } from "features/loading/type";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
+import { YCenter } from "templates/yCenter";
+
 const _LoadingBackdrop = (props: { events: LoadingState["loadingQueue"] }) => {
 	const { events } = props;
 	const xsrfToken = Cookies.get("XSRF-TOKEN");
@@ -40,7 +42,7 @@ const _LoadingBackdrop = (props: { events: LoadingState["loadingQueue"] }) => {
 									</Typography>
 								</XCenter>: null
 						}
-						<XCenter>
+						<YCenter flexDirection={"column"}>
 							{
 								events.map((o, i) => {
 									return <Box key={i}>
@@ -53,7 +55,7 @@ const _LoadingBackdrop = (props: { events: LoadingState["loadingQueue"] }) => {
 									</Box>;
 								})
 							}
-						</XCenter>
+						</YCenter>
 					</Box>
 			}
 		</Backdrop>
