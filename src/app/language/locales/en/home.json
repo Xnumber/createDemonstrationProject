@@ -26,5 +26,6 @@
 	"programming": "Programming",
 	"about": "About Clement",
 	"example-features": "Example Features",
-	"display-events-longer": "Display Events Longer"
+	"display-events-longer": "Display Events Longer",
+	"common-loading-message": "This message will be displayed for an additional 3 seconds. You can cancel the extension of the display time at the bottom of the screen."
 }

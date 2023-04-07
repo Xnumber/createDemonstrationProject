@@ -26,5 +26,6 @@
 	"programming": "程式",
 	"about": "關於 Clement",
 	"example-features": "範例功能",
-	"display-events-longer": "延長事件顯示"
+	"display-events-longer": "延長事件顯示",
+	"common-loading-message": "事件顯示延長3秒, 可於畫面下方取消延長時間。"
 }
