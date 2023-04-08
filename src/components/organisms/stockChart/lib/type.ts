@@ -4,3 +4,8 @@ export type KLineBarRange = {
 	range: [number, number],
 	data: ChartData[number]
 };
+export type MAConfigure = {
+	day: number;
+	color: string;
+	display: boolean;
+};
