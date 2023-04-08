@@ -1,6 +1,10 @@
 // @define stockChart
 
 .o-stockChart {
+	&__line {
+		position: absolute;
+	}
+
 	&__kLine {
 		position: absolute;
 	}
