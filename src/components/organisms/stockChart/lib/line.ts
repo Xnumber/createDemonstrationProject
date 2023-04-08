@@ -43,7 +43,7 @@ export class Line extends BasicCanvas {
 		this.gradient.addColorStop(1, "rgba(0, 150, 255, 1)");
 		this.canvas.addEventListener("wheel", this.handleScroll);
 		this.canvas.addEventListener("mousedown", this.drag);
-		this.drawLine();
+		this.draw();
 	}
 	
 	getPriceInterval = (max: number, min: number, n: number) => {
@@ -115,9 +115,9 @@ export class Line extends BasicCanvas {
 		this.clear();
 		this.drawXGrid();
 		this.drawYGrid();
+		this.drawLine();
 		this.drawXLabels();
 		this.drawYLabels();
-		this.drawLine();
 	}
 	
 	drawXLabels = () => {
