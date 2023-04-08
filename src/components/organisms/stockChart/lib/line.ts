@@ -1,6 +1,7 @@
 import { BasicCanvas } from "./basic";
 import type { PaletteMode } from "@mui/material";
 import { ChartData, StockRawData } from "./type";
+
 export class Line extends BasicCanvas {
 	private parsedRawData: ChartData;
 	private currentRange: [number, number];
@@ -18,11 +19,10 @@ export class Line extends BasicCanvas {
 	// for y axis grid and label
 	private priceInterval: number;
 	private priceHeight: number;
-
 	// for drag
 	private dragStartX: number;
 	private movingIndex: number; // moved indexes in one drag
-
+	private gradient: CanvasGradient;
 	constructor(canvas: HTMLCanvasElement, data: StockRawData, foregroundCanvas: HTMLCanvasElement, mode: PaletteMode) {
 		super(canvas, mode);
 		this.foregroundCanvas = foregroundCanvas;
@@ -38,11 +38,14 @@ export class Line extends BasicCanvas {
 		this.barWidth = this.canvas.width / this.numBars * 0.8;
 		this.barSpacing = this.canvas.width / this.numBars * 0.2;
 		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.gradient = this.ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+		this.gradient.addColorStop(0, "rgba(0, 150, 255, 0.5)");
+		this.gradient.addColorStop(1, "rgba(0, 150, 255, 1)");
 		this.canvas.addEventListener("wheel", this.handleScroll);
 		this.canvas.addEventListener("mousedown", this.drag);
 		this.drawLine();
 	}
-
+	
 	getPriceInterval = (max: number, min: number, n: number) => {
 		const range = max - min;
 		const rawInterval = range / n;
@@ -219,16 +222,23 @@ export class Line extends BasicCanvas {
 	drawLine = () => {
 		const drawingRangeHeight = this.canvas.height - 2*this.padding;
 		const { highestPrice, lowestPrice, barWidth, barSpacing } = this;
-		const { ctx, data } = this;
-		ctx.strokeStyle = "green";
+		const { ctx, data, canvas } = this;
 		ctx.beginPath();
+		ctx.strokeStyle = "rgba(0, 0, 0, 0)";
 		for (let i = 0; i < data.length; i++) {
 			const [,,,,closePrice] = data[i];
 			const x = barWidth/2 + i * (barWidth + barSpacing);
 			const y = (highestPrice - closePrice) / (highestPrice - lowestPrice) * drawingRangeHeight + this.padding;
-			this.ctx.lineTo(x, y);
+			ctx.lineTo(x, y);
 		}
-		this.ctx.stroke();
+		const firstX = barWidth/2;
+		const lastX = barWidth/2 + (data.length - 1) * (barWidth + barSpacing);
+		ctx.lineTo(lastX, canvas.height);
+		ctx.lineTo(firstX, canvas.height);
+		ctx.closePath();
+		ctx.fillStyle = this.gradient;
+		ctx.fill();
+		ctx.stroke();
 	};
 
 	drag = (event: MouseEvent) => {
@@ -276,7 +286,6 @@ export class Line extends BasicCanvas {
 		if (this.currentRange[1] - movingIndex >= this.parsedRawData.length - 1 && movingIndex < 0) {
 			this.data = this.getRangeData(this.currentRange[0], this.parsedRawData.length - 1, this.parsedRawData);
 			this.setKLinesConfigure();
-			// this.clear();
 			this.draw();
 		}
 	};
