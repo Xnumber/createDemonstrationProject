@@ -7,6 +7,8 @@ import { CrossHair } from "./lib/crossHair";
 import { StockChartHeader } from "./lib/header";
 import { useAppSelector } from "src/app/hooks";
 import { MovingAerage } from "./lib/movingAverage";
+import { Line } from "./lib/line";
+// import { StockChartType } from "./lib/type";
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;
@@ -18,15 +20,19 @@ const _StockChart = () => {
 	const kLines = useRef<KLines|null>(null);
 	const crossHair = useRef<CrossHair|null>(null);
 	const stockChartHeader = useRef<StockChartHeader|null>(null);
+	const line = useRef<Line|null>(null);
 	const movingAerage = useRef<MovingAerage|null>(null);
 	const chartCanvas = useRef<HTMLCanvasElement>(null);
 	const foregroundCanvasRef = useRef<HTMLCanvasElement>(null);
 	const chartHeaderCanvasRef = useRef<HTMLCanvasElement>(null);
 	const movingAerageCanvasRef = useRef<HTMLCanvasElement>(null);
+	const lineCanvaseRef = useRef<HTMLCanvasElement>(null);
 	const mode = useAppSelector(state => state.theme.mode);
-	
+	// const stockChartType = useState<StockChartType>("k-line");
+
 	useEffect(() => {
 		if (
+			lineCanvaseRef.current &&
 			chartHeaderCanvasRef.current &&
 			movingAerageCanvasRef.current &&
 			chartCanvas.current &&
@@ -43,7 +49,10 @@ const _StockChart = () => {
 			foregroundCanvasRef.current.height = wrapperSize.height;
 			chartHeaderCanvasRef.current.width = wrapperSize.width;
 			chartHeaderCanvasRef.current.height = 100;
+			lineCanvaseRef.current.width = wrapperSize.width;
+			lineCanvaseRef.current.height = wrapperSize.height;
 			kLines.current = new KLines(chartCanvas.current, weightedData, mode);
+			line.current = new Line(lineCanvaseRef.current, weightedData, foregroundCanvasRef.current, mode);
 			crossHair.current = new CrossHair(foregroundCanvasRef.current, chartCanvas.current, mode);
 			stockChartHeader.current = new StockChartHeader(chartHeaderCanvasRef.current, kLines.current, foregroundCanvasRef.current, mode);
 			movingAerage.current = new MovingAerage(movingAerageCanvasRef.current, kLines.current, foregroundCanvasRef.current, mode);
@@ -56,6 +65,7 @@ const _StockChart = () => {
 			crossHair.current?.destroy();
 			stockChartHeader.current?.destroy();
 			movingAerage.current?.destroy();
+			line.current?.destroy();
 		};
 	}, []);
 
@@ -72,6 +82,7 @@ const _StockChart = () => {
 		<Box height={"360px"}>
 			<canvas className="o-stockChart__kLine" ref={chartCanvas}></canvas>
 			<canvas className="o-stockChart__movingAverage" ref={movingAerageCanvasRef}></canvas>
+			<canvas className="o-stockChart__line" ref={lineCanvaseRef}></canvas>
 			<canvas className="o-stockChart__foreground" ref={foregroundCanvasRef}></canvas>
 		</Box>
 	</Box>; 
