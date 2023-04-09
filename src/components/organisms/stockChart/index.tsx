@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from "react";
 import { Box } from "@mui/material";
 import { weightedData } from "./const";
 import { KLines } from "./lib/kLines";
+import { KLines as KLines2 } from "./lib/charts/kLines";
 import "./style.scss";
 import { CrossHair } from "./lib/crossHair";
 import { StockChartHeader } from "./lib/header";
 import { useAppSelector } from "src/app/hooks";
 import { MovingAerage } from "./lib/movingAverage";
 import { Line } from "./lib/line";
+import { Chart } from "./lib/chart";
 // import { BasicChart } from "./lib/basicChart";
 // import { StockChartType } from "./lib/type";
 
@@ -19,6 +21,8 @@ function getElementSize(element: HTMLElement) {
 
 const _StockChart = () => {
 	// const basicChart = useRef<BasicChart|null>(null);
+
+	const chartContainerRef = useRef<HTMLDivElement>(null);
 	const kLines = useRef<KLines|null>(null);
 	const crossHair = useRef<CrossHair|null>(null);
 	const stockChartHeader = useRef<StockChartHeader|null>(null);
@@ -77,6 +81,17 @@ const _StockChart = () => {
 		kLines.current?.setMode(mode);
 	}, [mode]);
 
+	useEffect(() => {
+		if (chartContainerRef.current) {
+			new Chart(
+				chartContainerRef.current,
+				weightedData,
+				[KLines2],
+				mode
+			);
+		}
+	}, []);
+
 	return <Box>
 		<div>
 			<canvas className="o-stockChart__header" ref={chartHeaderCanvasRef}></canvas>
@@ -86,6 +101,9 @@ const _StockChart = () => {
 			<canvas className="o-stockChart__movingAverage" ref={movingAerageCanvasRef}></canvas>
 			<canvas className="o-stockChart__line" ref={lineCanvaseRef}></canvas>
 			<canvas className="o-stockChart__foreground" ref={foregroundCanvasRef}></canvas>
+		</Box>
+		<Box height={"360px"} ref={chartContainerRef}>
+
 		</Box>
 	</Box>; 
 };
