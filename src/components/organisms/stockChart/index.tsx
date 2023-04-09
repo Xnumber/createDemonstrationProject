@@ -8,6 +8,7 @@ import { StockChartHeader } from "./lib/header";
 import { useAppSelector } from "src/app/hooks";
 import { MovingAerage } from "./lib/movingAverage";
 import { Line } from "./lib/line";
+// import { BasicChart } from "./lib/basicChart";
 // import { StockChartType } from "./lib/type";
 
 function getElementSize(element: HTMLElement) {
@@ -17,6 +18,7 @@ function getElementSize(element: HTMLElement) {
 }
 
 const _StockChart = () => {
+	// const basicChart = useRef<BasicChart|null>(null);
 	const kLines = useRef<KLines|null>(null);
 	const crossHair = useRef<CrossHair|null>(null);
 	const stockChartHeader = useRef<StockChartHeader|null>(null);
@@ -52,10 +54,10 @@ const _StockChart = () => {
 			lineCanvaseRef.current.width = wrapperSize.width;
 			lineCanvaseRef.current.height = wrapperSize.height;
 			kLines.current = new KLines(chartCanvas.current, weightedData, mode);
-			line.current = new Line(lineCanvaseRef.current, weightedData, foregroundCanvasRef.current, mode);
+			// line.current = new Line(lineCanvaseRef.current, weightedData, foregroundCanvasRef.current, mode);
 			crossHair.current = new CrossHair(foregroundCanvasRef.current, chartCanvas.current, mode);
 			stockChartHeader.current = new StockChartHeader(chartHeaderCanvasRef.current, kLines.current, foregroundCanvasRef.current, mode);
-			movingAerage.current = new MovingAerage(movingAerageCanvasRef.current, kLines.current, foregroundCanvasRef.current, mode);
+			// movingAerage.current = new MovingAerage(movingAerageCanvasRef.current, kLines.current, foregroundCanvasRef.current, mode);
 		} else {
 			alert("不支援CanvasRenderingContext2D");
 		}

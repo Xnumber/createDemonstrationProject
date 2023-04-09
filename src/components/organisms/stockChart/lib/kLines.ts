@@ -1,18 +1,13 @@
-import { BasicCanvas } from "./basicCanvas";
+import { BasicChart } from "./basicChart";
 import { ChartData, KLineBarRange, StockRawData } from "./type";
 import type { PaletteMode } from "@mui/material";
 
-export class KLines extends BasicCanvas {
-	private parsedRawData: ChartData;
-	private currentRange: [number, number];
+export class KLines extends BasicChart {
 	public data: ChartData;
 	private risingColor: string;
 	private fallingColor: string;
 	public highestPrice: number;
 	public lowestPrice: number;
-	private numBars: number;
-	public barWidth: number;
-	public barSpacing: number;
 	public barRanges: KLineBarRange[];
 	// private padding: number;
 	private wickColor: string;
@@ -27,7 +22,7 @@ export class KLines extends BasicCanvas {
 	private movingIndex: number; // moved indexes in one drag
    
 	constructor(canvas: HTMLCanvasElement, data: StockRawData, mode: PaletteMode) {
-		super(canvas, mode);
+		super(canvas, data, mode);
 		this.parsedRawData = this.parseData(data);
 		this.currentRange = [data.length - 30, data.length - 1];
 		this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
@@ -36,11 +31,6 @@ export class KLines extends BasicCanvas {
 		// configure for k line
 		this.wickColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
-		this.highestPrice = this.getHighestPrice();
-		this.lowestPrice = this.getLowestPrice();
-		this.numBars = this.data.length;
-		this.barWidth = this.canvas.width / this.numBars * 0.8;
-		this.barSpacing = this.canvas.width / this.numBars * 0.2;
 		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
 		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
 		// this.padding = 60;
@@ -79,7 +69,7 @@ export class KLines extends BasicCanvas {
 		for (let i = 0; i < this.data.length; i++) {
 			const labelIndex = labelIndices[i];
 			const labelX = labelIndex * (this.barWidth + this.barSpacing) + this.barWidth / 2;
-			//   const labelDate = this.data[i][0];
+
 			if (this.xAxisShownIndexArray.indexOf(i) !== -1) {
 				this.ctx.beginPath();
 				this.ctx.moveTo(labelX, this.canvas.height);
@@ -157,29 +147,6 @@ export class KLines extends BasicCanvas {
 		this.priceHeight = (this.canvas.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);
 	};
 
-	getRangeData = (startIndex: number, endIndex: number, data: ChartData) => {
-		return data.slice(startIndex, endIndex + 1);
-	};
-
-	parseData = (data: StockRawData): ChartData => {
-		const parsedData = [] ;
-		for (let i = 0; i < data.length; i++) {
-			const row = data[i];
-			const parsedRow = [] as unknown as ChartData[number];
-			for (let j = 0; j < row.length; j++) {
-				if (j === 0) {
-					parsedRow.push(row[j]);
-				} else {
-					const value = parseFloat(row[j].replace(/,/g, ""));
-					parsedRow.push(value);
-				}
-			}
-			parsedData.push(parsedRow);
-		}
-
-		return parsedData;
-	};
-
 	getLabelIndices = (numLabels: number) => {
 		const labelIndices = [0];
 		const interval = Math.floor(this.numBars / (numLabels - 1));
@@ -193,16 +160,6 @@ export class KLines extends BasicCanvas {
 		}
 
 		return labelIndices;
-	};
-
-	getHighestPrice = () => {
-		const highPrices = this.data.map(item => item[2]);
-		return Math.max(...highPrices);
-	};
-
-	getLowestPrice = () => {
-		const lowPrices = this.data.map(item => item[3]);
-		return Math.min(...lowPrices);
 	};
 
 	handleScroll = (event: MouseEvent) => {
