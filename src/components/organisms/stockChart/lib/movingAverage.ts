@@ -1,4 +1,4 @@
-import { BasicCanvas } from "./basic";
+import { BasicCanvas } from "./basicCanvas";
 import { KLines } from "./kLines";
 import type { PaletteMode } from "@mui/material";
 import { ChartData, MAConfigure } from "./type";
@@ -127,10 +127,5 @@ export class MovingAerage extends BasicCanvas {
 			});
 			this.ctx.stroke();
 		}
-	};
-
-	destroy = () => {
-		this.foregroundCanvas.removeEventListener("mousemove", this.handleForegroundMouseMove);
-		this.foregroundCanvas.removeEventListener("wheel", this.handleForegroundMouseMove);
 	};
 }

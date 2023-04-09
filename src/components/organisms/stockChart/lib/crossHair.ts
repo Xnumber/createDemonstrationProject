@@ -1,5 +1,5 @@
 import { PaletteMode } from "@mui/material";
-import { BasicCanvas } from "./basic";
+import { BasicCanvas } from "./basicCanvas";
 
 export class CrossHair extends BasicCanvas {
 	protected canvas: HTMLCanvasElement;
@@ -40,7 +40,6 @@ export class CrossHair extends BasicCanvas {
 		this.ctx.moveTo(0, y);
 		this.ctx.lineTo(this.canvas.width, y);
 		this.ctx.stroke();
-
 		// 畫垂直線
 		this.ctx.beginPath();
 		this.ctx.moveTo(x, 0);
@@ -80,13 +79,5 @@ export class CrossHair extends BasicCanvas {
 
 	handleMouseOut = () => {
 		this.clear();
-	};
-
-	destroy = () => {
-		this.canvas.removeEventListener("mousemove", this.drawCrossHair);
-		this.canvas.removeEventListener("wheel", this.handleScroll);
-		this.canvas.removeEventListener("mousedown", this.handleMouseDown);
-		this.canvas.removeEventListener("mouseup", this.handleMouseDown);
-		this.canvas.removeEventListener("mouseout", this.handleMouseOut);
 	};
 }

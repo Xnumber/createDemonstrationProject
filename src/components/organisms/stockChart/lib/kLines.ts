@@ -1,4 +1,4 @@
-import { BasicCanvas } from "./basic";
+import { BasicCanvas } from "./basicCanvas";
 import { ChartData, KLineBarRange, StockRawData } from "./type";
 import type { PaletteMode } from "@mui/material";
 
@@ -218,7 +218,6 @@ export class KLines extends BasicCanvas {
 			this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
 			this.setKLinesConfigure();
 			// // 重繪 Canvas
-			// this.clear();
 			this.draw();
 		}
 	};
@@ -307,10 +306,5 @@ export class KLines extends BasicCanvas {
 		this.wickColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.draw();
-	};
-
-	destroy = () => {
-		this.canvas.removeEventListener("wheel", this.handleScroll);
-		this.canvas.removeEventListener("mousedown", this.drag);
 	};
 }

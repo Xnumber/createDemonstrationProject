@@ -1,4 +1,4 @@
-import { BasicCanvas } from "./basic";
+import { BasicCanvas } from "./basicCanvas";
 import type { PaletteMode } from "@mui/material";
 import { ChartData, StockRawData } from "./type";
 
@@ -298,10 +298,5 @@ export class Line extends BasicCanvas {
 		document.removeEventListener("mousemove", this.onMouseMove);
 		// 移除mouseup事件監聽器
 		document.removeEventListener("mouseup", this.onMouseUp);
-	};
-
-	destroy = () => {
-		this.foregroundCanvas.removeEventListener("mousemove", this.onMouseMove);
-		this.foregroundCanvas.removeEventListener("wheel", this.handleScroll);
 	};
 }

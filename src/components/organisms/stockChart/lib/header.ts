@@ -1,4 +1,4 @@
-import { BasicCanvas } from "./basic";
+import { BasicCanvas } from "./basicCanvas";
 import { KLines } from "./kLines";
 import { KLineBarRange } from "./type";
 import type { PaletteMode } from "@mui/material";
@@ -68,9 +68,5 @@ export class StockChartHeader extends BasicCanvas {
 		}
 
 		this.drawText();
-	};
-
-	destroy = () => {
-		this.foregroundCanvas.removeEventListener("mousemove", this.handleForegroundMouseMove);
 	};
 }

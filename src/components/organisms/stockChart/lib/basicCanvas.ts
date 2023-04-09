@@ -17,6 +17,10 @@ export class BasicCanvas {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
+	destroy = () => {
+		this.canvas.replaceWith(this.canvas.cloneNode(true));
+	};
+
 	gainOrLoss(open: number, close: number): boolean {
 		return close > open;
 	}
