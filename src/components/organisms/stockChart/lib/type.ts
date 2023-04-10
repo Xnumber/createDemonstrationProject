@@ -1,5 +1,4 @@
-import { BasicCanvas } from "./charts/basicCanvas";
-import { BasicStockChartController } from "./charts/basicStockGraphController";
+import { Line, KLines } from "./charts";
 
 export type StockRawData = [string, string, string, string, string][];
 export type ChartData = [string, number, number, number, number][];
@@ -13,10 +12,4 @@ export type MAConfigure = {
 	display: boolean;
 };
 
-export class StockGraph extends BasicCanvas {
-	basicChartController: BasicStockChartController;
-	constructor(canvas: HTMLCanvasElement, basicChartController: BasicStockChartController) {
-		super(canvas);
-		this.basicChartController = basicChartController;
-	}
-}
+export type StockGraphLib = KLines | Line;

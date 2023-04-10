@@ -1,5 +1,5 @@
 import { BasicStockChartController } from "./charts/basicStockGraphController";
-import { StockGraph, StockRawData } from "./type";
+import { StockGraphLib, StockRawData } from "./type";
 import type { PaletteMode } from "@mui/material";
 
 function getElementSize(element: HTMLElement) {
@@ -11,13 +11,17 @@ function getElementSize(element: HTMLElement) {
 export class Chart {
 	private container: HTMLDivElement;
 	private basicStockChartController: BasicStockChartController;
-	private stockGraphs: (typeof StockGraph)[];
-	private charts: StockGraph[];
+	private graphs: StockGraphLib[];
 	private containerSize: { width: number, height: number };
 
-	constructor(container: HTMLDivElement, data: StockRawData, chartLibraries: (typeof StockGraph)[], mode: PaletteMode) {
-		this.stockGraphs = chartLibraries;
-		this.charts = [];
+	constructor(
+		container: HTMLDivElement,
+		data: StockRawData, 
+		private stockGraphLibs: (new (canvas: HTMLCanvasElement, basicStockChartController: BasicStockChartController) => StockGraphLib)[], 
+		mode: PaletteMode
+	) {
+		this.stockGraphLibs = stockGraphLibs;
+		this.graphs = [];
 		this.container = container;
 		this.containerSize = getElementSize(this.container);
 		this.basicStockChartController = new BasicStockChartController(this.containerSize, data, mode);
@@ -25,11 +29,11 @@ export class Chart {
 	}
 	
 	setUpChart = () => {
-		this.stockGraphs.forEach(CL => {
+		this.stockGraphLibs.forEach(CL => {
 			const canvas = document.createElement("canvas");
 			canvas.width = this.containerSize.width;
 			canvas.height = this.containerSize.height;
-			this.charts.push(new CL(canvas, this.basicStockChartController));
+			this.graphs.push(new CL(canvas, this.basicStockChartController));
 			this.container.appendChild(canvas);
 		});
 	};

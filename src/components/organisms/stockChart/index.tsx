@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { Box } from "@mui/material";
 import { weightedData } from "./const";
 import { KLines } from "./lib/kLines";
-import { KLines as KLines2 } from "./lib/charts/kLines";
+// import { KLines as KLines2 } from "./lib/charts/kLines";
+import { Line as Line2 } from "./lib/charts";
 import "./style.scss";
 import { CrossHair } from "./lib/crossHair";
 import { StockChartHeader } from "./lib/header";
@@ -86,7 +87,7 @@ const _StockChart = () => {
 			new Chart(
 				chartContainerRef.current,
 				weightedData,
-				[KLines2],
+				[Line2],
 				mode
 			);
 		}

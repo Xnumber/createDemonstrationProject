@@ -1,6 +1,6 @@
 import type { PaletteMode } from "@mui/material";
 
-export class BasicCanvas {
+export abstract class BasicCanvas {
 	public ctx: CanvasRenderingContext2D;
 	public canvas: HTMLCanvasElement;
 	public mode: PaletteMode;
@@ -31,4 +31,6 @@ export class BasicCanvas {
 			return "red";
 		}
 	}
+
+	abstract draw(): void
 }
