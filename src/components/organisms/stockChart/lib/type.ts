@@ -1,4 +1,4 @@
-import { Line, KLines } from "./charts";
+import { Line, KLines, MovingAerage } from "./charts";
 
 export type StockRawData = [string, string, string, string, string][];
 export type ChartData = [string, number, number, number, number][];
@@ -12,4 +12,4 @@ export type MAConfigure = {
 	display: boolean;
 };
 
-export type StockGraphLib = KLines | Line;
+export type StockGraphLib = KLines | Line | MovingAerage;

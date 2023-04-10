@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { weightedData } from "./const";
 import { KLines } from "./lib/kLines";
 // import { KLines as KLines2 } from "./lib/charts/kLines";
-import { Line as Line2 } from "./lib/charts";
+import { Line as Line2, KLines as Klines2, MovingAerage as MovingAerage2 } from "./lib/charts";
 import "./style.scss";
 import { CrossHair } from "./lib/crossHair";
 import { StockChartHeader } from "./lib/header";
@@ -87,7 +87,11 @@ const _StockChart = () => {
 			chartRef.current = new Chart(
 				chartContainerRef.current,
 				weightedData,
-				[Line2],
+				[
+					Line2,
+					Klines2,
+					MovingAerage2
+				],
 				mode
 			);
 		}

@@ -30,6 +30,7 @@ export class Chart {
 		this.containerSize = getElementSize(this.container);
 		this.basicStockChartController = new BasicStockChartController(this.containerSize, data, mode);
 		this.graphCanvases = [];
+		this.crossHair;
 		this.setUpChart();
 	}
 	
