@@ -21,8 +21,8 @@ function getElementSize(element: HTMLElement) {
 }
 
 const _StockChart = () => {
-	// const basicChart = useRef<BasicChart|null>(null);
 
+	const chartRef = useRef<Chart|null>(null);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
 	const kLines = useRef<KLines|null>(null);
 	const crossHair = useRef<CrossHair|null>(null);
@@ -84,7 +84,7 @@ const _StockChart = () => {
 
 	useEffect(() => {
 		if (chartContainerRef.current) {
-			new Chart(
+			chartRef.current = new Chart(
 				chartContainerRef.current,
 				weightedData,
 				[Line2],
@@ -103,7 +103,7 @@ const _StockChart = () => {
 			<canvas className="o-stockChart__line" ref={lineCanvaseRef}></canvas>
 			<canvas className="o-stockChart__foreground" ref={foregroundCanvasRef}></canvas>
 		</Box>
-		<Box height={"360px"} ref={chartContainerRef}>
+		<Box position={"relative"} height={"360px"} ref={chartContainerRef}>
 
 		</Box>
 	</Box>; 
