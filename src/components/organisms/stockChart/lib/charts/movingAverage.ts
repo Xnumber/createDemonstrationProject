@@ -4,7 +4,7 @@ import type { PaletteMode } from "@mui/material";
 import { ChartData, MAConfigure } from "../type";
 import { BasicStockChartController } from "./basicStockGraphController";
 
-export class MovingAerage extends BasicCanvas {
+export class MovingAverage extends BasicCanvas {
 	// private foregroundCanvas: HTMLCanvasElement;
 	private maData: (number | null)[][];
 	public basicChartController: BasicStockChartController;

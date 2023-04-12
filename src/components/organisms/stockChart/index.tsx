@@ -2,8 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { Box } from "@mui/material";
 import { weightedData } from "./const";
 import { KLines } from "./lib/kLines";
-// import { KLines as KLines2 } from "./lib/charts/kLines";
-import { Line as Line2, KLines as Klines2, MovingAerage as MovingAerage2 } from "./lib/charts";
 import "./style.scss";
 import { CrossHair } from "./lib/crossHair";
 import { StockChartHeader } from "./lib/header";
@@ -11,8 +9,6 @@ import { useAppSelector } from "src/app/hooks";
 import { MovingAerage } from "./lib/movingAverage";
 import { Line } from "./lib/line";
 import { Chart } from "./lib/chart";
-// import { BasicChart } from "./lib/basicChart";
-// import { StockChartType } from "./lib/type";
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;
@@ -87,17 +83,16 @@ const _StockChart = () => {
 			chartRef.current = new Chart(
 				chartContainerRef.current,
 				weightedData,
-				[
-					Line2,
-					Klines2,
-					MovingAerage2
-				],
-				mode
+				mode,
+				["KLines", "Line", "MovingAverage"]
 			);
 		}
 	}, []);
 
 	return <Box>
+		<Box position={"relative"} height={"360px"} ref={chartContainerRef}>
+
+		</Box>
 		<div>
 			<canvas className="o-stockChart__header" ref={chartHeaderCanvasRef}></canvas>
 		</div>
@@ -107,10 +102,7 @@ const _StockChart = () => {
 			<canvas className="o-stockChart__line" ref={lineCanvaseRef}></canvas>
 			<canvas className="o-stockChart__foreground" ref={foregroundCanvasRef}></canvas>
 		</Box>
-		<Box position={"relative"} height={"360px"} ref={chartContainerRef}>
-
-		</Box>
-	</Box>; 
+	</Box>;
 };
 
 export const StockChart = React.memo(_StockChart);
