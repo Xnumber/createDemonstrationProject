@@ -1,6 +1,6 @@
 import { BasicStockChartController } from "./charts/basicStockGraphController";
 import { CrossHair } from "./charts/crossHair";
-import { StockGraphLib, StockGraphLibName, StockRawData } from "./type";
+import { StockGraph, StockGraphLibName, StockRawData } from "./type";
 import type { PaletteMode } from "@mui/material";
 
 const pathNames = {
@@ -18,16 +18,10 @@ function getElementSize(element: HTMLElement) {
 export class Chart {
 	private container: HTMLDivElement;
 	private basicStockChartController: BasicStockChartController;
-	// private graphs: StockGraphLib[];
 	private containerSize: { width: number, height: number };
-	// private mode: PaletteMode;
+	private mode: PaletteMode;
 	private crossHair: CrossHair;
-	public chosenGraphNames: StockGraphLibName[];
-	private graphs: {
-		name: StockGraphLibName;
-		lib: (new (canvas: HTMLCanvasElement, basicStockChartController: BasicStockChartController) => StockGraphLib)
-		graph: StockGraphLib | null
-	}[];
+	private graphs: StockGraph[];
 	public registeredLibNames: StockGraphLibName[];
 
 	constructor(
@@ -36,7 +30,7 @@ export class Chart {
 		mode: PaletteMode,
 		registeredLibNames: StockGraphLibName[]
 	) {
-		// this.mode = mode;
+		this.mode = mode;
 		this.graphs = [];
 		this.container = container;
 		this.containerSize = getElementSize(this.container);
@@ -56,13 +50,10 @@ export class Chart {
 
 	setUpChart = () => {
 		this.updateGraphLib(this.registeredLibNames);
-		// const canvas = this.createGraphCanvas();
-		// this.container.appendChild(canvas);
-		// this.crossHair = new CrossHair(canvas, this.graphs, this.basicStockChartController, this.mode);
-	};
-	
-	setChosenGraphNames = (names: StockGraphLibName[]) => {
-		this.chosenGraphNames = names;
+		const canvas = this.createGraphCanvas();
+		canvas.style.zIndex = "10";
+		this.container.appendChild(canvas);
+		this.crossHair = new CrossHair(canvas, this.graphs, this.basicStockChartController, this.mode);
 	};
 
 	updateGraphLib = (names: StockGraphLibName[]) => {
