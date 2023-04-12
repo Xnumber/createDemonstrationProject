@@ -26,7 +26,7 @@ export class Chart {
 	private graphs: {
 		name: StockGraphLibName;
 		lib: (new (canvas: HTMLCanvasElement, basicStockChartController: BasicStockChartController) => StockGraphLib)
-		graph: StockGraphLib
+		graph: StockGraphLib | null
 	}[];
 	public registeredLibNames: StockGraphLibName[];
 
@@ -56,8 +56,8 @@ export class Chart {
 
 	setUpChart = () => {
 		this.updateGraphLib(this.registeredLibNames);
-		const canvas = this.createGraphCanvas();
-		this.container.appendChild(canvas);
+		// const canvas = this.createGraphCanvas();
+		// this.container.appendChild(canvas);
 		// this.crossHair = new CrossHair(canvas, this.graphs, this.basicStockChartController, this.mode);
 	};
 	
@@ -72,7 +72,6 @@ export class Chart {
 			
 			if (targetGraph === undefined) {
 				import(`./charts/${pathNames[n]}`).then(({ [n]: Graph }) => {
-					console.log(n, Graph);
 					this.graphs.push({
 						name: n,
 						lib: Graph,
@@ -82,9 +81,17 @@ export class Chart {
 				});
 			}
 			
-			if (targetGraph && targetGraph.lib) {
+			if (targetGraph && targetGraph.lib && targetGraph.graph === null) {
 				targetGraph.graph = new targetGraph.lib(canvas, this.basicStockChartController);
 				this.container.appendChild(canvas);
+			}
+		});
+
+		this.graphs.forEach(g => {
+			const isGraphNameBothExist = names.find(n => n === g.name) ? false: true;
+			if (isGraphNameBothExist) {
+				g.graph?.canvas.remove();
+				g.graph = null;
 			}
 		});
 	};

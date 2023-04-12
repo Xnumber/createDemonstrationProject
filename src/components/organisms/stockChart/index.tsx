@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Box } from "@mui/material";
-import { weightedData } from "./const";
+import { stockGraphLibNames, weightedData } from "./const";
 import { KLines } from "./lib/kLines";
 import "./style.scss";
 import { CrossHair } from "./lib/crossHair";
@@ -9,6 +9,8 @@ import { useAppSelector } from "src/app/hooks";
 import { MovingAerage } from "./lib/movingAverage";
 import { Line } from "./lib/line";
 import { Chart } from "./lib/chart";
+import { StockGraphLibName } from "./lib/type";
+import { MultipleSelect } from "molecules/multipleSelect";
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;
@@ -31,8 +33,9 @@ const _StockChart = () => {
 	const movingAerageCanvasRef = useRef<HTMLCanvasElement>(null);
 	const lineCanvaseRef = useRef<HTMLCanvasElement>(null);
 	const mode = useAppSelector(state => state.theme.mode);
+	const [chosenGraphLibNames, setChosenGraphLibNames] = useState<StockGraphLibName[]>(["KLines"]);
 	// const stockChartType = useState<StockChartType>("k-line");
-
+	const initialRender = useRef(true);
 	useEffect(() => {
 		if (
 			lineCanvaseRef.current &&
@@ -72,6 +75,14 @@ const _StockChart = () => {
 		};
 	}, []);
 
+	const handleChosenGraphLibNames = useCallback((e: string[]|string) => {
+		if(typeof e === "string") {
+			setChosenGraphLibNames([e as StockGraphLibName]);
+		} else {
+			setChosenGraphLibNames(e as StockGraphLibName[]);
+		}
+	}, []);
+
 	useEffect(() => {
 		crossHair.current?.setMode(mode);
 		stockChartHeader.current?.setMode(mode);
@@ -84,12 +95,27 @@ const _StockChart = () => {
 				chartContainerRef.current,
 				weightedData,
 				mode,
-				["KLines", "Line", "MovingAverage"]
+				chosenGraphLibNames
 			);
 		}
 	}, []);
+	
+	useEffect(() => {
+		if(chartRef.current && !initialRender.current) {
+			chartRef.current.updateGraphLib(chosenGraphLibNames);
+		}
+	}, [chosenGraphLibNames]);
+
+	useEffect(() => {
+		initialRender.current = false;
+	}, []);
 
 	return <Box>
+		<MultipleSelect
+			defaultSelected={chosenGraphLibNames}
+			options={stockGraphLibNames.map(sgl => ({ value: sgl, label: sgl}))}
+			callback={handleChosenGraphLibNames}
+		/>
 		<Box position={"relative"} height={"360px"} ref={chartContainerRef}>
 
 		</Box>

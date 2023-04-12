@@ -1,5 +1,5 @@
-import { StockRawData } from "./lib/type";
-
+import { StockGraphLibName, StockRawData } from "./lib/type";
+export const stockGraphLibNames: StockGraphLibName[] =  ["KLines", "Line", "MovingAverage"];
 export const weightedData: StockRawData = [
 	[
 		"88/01/05",
