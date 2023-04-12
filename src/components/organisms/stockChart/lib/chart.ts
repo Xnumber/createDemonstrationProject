@@ -86,4 +86,8 @@ export class Chart {
 			}
 		});
 	};
+
+	destroy = () => {
+		this.crossHair.destroy();
+	};
 }

@@ -11,6 +11,7 @@ import { Line } from "./lib/line";
 import { Chart } from "./lib/chart";
 import { StockGraphLibName } from "./lib/type";
 import { MultipleSelect } from "molecules/multipleSelect";
+import { Link } from "react-router-dom";
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;
@@ -108,9 +109,13 @@ const _StockChart = () => {
 
 	useEffect(() => {
 		initialRender.current = false;
+		return () => {
+			chartRef.current?.destroy();
+		};
 	}, []);
 
 	return <Box>
+		<Link to="/zh">zh</Link>
 		<MultipleSelect
 			defaultSelected={chosenGraphLibNames}
 			options={stockGraphLibNames.map(sgl => ({ value: sgl, label: sgl}))}

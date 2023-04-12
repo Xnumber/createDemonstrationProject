@@ -32,21 +32,23 @@ export class CrossHair extends BasicCanvas {
 		this.canvasX = this.canvasRect.left;
 		this.canvasY = this.canvasRect.top;
 		this.canvas.addEventListener("mousemove", this.onCrossHariMouseMove);
-		window.addEventListener("scroll", () => {
-			this.canvasRect = this.canvas.getBoundingClientRect();
-			this.canvasX = this.canvasRect.left;
-			this.canvasY = this.canvasRect.top;
-		});
+		window.addEventListener("scroll", this.resetCanvasRect);
 		this.x;
 		this.y;
 		this.canvas.addEventListener("mouseout", this.handleMouseOut);
 		this.canvas.addEventListener("wheel", this.onScroll);
 		this.canvas.addEventListener("mousedown", this.onMouseDown);
 	}
-
+	
 	setMode = (mode: PaletteMode) => {
 		this.mode = mode;
 		this.ctx.strokeStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+	};
+	
+	resetCanvasRect = () => {
+		this.canvasRect = this.canvas.getBoundingClientRect();
+		this.canvasX = this.canvasRect.left;
+		this.canvasY = this.canvasRect.top;
 	};
 
 	draw = () => {
@@ -99,5 +101,9 @@ export class CrossHair extends BasicCanvas {
 
 	handleMouseOut = () => {
 		this.clear();
+	};
+
+	destroy = () => {
+		window.removeEventListener("scroll", this.resetCanvasRect);
 	};
 }
