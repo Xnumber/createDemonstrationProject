@@ -18,7 +18,7 @@ export class Grid extends BasicCanvas {
 	}
 
 	drawXGrid = () => {
-		const {  data, barWidth, barSpacing, xAxisShownIndexArray } = this.basicChartController;
+		const { data, barWidth, barSpacing, xAxisShownIndexArray } = this.basicChartController;
 		const { ctx } = this;
 		for (let i = 0; i < data.length; i++) {
 			const labelX = i * (barWidth + barSpacing) + barWidth / 2;

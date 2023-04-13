@@ -1,6 +1,7 @@
 import { Line, KLines, MovingAverage } from "./charts";
 import { BasicStockChartController } from "./charts/basicStockGraphController";
 import { Grid } from "./charts/grid";
+import { YAxis } from "./utils/yAxis";
 
 export type StockRawData = [string, string, string, string, string][];
 export type ChartData = [string, number, number, number, number][];
@@ -21,3 +22,4 @@ export type StockGraph = {
 	lib: (new (canvas: HTMLCanvasElement, basicStockChartController: BasicStockChartController) => StockGraphLib)
 	graph: StockGraphLib | null
 };
+export type StockUtil = YAxis;

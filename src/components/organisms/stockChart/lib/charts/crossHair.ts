@@ -1,10 +1,11 @@
 import { PaletteMode } from "@mui/material";
 import { BasicCanvas } from "./basicCanvas";
-import { StockGraph } from "../type";
+import { StockGraph, StockUtil } from "../type";
 import { BasicStockChartController } from "./basicStockGraphController";
 
 export class CrossHair extends BasicCanvas {
 	protected chartCanvas: HTMLCanvasElement;
+	public utils: StockUtil[];
 	canvasRect: DOMRect;
 	canvasX: number;
 	canvasY: number;
@@ -15,15 +16,15 @@ export class CrossHair extends BasicCanvas {
 
 	constructor(
 		canvas: HTMLCanvasElement, 
-		graphs: StockGraph[], 
+		graphs: StockGraph[],
+		utils: StockUtil[],
 		basicStockChartController: BasicStockChartController,
 		mode: PaletteMode
 	) {
 		super(canvas);
-		this.canvas = canvas;
 		this.basicStockChartController = basicStockChartController,
 		this.graphs = graphs;
-		// this.chartCanvas = chartCanvas;
+		this.utils = utils;
 		this.ctx.strokeStyle = mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.ctx.setLineDash([5, 5]);
 		this.ctx.lineWidth = 1;
@@ -71,6 +72,10 @@ export class CrossHair extends BasicCanvas {
 		this.basicStockChartController.handleScroll(e);
 		this.graphs.forEach(g => {
 			g.graph?.draw();
+		});
+
+		this.utils.forEach(u => {
+			u.draw();
 		});
 	};
 	
