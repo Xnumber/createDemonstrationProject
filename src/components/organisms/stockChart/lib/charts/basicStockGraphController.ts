@@ -14,7 +14,9 @@ export class BasicStockChartController {
 	public padding: number;
 	public size: { width: number, height: number };
 	public barRanges: KLineBarRange[];
-
+	public priceInterval: number;
+	public xAxisShownIndexArray: number[];
+	public priceHeight: number;
 	// for drag
 	private dragStartX: number;
 	private movingIndex: number; // moved indexes in one drag
@@ -34,6 +36,9 @@ export class BasicStockChartController {
 		this.barRanges = [];
 		this.dragStartX;
 		this.movingIndex = 0;
+		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
+		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
+		this.priceHeight = (this.size.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);
 	}
 
 	parseData = (data: StockRawData): ChartData => {
@@ -69,6 +74,27 @@ export class BasicStockChartController {
 		return Math.min(...lowPrices);
 	};
 	
+	getXAxisShownIndexArray = (arr: unknown[]) => {
+		const arrLength = arr.length;
+		const shownNumber = 10;
+		// 輸入陣列小於等於 10 時，回傳全部的 index
+		if (arrLength <= shownNumber) {
+			return Array.from(Array(arrLength), (_, index) => index);
+		}
+		// 輸入陣列大於 10 時，回傳 10 個均勻分布的 index
+		const step = arrLength / shownNumber;
+		return Array.from(Array(shownNumber), (_, index) => Math.round(index * step));
+	};
+
+	getPriceInterval = (max: number, min: number, n: number) => {
+		const range = max - min;
+		const rawInterval = range / n;
+		const magnitude = Math.floor(Math.log10(rawInterval));
+		const scale = Math.pow(10, magnitude);
+		const interval = Math.ceil(rawInterval / scale) * scale;
+		return interval;
+	};
+
 	handleScroll = (e: WheelEvent) => {
 		// 防止滾動事件的預設行為
 		e.preventDefault();
@@ -80,7 +106,7 @@ export class BasicStockChartController {
 		if (this.data.length > 20 || moved < 0) {
 			this.currentRange = [this.currentRange[0] + moved, this.currentRange[1]];
 			this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
-			this.setKLinesConfigure();
+			this.setBasicGraphConfigure();
 			// // 重繪 Canvas
 			// this.draw();
 		}
@@ -116,21 +142,24 @@ export class BasicStockChartController {
 		if (currentRange[1] - movingIndex < parsedRawData.length - 1) {
 			this.movingIndex = movingIndex;
 			this.data = this.getRangeData(currentRange[0] - movingIndex, currentRange[1] - movingIndex, parsedRawData);
-			this.setKLinesConfigure();
+			this.setBasicGraphConfigure();
 		}
 		// if the changed range is over the latest date, set the ranges to the latest date
 		if (currentRange[1] - movingIndex >= parsedRawData.length - 1 && movingIndex < 0) {
 			this.data = this.getRangeData(currentRange[0], parsedRawData.length - 1, parsedRawData);
-			this.setKLinesConfigure();
+			this.setBasicGraphConfigure();
 		}
 		
 	};
 
-	setKLinesConfigure = () => {
+	setBasicGraphConfigure = () => {
 		this.highestPrice = this.getHighestPrice();
 		this.lowestPrice = this.getLowestPrice();
 		this.numBars = this.data.length;
 		this.barWidth = this.size.width / this.numBars * 0.8;
 		this.barSpacing = this.size.width / this.numBars * 0.2;
+		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
+		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
+		this.priceHeight = (this.size.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);
 	};
 }

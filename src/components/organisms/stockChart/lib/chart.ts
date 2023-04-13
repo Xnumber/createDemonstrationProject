@@ -1,13 +1,8 @@
+import { pathNames } from "../const";
 import { BasicStockChartController } from "./charts/basicStockGraphController";
 import { CrossHair } from "./charts/crossHair";
 import { StockGraph, StockGraphLibName, StockRawData } from "./type";
 import type { PaletteMode } from "@mui/material";
-
-const pathNames = {
-	"KLines": "kLines",
-	"Line": "line",
-	"MovingAverage": "movingAverage",
-};
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;

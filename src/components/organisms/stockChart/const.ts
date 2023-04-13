@@ -1,5 +1,11 @@
 import { StockGraphLibName, StockRawData } from "./lib/type";
-export const stockGraphLibNames: StockGraphLibName[] =  ["KLines", "Line", "MovingAverage"];
+export const stockGraphLibNames: StockGraphLibName[] =  ["KLines", "Line", "MovingAverage", "Grid"];
+export const pathNames = {
+	"Grid": "grid",
+	"KLines": "kLines",
+	"Line": "line",
+	"MovingAverage": "movingAverage",
+};
 export const weightedData: StockRawData = [
 	[
 		"88/01/05",
