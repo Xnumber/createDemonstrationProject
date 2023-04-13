@@ -5,6 +5,7 @@ import { StockGraph, StockGraphLibName, StockRawData } from "./type";
 import type { PaletteMode } from "@mui/material";
 import "./style.scss";
 import { YAxis } from "./utils/yAxis";
+import { XAxis } from "./utils/xAxis";
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;
@@ -18,7 +19,7 @@ export class Chart {
 	// private containerSize: { width: number, height: number };
 	private graphSize: { width: number, height: number };
 	private yAxisContainerSize: { width: number, height: number };
-	// private xAxisContainerSize: { width: number, height: number };
+	private xAxisContainerSize: { width: number, height: number };
 	private mode: PaletteMode;
 	private crossHair: CrossHair;
 	private graphs: StockGraph[];
@@ -29,6 +30,7 @@ export class Chart {
 	private xAxisContainer: HTMLDivElement;
 	private footerContainer: HTMLDivElement;
 	private yAxis: YAxis;
+	private xAxis: XAxis;
 
 	constructor(
 		container: HTMLDivElement,
@@ -40,7 +42,7 @@ export class Chart {
 		this.graphs = [];
 		this.container = container;
 		this.prepareContainers();
-		this.containerSize = getElementSize(this.container);
+		// this.containerSize = getElementSize(this.container);
 		this.graphSize = getElementSize(this.graphsContainer);
 		this.yAxisContainerSize = getElementSize(this.yAxisContainer);
 		this.xAxisContainerSize = getElementSize(this.xAxisContainer);
@@ -90,15 +92,17 @@ export class Chart {
 		this.updateGraphLib(this.registeredLibNames);
 		const canvas = this.createGraphCanvas();
 		const yAxisCanvas = this.createGraphCanvas(this.yAxisContainerSize);
+		const xAxisCanvas = this.createGraphCanvas(this.xAxisContainerSize);
 		canvas.style.zIndex = "10";
-
 		this.yAxisContainer.appendChild(yAxisCanvas);
 		this.yAxis = new YAxis(yAxisCanvas, this.basicStockChartController, this.mode);
+		this.xAxisContainer.appendChild(xAxisCanvas);
+		this.xAxis = new XAxis(xAxisCanvas, this.basicStockChartController, this.mode);
 		this.graphsContainer.appendChild(canvas);
 		this.crossHair = new CrossHair(
 			canvas, 
 			this.graphs,
-			[this.yAxis],
+			[this.yAxis, this.xAxis],
 			this.basicStockChartController,
 			this.mode
 		);

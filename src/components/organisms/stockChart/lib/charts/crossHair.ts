@@ -96,6 +96,10 @@ export class CrossHair extends BasicCanvas {
 		this.graphs.forEach(g => {
 			g.graph?.draw();
 		});
+
+		this.utils.forEach(u => {
+			u.draw();
+		});
 	};
 	
 	onMouseUp = (e: MouseEvent) => {
