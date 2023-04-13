@@ -1,8 +1,17 @@
 .stockChart {
+	&__container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__header {
+		height: 60px;
+	}
+
 	&__body {
 		position: relative;
 		display: flex;
-		height: calc(100% - 30px);
+		flex: 1;
 	}
 
 	&__graphs {
@@ -15,17 +24,17 @@
 	}
 
 	&__xAxis {
-		height: 30px;
+		height: 25px;
 		flex: 1;
 	}
 
 	&__widget {
-		height: 30px;
+		height: 25px;
 		flex: 0 0 60px
 	}
 
 	&__footer {
 		display: flex;
-		height: 30px;
+		height: 25px;
 	}
 }

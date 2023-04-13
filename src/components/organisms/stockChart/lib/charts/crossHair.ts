@@ -53,7 +53,7 @@ export class CrossHair extends BasicCanvas {
 
 	draw = () => {
 		this.clear();
-		const { x, y } = this;
+		const { mouseX: x, mouseY: y } = this.basicStockChartController;
 		// 畫水平線
 		this.ctx.beginPath();
 		this.ctx.moveTo(0, y);
@@ -84,13 +84,12 @@ export class CrossHair extends BasicCanvas {
 		document.addEventListener("mousemove", this.onMouseMove);
 	};
 	
-	onCrossHariMouseMove = (e: MouseEvent) => {
-		this.x = e.clientX - this.canvasX;
-		this.y = e.clientY - this.canvasY;
+	onCrossHariMouseMove = () => {
 		this.draw();
 	};
 
 	onMouseMove = (e: MouseEvent) => {
+		
 		e.preventDefault();
 		this.graphs.forEach(g => {
 			g.graph?.draw();

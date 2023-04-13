@@ -21,9 +21,16 @@ export class BasicStockChartController {
 	private dragStartX: number;
 	private movingIndex: number; // moved indexes in one drag
 
+	public mouseXWithinDayIndex: number | undefined;
+	public mouseX: number;
+	public mouseY: number;
+
 	constructor(size: { width: number, height: number }, data: StockRawData, mode: PaletteMode) {
 		this.mode = mode;
 		this.padding = 60;
+		this.mouseX;
+		this.mouseY;
+		this.mouseXWithinDayIndex;
 		this.currentRange = [data.length - 30, data.length - 1];
 		this.parsedRawData = this.parseData(data);
 		this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
@@ -33,13 +40,55 @@ export class BasicStockChartController {
 		this.size = size;
 		this.highestPrice = this.getHighestPrice();
 		this.lowestPrice = this.getLowestPrice();
-		this.barRanges = [];
+		this.setBarRanges();
 		this.dragStartX;
 		this.movingIndex = 0;
 		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
 		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
 		this.priceHeight = (this.size.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);
 	}
+
+	updateMouseStatus = (x?: number, y?: number) => {
+		if (x) {
+			this.mouseX = x;
+		}
+		
+		if (y) {
+			this.mouseY = y;
+		}
+		const mouseXWithinDayIndex = this.findMouseXWithinDayIndex(this.mouseX);
+		this.mouseXWithinDayIndex = mouseXWithinDayIndex !== undefined ? mouseXWithinDayIndex: this.mouseXWithinDayIndex;
+	};
+
+	findMouseXWithinDayIndex = (x: number | undefined): number | undefined => {
+		const { barRanges } = this;
+		if (x) {
+			// 搜尋 a 中所有元素
+			for (let i = 0; i < barRanges.length; i++) {
+				// 如果 x 在 a[i] 的範圍內，回傳 a[i]
+				if (x >= barRanges[i].range[0] && x <= barRanges[i].range[1]) {
+					return i;
+				}
+
+				if (barRanges[i + 1] === undefined) {
+					return i;
+				}
+
+				if (x >= barRanges[i].range[1] && x <= barRanges[i + 1].range[0]) {
+					return i;
+				}
+			}
+		}
+		// 若沒有符合條件的元素，回傳 undefined
+		return undefined;
+	};
+	
+	setMouseXWithinDayIndex = (event: MouseEvent) => {
+		const rect = (event.currentTarget as HTMLCanvasElement).getBoundingClientRect();
+		const x = event.clientX - rect.left; // 計算屬標的x座標
+		const mouseXWithinDayIndex =this.findMouseXWithinDayIndex(x);
+		this.mouseXWithinDayIndex = mouseXWithinDayIndex ? mouseXWithinDayIndex: this.mouseXWithinDayIndex;
+	};
 
 	parseData = (data: StockRawData): ChartData => {
 		const parsedData = [] ;
@@ -58,6 +107,17 @@ export class BasicStockChartController {
 		}
 
 		return parsedData;
+	};
+
+	setBarRanges = () => {
+		this.barRanges = [];
+		for (let i = 0; i < this.data.length; i++) {
+			const x = i * (this.barWidth + this.barSpacing);
+			this.barRanges.push({
+				range: [x, x + this.barWidth],
+				data: this.data[i]
+			});
+		}
 	};
 
 	getRangeData = (startIndex: number, endIndex: number, data: ChartData) => {
@@ -98,17 +158,16 @@ export class BasicStockChartController {
 	handleScroll = (e: WheelEvent) => {
 		// 防止滾動事件的預設行為
 		e.preventDefault();
-		// // 獲取滾動的方向以及滾動量
-		// const deltaY = event.movementY;
-		// const deltaY = event.deltaY;
 		const moved = e.deltaY > 0 ? 10 : -10;
 		// // 在此處實現處理滾動事件的程式碼
-		if (this.data.length > 20 || moved < 0) {
+		if (this.data.length - moved > 10) {
 			this.currentRange = [this.currentRange[0] + moved, this.currentRange[1]];
 			this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
 			this.setBasicGraphConfigure();
-			// // 重繪 Canvas
-			// this.draw();
+		} else if(moved > 0){
+			this.currentRange = [this.currentRange[1] - 10, this.currentRange[1]];
+			this.data = this.getRangeData(this.currentRange[0], this.currentRange[1], this.parsedRawData);
+			this.setBasicGraphConfigure();
 		}
 	};
 
@@ -117,7 +176,7 @@ export class BasicStockChartController {
 		// 獲取滑鼠按下時的位置
 		this.dragStartX = e.clientX;
 		// 當滑鼠按下時，設置mousemove事件監聽器
-		document.addEventListener("mousemove", this.handleMouseMove);
+		document.addEventListener("mousemove", this.handleDragMove);
 		// 當滑鼠放開時，移除mousemove事件監聽器
 		document.addEventListener("mouseup", this.handleMouseUp);
 	};
@@ -127,12 +186,12 @@ export class BasicStockChartController {
 		// reset after every drag, or it could affect next drag
 		this.movingIndex = 0;
 		// 當滑鼠放開時，移除mousemove事件監聽器
-		document.removeEventListener("mousemove", this.handleMouseMove);
+		document.removeEventListener("mousemove", this.handleDragMove);
 		// 移除mouseup事件監聽器
 		document.removeEventListener("mouseup", this.handleMouseUp);
 	};
 
-	handleMouseMove = (event: MouseEvent) => {
+	handleDragMove = (event: MouseEvent) => {
 		const { currentRange, parsedRawData } = this;
 		// 獲取滑鼠移動時的位置
 		const x = event.clientX;
@@ -161,6 +220,8 @@ export class BasicStockChartController {
 		this.priceInterval = this.getPriceInterval(this.highestPrice, this.lowestPrice, 5);
 		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
 		this.priceHeight = (this.size.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);
+		this.setBarRanges();
+		this.updateMouseStatus();
 	};
 
 	setMode = (mode: PaletteMode) => {
