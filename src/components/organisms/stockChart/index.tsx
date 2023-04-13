@@ -88,6 +88,9 @@ const _StockChart = () => {
 		crossHair.current?.setMode(mode);
 		stockChartHeader.current?.setMode(mode);
 		kLines.current?.setMode(mode);
+		if (chartRef.current) {
+			chartRef.current.setMode(mode);
+		}
 	}, [mode]);
 
 	useEffect(() => {

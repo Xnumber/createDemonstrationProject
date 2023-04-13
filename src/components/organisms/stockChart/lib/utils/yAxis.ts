@@ -7,8 +7,8 @@ export class YAxis extends BasicCanvas {
 	private basicStockChartController: BasicStockChartController;
 	constructor(canvas: HTMLCanvasElement, basicStockChartController: BasicStockChartController, mode: PaletteMode) {
 		super(canvas, mode);
-		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.basicStockChartController = basicStockChartController;
+		this.axisLabelColor = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.ctx.font = "12px Arial";
 		this.ctx.textAlign = "right";
 		this.ctx.textBaseline = "middle";
@@ -31,9 +31,8 @@ export class YAxis extends BasicCanvas {
 		}
 	};
 
-	setMode = (mode: PaletteMode) => {
-		this.mode = mode;
-		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+	setMode = () => {
+		this.ctx.fillStyle = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.draw();
 	};
 }

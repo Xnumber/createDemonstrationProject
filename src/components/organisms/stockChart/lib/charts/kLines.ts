@@ -1,4 +1,3 @@
-import type { PaletteMode } from "@mui/material";
 import { BasicStockChartController } from "./basicStockGraphController";
 import { BasicCanvas } from "./basicCanvas";
 import { KLineBarRange } from "../type";
@@ -146,9 +145,8 @@ export class KLines extends BasicCanvas {
 		}
 	};
 
-	setMode = (mode: PaletteMode) => {
-		this.mode = mode;
-		this.wickColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+	setMode = () => {
+		this.wickColor = this.basicChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.draw();
 	};
 }

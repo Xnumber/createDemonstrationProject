@@ -162,4 +162,8 @@ export class BasicStockChartController {
 		this.xAxisShownIndexArray = this.getXAxisShownIndexArray(this.data);
 		this.priceHeight = (this.size.height - this.padding * 2) / (this.highestPrice - this.lowestPrice);
 	};
+
+	setMode = (mode: PaletteMode) => {
+		this.mode = mode;
+	};
 }

@@ -41,9 +41,8 @@ export class CrossHair extends BasicCanvas {
 		this.canvas.addEventListener("mousedown", this.onMouseDown);
 	}
 	
-	setMode = (mode: PaletteMode) => {
-		this.mode = mode;
-		this.ctx.strokeStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+	setMode = () => {
+		this.ctx.strokeStyle = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 	};
 	
 	resetCanvasRect = () => {

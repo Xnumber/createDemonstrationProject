@@ -1,4 +1,3 @@
-import type { PaletteMode } from "@mui/material";
 import { BasicStockChartController } from "./basicStockGraphController";
 import { BasicCanvas } from "./basicCanvas";
 // import { KLineBarRange } from "../type";
@@ -128,10 +127,5 @@ export class Line extends BasicCanvas {
 		ctx.fillStyle = this.gradient;
 		ctx.fill();
 		ctx.stroke();
-	};
-
-	setMode = (mode: PaletteMode) => {
-		this.mode = mode;
-		this.draw();
 	};
 }

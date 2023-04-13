@@ -1,4 +1,3 @@
-import type { PaletteMode } from "@mui/material";
 import { BasicStockChartController } from "./basicStockGraphController";
 import { BasicCanvas } from "./basicCanvas";
 
@@ -44,9 +43,8 @@ export class Grid extends BasicCanvas {
 		}
 	};
 
-	setMode = (mode: PaletteMode) => {
-		this.mode = mode;
-		this.ctx.strokeStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+	setMode = () => {
+		this.ctx.strokeStyle = this.basicChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.draw();
 	};
 }

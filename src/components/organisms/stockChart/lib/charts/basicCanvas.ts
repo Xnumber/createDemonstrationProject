@@ -11,11 +11,11 @@ export abstract class BasicCanvas {
 		this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 		this.padding = 60;
 	}
-
+	
 	clear() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
-
+	
 	destroy = () => {
 		this.canvas.replaceWith(this.canvas.cloneNode(true));
 	};
@@ -23,7 +23,7 @@ export abstract class BasicCanvas {
 	gainOrLoss(open: number, close: number): boolean {
 		return close > open;
 	}
-
+	
 	getPriceColor(open: number, close: number): string {
 		if (open > close) {
 			return "green";
@@ -31,6 +31,7 @@ export abstract class BasicCanvas {
 			return "red";
 		}
 	}
-
+	
 	abstract draw(): void
+	setMode?(): void;
 }

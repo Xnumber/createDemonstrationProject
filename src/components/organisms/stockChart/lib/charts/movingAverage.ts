@@ -1,6 +1,4 @@
 import { BasicCanvas } from "./basicCanvas";
-// import { KLines } from "./kLines";
-import type { PaletteMode } from "@mui/material";
 import { ChartData, MAConfigure } from "../type";
 import { BasicStockChartController } from "./basicStockGraphController";
 
@@ -95,10 +93,6 @@ export class MovingAverage extends BasicCanvas {
 			}
 		}): [];
 		return ma;
-	};
-
-	setMode = (mode: PaletteMode) => {
-		this.mode = mode;
 	};
 
 	handleForegroundMouseMove = () => {

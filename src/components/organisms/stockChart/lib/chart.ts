@@ -1,7 +1,7 @@
 import { pathNames } from "../const";
 import { BasicStockChartController } from "./charts/basicStockGraphController";
 import { CrossHair } from "./charts/crossHair";
-import { StockGraph, StockGraphLibName, StockRawData } from "./type";
+import { StockGraph, StockGraphLibName, StockRawData, StockUtil } from "./type";
 import type { PaletteMode } from "@mui/material";
 import "./style.scss";
 import { YAxis } from "./utils/yAxis";
@@ -31,7 +31,7 @@ export class Chart {
 	private footerContainer: HTMLDivElement;
 	private yAxis: YAxis;
 	private xAxis: XAxis;
-
+	private utils: StockUtil[];
 	constructor(
 		container: HTMLDivElement,
 		data: StockRawData,
@@ -40,6 +40,7 @@ export class Chart {
 	) {
 		this.mode = mode;
 		this.graphs = [];
+		this.utils = [];
 		this.container = container;
 		this.prepareContainers();
 		// this.containerSize = getElementSize(this.container);
@@ -99,10 +100,12 @@ export class Chart {
 		this.xAxisContainer.appendChild(xAxisCanvas);
 		this.xAxis = new XAxis(xAxisCanvas, this.basicStockChartController, this.mode);
 		this.graphsContainer.appendChild(canvas);
+		this.utils = [this.xAxis, this.yAxis];
+
 		this.crossHair = new CrossHair(
-			canvas, 
+			canvas,
 			this.graphs,
-			[this.yAxis, this.xAxis],
+			this.utils,
 			this.basicStockChartController,
 			this.mode
 		);
@@ -136,6 +139,19 @@ export class Chart {
 				g.graph?.canvas.remove();
 				g.graph = null;
 			}
+		});
+	};
+
+	setMode = (mode: PaletteMode) => {
+		this.basicStockChartController.setMode(mode);
+		this.crossHair.setMode();
+
+		this.graphs.forEach(g => {
+			g.graph?.setMode?.();
+		});
+
+		this.utils.forEach(u => {
+			u.setMode?.();
 		});
 	};
 

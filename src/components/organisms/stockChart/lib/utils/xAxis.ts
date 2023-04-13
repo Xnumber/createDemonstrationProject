@@ -32,9 +32,8 @@ export class XAxis extends BasicCanvas {
 		}
 	};
 	
-	setMode = (mode: PaletteMode) => {
-		this.mode = mode;
-		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+	setMode = () => {
+		this.ctx.fillStyle = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.draw();
 	};
 }
