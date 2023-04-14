@@ -34,7 +34,7 @@ const _StockChart = () => {
 	const movingAerageCanvasRef = useRef<HTMLCanvasElement>(null);
 	const lineCanvaseRef = useRef<HTMLCanvasElement>(null);
 	const mode = useAppSelector(state => state.theme.mode);
-	const [chosenGraphLibNames, setChosenGraphLibNames] = useState<StockGraphLibName[]>(["KLines"]);
+	const [chosenGraphLibNames, setChosenGraphLibNames] = useState<StockGraphLibName[]>(["Grid", "KLines"]);
 	// const stockChartType = useState<StockChartType>("k-line");
 	const initialRender = useRef(true);
 	useEffect(() => {

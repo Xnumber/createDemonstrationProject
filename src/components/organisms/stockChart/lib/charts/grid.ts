@@ -6,7 +6,7 @@ export class Grid extends BasicCanvas {
 	constructor(canvas: HTMLCanvasElement, basicChartController: BasicStockChartController) {
 		super(canvas);
 		this.basicChartController = basicChartController;
-		this.ctx.strokeStyle = this.basicChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.ctx.strokeStyle = this.basicChartController.mode === "dark" ? "rgba(255,255,255, 0.2)": "rgba(0,0,0, 0.2)";
 		this.draw();
 	}
 
@@ -44,7 +44,7 @@ export class Grid extends BasicCanvas {
 	};
 
 	setMode = () => {
-		this.ctx.strokeStyle = this.basicChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.ctx.strokeStyle = this.basicChartController.mode === "dark" ? "rgba(255,255,255, 0.2)": "rgba(0,0,0, 0.2)";
 		this.draw();
 	};
 }
