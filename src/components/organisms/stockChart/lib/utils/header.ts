@@ -1,5 +1,6 @@
 import { BasicCanvas } from "../charts/basicCanvas";
 import { BasicStockChartController } from "../charts/basicStockGraphController";
+import { ChartData } from "../type";
 
 export class StockChartHeader extends BasicCanvas {
 	private textColor: string;
@@ -7,8 +8,8 @@ export class StockChartHeader extends BasicCanvas {
 	constructor(canvas: HTMLCanvasElement, basicStockChartController: BasicStockChartController) {
 		super(canvas);
 		this.basicStockChartController = basicStockChartController;
-		this.textColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
-		this.ctx.fillStyle = this.textColor;
+		this.ctx.fillStyle = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.textColor = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.ctx.font = "12px Arial";
 		this.ctx.textAlign = "left";
 		this.ctx.textBaseline = "middle";
@@ -16,32 +17,34 @@ export class StockChartHeader extends BasicCanvas {
 	}
 
 	setMode = () => {
-		this.mode = this.basicStockChartController.mode;
+		this.ctx.fillStyle = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.textColor = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.draw();
+	};
+
+	drawText = (data: ChartData[number]) => {
+		const [date, open, heigh, low, close] = data;
+		this.ctx.font = "20px Arial";
+		this.ctx.fillText(date, 10, 25);
+		this.ctx.fillStyle = this.getPriceColor(open, close);
+		const dateMetrics = this.measureTextMetrics(date);
+		this.ctx.fillText(`${close.toString()} ${open - close > 0 ? "↓": "↑"}`, dateMetrics.width + 20, 25);
+		this.ctx.font = "12px Arial";
+		this.ctx.fillStyle = this.textColor;
+		const detail = `開: ${open}\
+					高: ${heigh}\
+					低: ${low}\
+					收: ${close}`;
+		this.ctx.fillText(detail, 10, 50);
 	};
 
 	draw = () => {
 		const { mouseXWithinDayIndex, data } = this.basicStockChartController;
-
-		try {
-			if (mouseXWithinDayIndex !== undefined) {
-				this.clear();
-				const [,open,,,close] = this.basicStockChartController.data[mouseXWithinDayIndex];
-				this.ctx.fillStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
-				this.ctx.fillText(data[mouseXWithinDayIndex][0], 10, 25);
-				this.ctx.fillStyle = this.getPriceColor(open, close);
-				this.ctx.fillText(data[mouseXWithinDayIndex][4].toString(), 75, 25);
-				this.ctx.fillStyle = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
-				const detail = `開: ${data[mouseXWithinDayIndex][1]}\
-					高: ${data[mouseXWithinDayIndex][2]}\
-					低: ${data[mouseXWithinDayIndex][3]}\
-					收: ${data[mouseXWithinDayIndex][4]}`;
-				this.ctx.fillText(detail, 10, 50);
-			}
-		} catch (e) {
-			console.warn("range",this.basicStockChartController.barRanges);
-			console.warn(this.basicStockChartController.data);
-			console.warn(mouseXWithinDayIndex);
+		this.clear();
+		if (mouseXWithinDayIndex !== undefined) {
+			this.drawText(data[mouseXWithinDayIndex]);
+		} else {
+			this.drawText(data[data.length - 1]);
 		}
 	};
 }

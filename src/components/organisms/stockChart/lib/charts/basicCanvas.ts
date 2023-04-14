@@ -12,6 +12,11 @@ export abstract class BasicCanvas {
 		this.padding = 60;
 	}
 	
+	measureTextMetrics = (text: string) => {
+		const metrics = this.ctx.measureText(text);
+		return metrics;
+	};
+
 	clear() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
