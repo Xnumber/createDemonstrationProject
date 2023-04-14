@@ -102,11 +102,10 @@ export class StockChartHeader extends BasicCanvas {
 		this.clear();
 		const currentData = mouseXWithinDayIndex ? data[mouseXWithinDayIndex]: data[data.length - 1];
 		const [, open, , , close] = currentData;
+		this.ctx.font = "20px Arial";
 		const closeMetrics = this.measureTextMetrics(close.toString());
 		const gainOrLost = this.gainOrLoss(open, close);
 		
-		this.ctx.font = "20px Arial";
-
 		if (mouseXWithinDayIndex !== undefined) {
 			this.drawCurrent(data[mouseXWithinDayIndex], this.dateMetrics.width + 20, 25);
 			this.drawDetail(data[mouseXWithinDayIndex]);
