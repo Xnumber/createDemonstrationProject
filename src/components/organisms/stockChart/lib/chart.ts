@@ -7,6 +7,7 @@ import "./style.scss";
 import { YAxis } from "./utils/yAxis";
 import { XAxis } from "./utils/xAxis";
 import { StockChartHeader } from "./utils/header";
+import { ContextMenu } from "./utils/contextMenu";
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;
@@ -24,7 +25,7 @@ export class Chart {
 	private headerContainerSize: { width: number, height: number };
 	private mode: PaletteMode;
 	private crossHair: CrossHair;
-	private graphs: StockGraph[];
+	public graphs: StockGraph[];
 	public registeredLibNames: StockGraphLibName[];
 	private headerContainer: HTMLDivElement;
 	private bodyContainer: HTMLDivElement;
@@ -36,6 +37,7 @@ export class Chart {
 	private xAxis: XAxis;
 	private header: StockChartHeader;
 	private utils: StockUtil[];
+	private contextMenu: ContextMenu;
 	constructor(
 		container: HTMLDivElement,
 		data: StockRawData,
@@ -108,10 +110,13 @@ export class Chart {
 	setUpChart = () => {
 		this.updateGraphLib(this.registeredLibNames);
 		const canvas = this.createGraphCanvas();
+		const contextMenuCanvas = this.createGraphCanvas();
 		const yAxisCanvas = this.createGraphCanvas(this.yAxisContainerSize);
 		const xAxisCanvas = this.createGraphCanvas(this.xAxisContainerSize);
 		const headerCanvas = this.createGraphCanvas(this.headerContainerSize);
 		canvas.style.zIndex = "10";
+		contextMenuCanvas.style.zIndex = "20";
+		contextMenuCanvas.style.display = "none";
 		this.headerContainer.appendChild(headerCanvas);
 		this.header = new StockChartHeader(headerCanvas, this.basicStockChartController);
 		this.yAxisContainer.appendChild(yAxisCanvas);
@@ -119,14 +124,17 @@ export class Chart {
 		this.xAxisContainer.appendChild(xAxisCanvas);
 		this.xAxis = new XAxis(xAxisCanvas, this.basicStockChartController, this.mode);
 		this.graphsContainer.appendChild(canvas);
-		this.utils = [this.xAxis, this.yAxis, this.header];
+		this.graphsContainer.appendChild(contextMenuCanvas);
 		
+		this.utils = [this.xAxis, this.yAxis, this.header];
+		this.contextMenu = new ContextMenu(contextMenuCanvas, this.basicStockChartController, this);
 		canvas.addEventListener("mousemove", this.onCrossHairMouseMove);
 
 		this.crossHair = new CrossHair(
 			canvas,
 			this.graphs,
 			this.utils,
+			this.contextMenu,
 			this.basicStockChartController,
 			this.mode
 		);
@@ -164,6 +172,30 @@ export class Chart {
 		});
 	};
 
+	toggleGraph = async (graphName: StockGraphLibName) => {
+		const graphAlreadyExist = this.graphs.find(g => g.name === graphName);
+		const canvas = this.createGraphCanvas();
+		
+		if (graphAlreadyExist === undefined) {
+			await import(`./charts/${pathNames[graphName]}`).then(({ [graphName]: Graph }) => {
+				this.graphs.push({
+					name: graphName,
+					lib: Graph,
+					graph: new Graph(canvas, this.basicStockChartController)
+				});
+				this.graphsContainer.appendChild(canvas);
+			});
+		}
+		
+		if (graphAlreadyExist && graphAlreadyExist.lib && graphAlreadyExist.graph) {
+			graphAlreadyExist.graph?.canvas.remove();
+			graphAlreadyExist.graph = null;
+		} else if(graphAlreadyExist && graphAlreadyExist.lib && graphAlreadyExist.graph === null){
+			this.graphsContainer.appendChild(canvas);
+			graphAlreadyExist.graph = new graphAlreadyExist.lib(canvas, this.basicStockChartController);		
+		}
+	};
+	
 	setMode = (mode: PaletteMode) => {
 		this.basicStockChartController.setMode(mode);
 		this.crossHair.setMode();

@@ -2,6 +2,7 @@ import { PaletteMode } from "@mui/material";
 import { BasicCanvas } from "./basicCanvas";
 import { StockGraph, StockUtil } from "../type";
 import { BasicStockChartController } from "./basicStockGraphController";
+import { ContextMenu } from "../utils/contextMenu";
 
 export class CrossHair extends BasicCanvas {
 	protected chartCanvas: HTMLCanvasElement;
@@ -13,11 +14,12 @@ export class CrossHair extends BasicCanvas {
 	graphs: StockGraph[];
 	x: number;
 	y: number;
-
+	contextMenu: ContextMenu;
 	constructor(
 		canvas: HTMLCanvasElement, 
 		graphs: StockGraph[],
 		utils: StockUtil[],
+		contextMenu: ContextMenu,
 		basicStockChartController: BasicStockChartController,
 		mode: PaletteMode
 	) {
@@ -28,6 +30,7 @@ export class CrossHair extends BasicCanvas {
 		this.ctx.strokeStyle = mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.ctx.setLineDash([5, 5]);
 		this.ctx.lineWidth = 1;
+		this.contextMenu = contextMenu;
 		// 計算畫布在文檔中的位置
 		this.canvasRect = this.canvas.getBoundingClientRect();
 		this.canvasX = this.canvasRect.left;
@@ -39,6 +42,7 @@ export class CrossHair extends BasicCanvas {
 		this.canvas.addEventListener("mouseout", this.handleMouseOut);
 		this.canvas.addEventListener("wheel", this.onScroll);
 		this.canvas.addEventListener("mousedown", this.onMouseDown);
+		this.canvas.addEventListener("contextmenu", this.onContextMenuShow);
 	}
 	
 	setMode = () => {
@@ -66,6 +70,11 @@ export class CrossHair extends BasicCanvas {
 		this.ctx.stroke();
 	};
 	
+	onContextMenuShow = (e: MouseEvent) => {
+		e.preventDefault();
+		this.contextMenu.show();
+	};
+
 	onScroll = (e: WheelEvent) => {
 		e.preventDefault();
 		this.basicStockChartController.handleScroll(e);
