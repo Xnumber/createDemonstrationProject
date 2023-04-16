@@ -4,6 +4,7 @@ import Water from "./locales/en/water.json";
 import HomeEn from "./locales/en/home.json";
 import SimpleContentManagementEn from "./locales/en/simple-content-management.json";
 import AboutEn from "./locales/en/about.json";
+import StockEn from "./locales/en/stock.json";
 declare module "react-i18next" {
 	interface CustomTypeOptions {
 		defaultNS: typeof translationEn;
@@ -14,6 +15,7 @@ declare module "react-i18next" {
 			"water": typeof Water;
 			"simple-content-management": typeof SimpleContentManagementEn;
 			"about": typeof AboutEn;
+			"stock": typeof StockEn;
 		}
 	}
 }

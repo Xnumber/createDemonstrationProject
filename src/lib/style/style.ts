@@ -300,6 +300,17 @@ export const getTheme = () => {
 						}
 					}
 				]
+			},
+			MuiPaper: {
+				variants: [
+					{
+						props: { variant: "elevation"},
+						style: {
+							color: "var(--md-sys-color-on-surface-variant)",
+							backgroundColor: "var(--md-sys-color-surface-variant)"
+						}
+					}
+				]
 			}
 		},
 		typography: {

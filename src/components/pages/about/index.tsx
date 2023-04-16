@@ -75,7 +75,7 @@ const About = () => {
 					{t("my-little-hobby")}
 				</Typography>
 				<Paper 
-					variant="elevation" 
+					variant="elevation"
 					className="p-about__readingNotes"
 				>
 					<Grid2 container columns={2}>
