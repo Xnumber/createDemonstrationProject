@@ -8,6 +8,7 @@ import { YAxis } from "./utils/yAxis";
 import { XAxis } from "./utils/xAxis";
 import { StockChartHeader } from "./utils/header";
 import { ContextMenu } from "./utils/contextMenu";
+import { Loading } from "./utils/loading";
 
 function getElementSize(element: HTMLElement) {
 	const width = element.offsetWidth;
@@ -38,6 +39,7 @@ export class Chart {
 	private header: StockChartHeader;
 	private utils: StockUtil[];
 	private contextMenu: ContextMenu;
+	public loading: Loading;
 	constructor(
 		container: HTMLDivElement,
 		data: StockRawData,
@@ -114,6 +116,7 @@ export class Chart {
 		const yAxisCanvas = this.createGraphCanvas(this.yAxisContainerSize);
 		const xAxisCanvas = this.createGraphCanvas(this.xAxisContainerSize);
 		const headerCanvas = this.createGraphCanvas(this.headerContainerSize);
+		const loadingCanvas = this.createGraphCanvas();
 		canvas.style.zIndex = "10";
 		contextMenuCanvas.style.zIndex = "20";
 		contextMenuCanvas.style.display = "none";
@@ -123,8 +126,10 @@ export class Chart {
 		this.yAxis = new YAxis(yAxisCanvas, this.basicStockChartController, this.mode);
 		this.xAxisContainer.appendChild(xAxisCanvas);
 		this.xAxis = new XAxis(xAxisCanvas, this.basicStockChartController, this.mode);
+		this.loading = new Loading(loadingCanvas, this.basicStockChartController);
 		this.graphsContainer.appendChild(canvas);
 		this.graphsContainer.appendChild(contextMenuCanvas);
+		this.graphsContainer.appendChild(loadingCanvas);
 		
 		this.utils = [this.xAxis, this.yAxis, this.header];
 		this.contextMenu = new ContextMenu(contextMenuCanvas, this.basicStockChartController, this);

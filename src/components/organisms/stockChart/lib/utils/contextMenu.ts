@@ -54,8 +54,10 @@ export class ContextMenu extends BasicCanvas {
 	}
 
 	handleToggleGraph = async (graphName: StockGraphLibName) => {
+		this.chart.loading.draw();
 		await this.chart.toggleGraph(graphName);
 		this.draw();
+		this.chart.loading.close();
 	};
 
 	setMode = () => {
