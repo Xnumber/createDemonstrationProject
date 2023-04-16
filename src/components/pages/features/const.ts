@@ -3,6 +3,11 @@ import type HomeEn from "src/app/language/locales/en/home.json";
 
 export const menu: CollapseMenuItem<keyof typeof HomeEn>[] = [
 	{
+		label: "canvas-stock",
+		url: "/example-features/canvas-stock",
+		activateLoading: true
+	},
+	{
 		label: "weather-forecast",
 		url: "/example-features/weather-forecast",
 		activateLoading: true

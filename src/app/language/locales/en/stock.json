@@ -1,5 +1,5 @@
 {
-	"canvas-stock": "Canvas Stock Chart",
+	"canvas-stock": "Stock Chart Development",
 	"features": "Features",
 	"grid": "Grid",
 	"klines": "Klines",
@@ -20,7 +20,7 @@
 	"design-description": "Design",
 	"object-oriented-programming": "Object-oriented programming",
 	"dependency-injection": "Dependency injection",
-	"inversion-of-control": "Inversion of Control",
+	"inversion-of-control": "Inversion of control",
 	"graph-lazy-load": "Graph lazy load",
 	"webpack": "Webpack",
 	"git": "Git",

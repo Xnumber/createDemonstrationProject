@@ -56,7 +56,7 @@ export const routes: (
 		},
 		{
 			name: "stock",
-			path: "/:lng/stock",
+			path: "/:lng/example-features/canvas-stock",
 			element: <Stock />
 		},
 	];
