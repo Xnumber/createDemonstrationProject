@@ -12,14 +12,14 @@ export class MovingAverage extends BasicCanvas {
 			color: "aqua",
 			display: false
 		},
-		{
-			day: 10,
-			color: "blue",
-			display: false
-		},
+		// {
+		// 	day: 10,
+		// 	color: "blue",
+		// 	display: false
+		// },
 		{
 			day: 20,
-			color: "lightblue",
+			color: "blue",
 			display: false
 		},
 		{
@@ -27,18 +27,18 @@ export class MovingAverage extends BasicCanvas {
 			color: "green",
 			display: false
 		},
-		{
-			day: 120,
-			color: "brown",
-			display: false
-		},
-		{
-			day: 240,
-			color: "red",
-			display: false
-		},
+		// {
+		// 	day: 120,
+		// 	color: "brown",
+		// 	display: false
+		// },
+		// {
+		// 	day: 240,
+		// 	color: "red",
+		// 	display: false
+		// },
 	];
-	public maTypesChosen = 2;
+	public maTypesChosen = 3;
 
 	constructor(canvas: HTMLCanvasElement, basicChartController: BasicStockChartController) {
 		super(canvas);
