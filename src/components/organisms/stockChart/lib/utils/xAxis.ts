@@ -1,14 +1,14 @@
-import { BasicCanvas } from "../basicCanvas";
+import { BasicCanvas } from "../charts/basicCanvas";
 import { BasicStockChartController } from "../charts/basicStockGraphController";
-import type { PaletteMode } from "@mui/material";
+// import type { PaletteMode } from "@mui/material";
 
 export class XAxis extends BasicCanvas {
 	private axisLabelColor: string;
 	private basicStockChartController: BasicStockChartController;
-	constructor(canvas: HTMLCanvasElement, basicStockChartController: BasicStockChartController, mode: PaletteMode) {
-		super(canvas, mode);
+	constructor(canvas: HTMLCanvasElement, basicStockChartController: BasicStockChartController) {
+		super(canvas);
 		this.basicStockChartController = basicStockChartController;
-		this.axisLabelColor = this.mode === "dark" ? "#e3e2e6": "#1b1b1f";
+		this.axisLabelColor = this.basicStockChartController.mode === "dark" ? "#e3e2e6": "#1b1b1f";
 		this.ctx.fillStyle = this.axisLabelColor;
 		this.ctx.font = "12px Arial";
 		this.ctx.textAlign = "center";

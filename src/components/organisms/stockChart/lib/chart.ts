@@ -123,9 +123,9 @@ export class Chart {
 		this.headerContainer.appendChild(headerCanvas);
 		this.header = new StockChartHeader(headerCanvas, this.basicStockChartController);
 		this.yAxisContainer.appendChild(yAxisCanvas);
-		this.yAxis = new YAxis(yAxisCanvas, this.basicStockChartController, this.mode);
+		this.yAxis = new YAxis(yAxisCanvas, this.basicStockChartController);
 		this.xAxisContainer.appendChild(xAxisCanvas);
-		this.xAxis = new XAxis(xAxisCanvas, this.basicStockChartController, this.mode);
+		this.xAxis = new XAxis(xAxisCanvas, this.basicStockChartController);
 		this.loading = new Loading(loadingCanvas, this.basicStockChartController);
 		this.graphsContainer.appendChild(canvas);
 		this.graphsContainer.appendChild(contextMenuCanvas);

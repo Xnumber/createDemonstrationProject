@@ -1,27 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { Box } from "@mui/material";
 import { weightedData } from "./const";
-import { KLines } from "./lib/kLines";
 import "./style.scss";
-import { CrossHair } from "./lib/crossHair";
-import { StockChartHeader } from "./lib/header";
 import { useAppSelector } from "src/app/hooks";
 import { Chart } from "./lib/chart";
 import { Link } from "react-router-dom";
-
 const _StockChart = () => {
 	const chartRef = useRef<Chart|null>(null);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
-	const kLines = useRef<KLines|null>(null);
-	const crossHair = useRef<CrossHair|null>(null);
-	const stockChartHeader = useRef<StockChartHeader|null>(null);
 	const mode = useAppSelector(state => state.theme.mode);
 	const initialRender = useRef(true);
 	
 	useEffect(() => {
-		crossHair.current?.setMode(mode);
-		stockChartHeader.current?.setMode(mode);
-		kLines.current?.setMode(mode);
 		if (chartRef.current) {
 			chartRef.current.setMode(mode);
 		}
@@ -42,7 +32,6 @@ const _StockChart = () => {
 		initialRender.current = false;
 		return () => {
 			chartRef.current?.destroy();
-			// chartRef.current?.destroy();
 		};
 	}, []);
 
