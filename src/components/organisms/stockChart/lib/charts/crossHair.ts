@@ -120,6 +120,7 @@ export class CrossHair extends BasicCanvas {
 	};
 
 	destroy = () => {
+		this.canvas.replaceWith(this.canvas.cloneNode(true));
 		window.removeEventListener("scroll", this.resetCanvasRect);
 	};
 }

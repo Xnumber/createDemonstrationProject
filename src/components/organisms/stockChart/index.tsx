@@ -42,6 +42,7 @@ const _StockChart = () => {
 		initialRender.current = false;
 		return () => {
 			chartRef.current?.destroy();
+			// chartRef.current?.destroy();
 		};
 	}, []);
 
