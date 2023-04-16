@@ -4,7 +4,7 @@ import { weightedData } from "./const";
 import "./style.scss";
 import { useAppSelector } from "src/app/hooks";
 import { Chart } from "./lib/chart";
-import { Link } from "react-router-dom";
+
 const _StockChart = () => {
 	const chartRef = useRef<Chart|null>(null);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -35,12 +35,7 @@ const _StockChart = () => {
 		};
 	}, []);
 
-	return <Box>
-		<Link to="/zh">zh</Link>
-		<Box position={"relative"} height={"360px"} ref={chartContainerRef}>
-
-		</Box>
-	</Box>;
+	return <Box flex={1} position={"relative"} height={"600px"} ref={chartContainerRef}></Box>;
 };
 
 export const StockChart = React.memo(_StockChart);
